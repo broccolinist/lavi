@@ -50,11 +50,13 @@ main {
 }
 
 .content-box {
-    background: rgba(255, 255, 255, 0.9); /* 少し透けた白 */
-    padding: 40px;
-    width: 320px;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 20px; /* 余白を少し狭くするとプレイヤーが収まりやすい */
+    width: 100%;   /* 幅を可変に */
+    max-width: 400px; /* 最大幅を指定 */
     text-align: center;
     box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    border-radius: 12px; /* プレイヤーの角丸に合わせる */
 }
 
 .album-art {
