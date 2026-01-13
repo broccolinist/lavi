@@ -89,3 +89,65 @@ footer {
     margin-top: 10px;
     color: #666;
 }
+
+/* 全体共通：スマホで横スクロールが発生しないようにする */
+body, html {
+    overflow-x: hidden;
+    width: 100%;
+}
+
+/* ナビゲーションの基本設定（PC） */
+header {
+    padding: 20px;
+    text-align: right;
+}
+
+nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+nav ul li {
+    display: inline-block;
+    margin-left: 20px;
+}
+
+/* 【重要】スマホ用の設定 (画面幅が768px以下のとき) */
+@media (max-width: 768px) {
+    header {
+        text-align: center; /* メニューを中央寄せに */
+        padding: 10px 0;
+    }
+
+    nav ul li {
+        margin: 0 10px; /* メニューの間隔を調整 */
+        display: inline-block; /* 横に並べる */
+    }
+
+    nav ul li a {
+        font-size: 14px; /* 文字を少し小さく */
+    }
+
+    .content-box {
+        width: 90%; /* 画面幅の90%に広げる */
+        padding: 15px;
+        margin: 10px auto; /* 上下に余白を作り中央寄せ */
+    }
+
+    /* Spotifyプレイヤーの高さ調整（スマホで見やすく） */
+    iframe {
+        height: 152px !important; /* コンパクトなプレイヤーにする場合 */
+    }
+
+    footer {
+        position: relative; /* スマホでは最下部に固定せず、コンテンツに続ける */
+        margin-top: 50px;
+        padding-bottom: 20px;
+    }
+
+    .sns-links a {
+        font-size: 28px; /* 指で押しやすいようにアイコンを大きく */
+        margin: 0 10px;
+    }
+}
