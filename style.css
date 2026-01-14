@@ -1,7 +1,8 @@
 /* ==========================================================================
    1. 基本レイアウト & 共通設定
    ========================================================================== */
-body, html {
+body,
+html {
     margin: 0;
     padding: 0;
     width: 100%;
@@ -35,7 +36,7 @@ main {
     width: 90%;
     max-width: 500px;
     border-radius: 15px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
     margin-bottom: 30px;
 }
 
@@ -75,17 +76,20 @@ nav ul li a {
     max-width: 800px;
     margin-bottom: 30px;
 }
+
 .banner-img {
     width: 100%;
     height: auto;
     border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
 /* --- VIDEOSスライド --- */
 .video-slide-section {
-    width: 100%; /* 画面幅いっぱいまで広げる */
+    width: 100%;
     margin: 50px 0 80px;
+    overflow: hidden;
+    /* はみ出しを隠す */
 }
 
 .section-title {
@@ -100,10 +104,12 @@ nav ul li a {
 .video-carousel {
     display: flex;
     overflow-x: auto;
-    scroll-snap-type: x mandatory; /* スライドがピタッと止まるようにする */
-    gap: 20px;
-    padding: 20px 50px; /* 左右に余白を作り、端の画像が見切れるようにする */
-    scrollbar-width: none; /* スクロールバーを隠す (Firefox) */
+    scroll-snap-type: x mandatory;
+    gap: 30px;
+    padding: 20px calc(50% - 225px);
+    /* 画面中央に1枚目が来るように調整 (450pxの半分) */
+    scrollbar-width: none;
+    -ms-overflow-style: none;
 }
 
 /* スクロールバーを隠す (Chrome/Safari) */
@@ -112,18 +118,25 @@ nav ul li a {
 }
 
 .video-item {
-    flex: 0 0 450px; /* 横幅を450pxに固定 */
-    scroll-snap-align: center; /* スライド時に中央で止まるようにする */
+    flex: 0 0 450px;
+    /* サイズ固定 */
+    scroll-snap-align: center;
     position: relative;
     border-radius: 12px;
     overflow: hidden;
     background: #000;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-    transition: transform 0.3s ease;
+    transition: transform 0.3s, opacity 0.3s;
+    /* 変化を滑らかに */
+    opacity: 0.3;
+    /* 基本はかなり薄くする */
 }
 
-.video-item:hover {
-    transform: scale(1.02); /* ホバー時に少し大きく */
+/* 中央に来ているもの、またはホバーしたものを明るくする */
+.video-item:hover,
+.video-item.is-active {
+    opacity: 1;
+    transform: scale(1.05);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 }
 
 .video-item img {
@@ -131,7 +144,6 @@ nav ul li a {
     height: 250px !important;
     object-fit: cover;
     display: block;
-    opacity: 0.8;
 }
 
 .play-icon {
@@ -139,11 +151,10 @@ nav ul li a {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    font-size: 50px !important; /* 画像が大きくなったのでアイコンも少し大きく */
-    color: rgba(255, 255, 255, 0.9);
-    pointer-events: none;
+    font-size: 50px !important;
+    color: #fff;
     z-index: 5;
-    filter: drop-shadow(0 0 10px rgba(0,0,0,0.5));
+    filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.5));
 }
 
 /* ==========================================================================
@@ -213,14 +224,18 @@ footer {
    ========================================================================== */
 @media (max-width: 768px) {
     .video-item {
-        flex: 0 0 80%; /* スマホでは画面の8割の幅にする */
+        flex: 0 0 80%;
+        /* スマホでは画面の8割の幅にする */
     }
+
     .video-item img {
         width: 100% !important;
         height: auto !important;
         aspect-ratio: 450 / 250;
     }
+
     .video-carousel {
-        padding: 20px 10%; /* スマホでも左右を見切らせる */
+        padding: 20px 10%;
+        /* スマホでも左右を見切らせる */
     }
 }
