@@ -437,15 +437,15 @@ footer {
     .video-slide-section {
         width: 100%;
         max-width: 800px;
-        margin-bottom: 80px;
+        margin: 50px auto 80px;
     }
 
     .video-carousel {
         display: flex;
-        overflow-x: auto; /* 横スクロールを可能にする */
-        gap: 20px;
-        padding: 20px 10px;
-        scrollbar-width: thin; /* Firefox用スクロールバー設定 */
+        overflow-x: auto;
+        gap: 15px;
+        padding: 20px 0;
+        scrollbar-width: thin;
     }
 
     /* スクロールバーのデザイン（任意） */
@@ -460,8 +460,8 @@ footer {
 /* 動画スライドの調整 */
 
     .video-item {
-        flex: 0 0 200px; /* 横幅を200pxに固定 */
-        position: relative;
+        flex: 0 0 200px; /* カードの幅 */
+        position: relative; /* アイコンを重ねるための基準 */
         border-radius: 8px;
         overflow: hidden;
         background: #000;
@@ -469,10 +469,10 @@ footer {
 
     .video-item img {
         width: 100%;
-        height: 112px; /* 16:9に近い比率 */
+        height: 112px; /* 16:9の比率 */
         object-fit: cover;
         display: block;
-        opacity: 0.8; /* アイコンを見やすくするために画像を少し暗くする */
+        opacity: 0.7; /* アイコンを見やすくするため少し暗くする */
     }
 
     .video-item:hover img {
@@ -484,17 +484,11 @@ footer {
         position: absolute;
         top: 50%;
         left: 50%;
-        transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%); /* ど真ん中に配置 */
         
-        /* サイズをpxで指定して、他からの影響を防ぎます */
-        font-size: 40px !important; 
-        width: 40px;
-        height: 40px;
-        
+        font-size: 30px !important; /* アイコンの大きさを30pxに固定 */
         color: #fff;
-        pointer-events: none;
-        z-index: 10;
-        /* アイコンをパッと目立たせるための影 */
-        filter: drop-shadow(0 0 5px rgba(0,0,0,0.5));
+        pointer-events: none; /* リンクのクリックを邪魔しない */
+        z-index: 5;
     }
 }
