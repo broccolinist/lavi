@@ -63,11 +63,6 @@ main {
     opacity: 0.7;
 }
 
-.play-btn {
-    background: #333;
-    color: #fff;
-}
-
 /* ==========================================================================
    2. ヘッダー & ナビゲーション
    ========================================================================== */
@@ -92,51 +87,6 @@ nav ul li a {
     color: #333;
     font-weight: 500;
     text-transform: lowercase;
-}
-
-/* HOMEページ：ニュースリストの余白と幅を統一 */
-.home-news-list li a, 
-.home-news-list li .no-link-item {
-    display: flex;
-    align-items: center; /* 垂直方向の中央揃え */
-    padding: 15px 10px;  /* 内側の余白を完全に統一 */
-    text-decoration: none;
-    color: #333;
-    width: 100%;         /* 幅を100%に固定 */
-    box-sizing: border-box; /* パディングを含めた幅計算にする */
-    min-height: 50px;    /* 最小の高さを揃える */
-}
-
-/* リンクがある時だけホバー効果を出す */
-.home-news-list li a:hover {
-    background: rgba(255, 255, 255, 0.5);
-}
-
-/* 日付とタイトルの幅を固定して縦のラインを揃える */
-.home-news-list .date {
-    width: 100px;
-    flex-shrink: 0;      /* 日付の幅が潰れないように固定 */
-    font-size: 0.85rem;
-    color: #888;
-}
-
-.home-news-list .title {
-    flex: 1;
-    font-size: 0.95rem;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-/* ニュース一覧ページ(news.html)側のリンクなし項目も調整 */
-.news-item .no-link-item {
-    padding: 20px;       /* news.html側のニューステキストのパディングに合わせる */
-    cursor: default;
-}
-
-.view-more {
-    text-align: center;
-    margin-top: 25px;
 }
 
 /* ==========================================================================
@@ -217,7 +167,7 @@ nav ul li a {
 }
 
 /* ==========================================================================
-   4. News ページ & 記事詳細
+   4. News ページ & 最新ニュース共通設定
    ========================================================================== */
 .news-container {
     width: 90%;
@@ -225,108 +175,129 @@ nav ul li a {
     margin-bottom: 50px;
 }
 
-/* 1. リンク自体の装飾をリセット */
-    .news-link {
-        display: flex;
-        text-decoration: none; /* 下線を消す */
-        color: inherit;        /* 文字色を親要素(黒系)に合わせる */
-        width: 100%;
-        height: 100%;
-    }
+/* ニュースカード全体の枠組み */
+.news-item {
+    background: rgba(255, 255, 255, 0.8);
+    margin-bottom: 20px;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    width: 100%;
+    box-sizing: border-box;
+}
 
-/* 2. 記事カード全体の見た目とアニメーション */
-    .news-item {
-        background: rgba(255, 255, 255, 0.8); /* 少し透けた白 */
-        margin-bottom: 20px;
-        border-radius: 8px;
-        overflow: hidden;
-        transition: all 0.3s ease; /* 背景色や影の変化を滑らかにする */
-        cursor: pointer;
-    }
-
-/* リンクがないニュース項目のスタイル */
+/* リンク要素とリンクなし要素の余白と位置を完全に統一 */
+.news-link, 
 .no-link-item {
     display: flex;
-    padding: 15px 5px;
+    align-items: center;
+    width: 100%;
+    padding: 20px;       /* ニュース詳細(news.html)の基本余白 */
+    text-decoration: none;
+    color: inherit;
+    box-sizing: border-box;
+    cursor: default;     /* 基本は矢印 */
+}
+
+/* リンクがある場合のみ指マークとホバー効果を適用 */
+.news-link {
+    cursor: pointer;
+}
+
+.news-item:has(.news-link):hover {
+    background: rgba(255, 255, 255, 1.0);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+/* 画像とテキストのレイアウト (news.html用) */
+.news-thumb {
+    width: 120px;
+    height: 80px;
+    object-fit: cover;
+    margin-right: 20px;
+    border-radius: 4px;
+    flex-shrink: 0;
+}
+
+.news-text {
+    flex: 1;
+}
+
+.news-text h3 {
+    margin: 0 0 5px 0;
+    font-size: 1.1rem;
     color: #333;
-    cursor: default; /* カーソルを指（ポインタ）にしない */
 }
 
-/* 3. ホバーした時の変化 */
-    .news-item:hover {
-        background: rgba(220, 220, 220, 1.0); /* 背景を不透明のグレーにする */
-        transform: translateY(-3px);           /* 少しだけ上に浮かす */
-        box-shadow: 0 10px 20px rgba(0,0,0,0.1); /* 影をつけて立体感を出す */
-    }
-
-/* リンクがある時のようなホバー効果を無効化、または弱くする */
-.no-link-item:hover {
-    background: transparent; 
+.news-text p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #666;
 }
-/* 4. リンク色を固定（クリック済みでも色を変えない） */
-    .news-link:visited,
-    .news-link:hover,
-    .news-link:active {
-        color: inherit;
-        text-decoration: none;
-    }
-
-/* 5. ニュース内のテキスト装飾を明示的に指定 */
-    .news-text h3 {
-        margin: 10px 0;
-        font-size: 1.2rem;
-        color: #333;           /* タイトルを濃いグレーに */
-    }
-
-    .news-text p {
-        font-size: 0.9rem;
-        color: #666;           /* 本文の色を少し薄くしてメリハリをつける */
-    }
-    
-    .news-thumb {
-        width: 100%;
-        height: 150px;
-    }
-
-    .news-text {
-        width: 100%;
-    }
 
 .news-text .date {
     font-size: 0.8rem;
     color: #888;
 }
 
-/* 記事詳細 (article1.htmlなど) */
-.article-container {
-    background: rgba(255, 255, 255, 0.9);
+/* --- HOMEページ(index.html)のリスト形式用の微調整 --- */
+.home-news {
     width: 90%;
-    max-width: 800px;
-    margin: 40px auto 100px;
-    padding: 40px;
+    max-width: 600px;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    background: rgba(255, 255, 255, 0.8);
+    padding: 30px;
     border-radius: 15px;
-    box-sizing: border-box;
 }
 
-.article-header {
+.section-title {
+    font-size: 1.5rem;
+    letter-spacing: 0.1em;
+    text-align: center;
+    margin-bottom: 25px;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+}
+
+.home-news-list {
+    list-style: none;
+    padding: 0;
+}
+
+.home-news-list li {
     border-bottom: 1px solid #eee;
-    margin-bottom: 30px;
-    padding-bottom: 20px;
 }
 
-.article-main-img {
-    width: 100%;
-    height: auto;
-    border-radius: 8px;
-    margin-bottom: 30px;
+/* HOME用：リンクありなしのパディング統一 */
+.home-news-list li .news-link,
+.home-news-list li .no-link-item {
+    padding: 15px 10px;
 }
 
-.article-body {
-    line-height: 2.0;
+.home-news-list .date {
+    width: 100px;
+    flex-shrink: 0;
+    font-size: 0.85rem;
+    color: #888;
+}
+
+.home-news-list .title {
+    flex: 1;
+    font-size: 0.95rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.view-more {
+    text-align: center;
+    margin-top: 25px;
 }
 
 /* ==========================================================================
-   5. Game ページ
+   5. Music & Game ページ
    ========================================================================== */
 .game-grid {
     display: grid;
@@ -380,6 +351,12 @@ footer {
     text-decoration: none;
 }
 
+.copyright {
+    margin-top: 20px;
+    font-size: 0.8rem;
+    color: #888;
+}
+
 /* ==========================================================================
    7. レスポンシブ (スマホ対応)
    ========================================================================== */
@@ -404,14 +381,22 @@ footer {
     .artist-name {
         font-size: 1.5rem;
     }
-    
+
+    /* News (一覧) */
+    .news-link, .no-link-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .news-thumb {
+        width: 100%;
+        height: 150px;
+        margin-right: 0;
+        margin-bottom: 15px;
+    }
+
     /* Game */
     .game-grid {
         grid-template-columns: 1fr;
-    }
-
-    /* Article Detail */
-    .article-container {
-        padding: 20px;
     }
 }
