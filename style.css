@@ -40,6 +40,27 @@ main {
     margin-bottom: 30px;
 }
 
+/* 共通ボタン */
+.btn {
+    display: inline-block;
+    text-decoration: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    color: #333;
+    border: 1px solid #333;
+    transition: 0.3s;
+}
+
+.btn:hover {
+    opacity: 0.7;
+}
+
+.play-btn {
+    background: #333;
+    color: #fff;
+}
+
 /* ==========================================================================
    2. ヘッダー & ナビゲーション
    ========================================================================== */
@@ -193,9 +214,76 @@ nav ul li a {
 }
 
 /* ニュース一覧ページ(news.html)側のリンクなし項目も調整 */
-.news-item .no-link-item {
-    padding: 20px;       /* news.html側のニューステキストのパディングに合わせる */
-    cursor: default;
+.news-container {
+    width: 90%;
+    max-width: 800px;
+    margin-bottom: 50px;
+}
+
+/* ニュースカード全体の枠組み */
+.news-item {
+    background: rgba(255, 255, 255, 0.8);
+    margin-bottom: 20px;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* リンク要素とリンクなし要素の余白と位置を完全に統一 */
+.news-link, 
+.no-link-item {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 20px;       /* ニュース詳細(news.html)の基本余白 */
+    text-decoration: none;
+    color: inherit;
+    box-sizing: border-box;
+    cursor: default;     /* 基本は矢印 */
+}
+
+/* リンクがある場合のみ指マークとホバー効果を適用 */
+.news-link {
+    cursor: pointer;
+}
+
+.news-item:has(.news-link):hover {
+    background: rgba(255, 255, 255, 1.0);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+/* 画像とテキストのレイアウト (news.html用) */
+.news-thumb {
+    width: 120px;
+    height: 80px;
+    object-fit: cover;
+    margin-right: 20px;
+    border-radius: 4px;
+    flex-shrink: 0;
+}
+
+.news-text {
+    flex: 1;
+}
+
+.news-text h3 {
+    margin: 0 0 5px 0;
+    font-size: 1.1rem;
+    color: #333;
+}
+
+.news-text p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.news-text .date {
+    font-size: 0.8rem;
+    color: #888;
 }
 
 /* ==========================================================================
