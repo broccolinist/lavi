@@ -107,7 +107,7 @@ nav ul li a {
 }
 
 .video-item {
-    flex: 0 0 200px; /* 横幅を200pxに強制固定 */
+    flex: 0 0 250px;
     position: relative;
     border-radius: 8px;
     overflow: hidden;
@@ -115,8 +115,8 @@ nav ul li a {
 }
 
 .video-item img {
-    width: 200px !important; /* 強制的に幅を固定 */
-    height: 112px !important; /* 強制的に高さを固定 */
+    width: 250px !important;
+    height: 150px !important;
     object-fit: cover;
     display: block;
     opacity: 0.8;
@@ -200,8 +200,8 @@ footer {
    6. レスポンシブ (スマホ対応)
    ========================================================================== */
 @media (max-width: 768px) {
-    /* 重要：ここで .video-item img のサイズを 100% に上書きしてはいけません。
-       スライドさせたいので、サイズは固定のままにします。
+    /* 重要：ここで .video-item img のサイズを 100% に上書きしてはいけない。
+       スライドさせたいので、サイズは固定のままにする。
     */
     header { text-align: center; }
     nav ul li { margin: 0 10px; }
