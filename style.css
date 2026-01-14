@@ -67,6 +67,75 @@ main {
     box-shadow: 0 10px 30px rgba(0,0,0,0.05);
 }
 
+/* --- Aboutページ専用スタイル --- */
+.about-container {
+    width: 90%;
+    max-width: 900px;
+    margin-bottom: 50px;
+}
+
+/* プロフィール部分（写真とテキスト） */
+.profile-section {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    background: rgba(255, 255, 255, 0.85);
+    padding: 40px;
+    border-radius: 15px;
+    margin-bottom: 40px;
+}
+
+.profile-image {
+    flex: 1;
+}
+
+.profile-image img {
+    width: 100%;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.profile-text {
+    flex: 1.5;
+}
+
+.profile-text h2 {
+    margin-top: 0;
+    font-size: 2rem;
+    letter-spacing: 0.1em;
+}
+
+.role {
+    color: #ff00ff; /* キャプチャにあるようなピンク系アクセント */
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+/* タイムライン（履歴） */
+.history-section {
+    background: rgba(255, 255, 255, 0.85);
+    padding: 40px;
+    border-radius: 15px;
+}
+
+.timeline {
+    list-style: none;
+    padding: 0;
+}
+
+.timeline li {
+    margin-bottom: 15px;
+    display: flex;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+}
+
+.year {
+    width: 100px;
+    font-weight: bold;
+    color: #666;
+}
+
 /* ニュースリストのスタイル */
 .news-container {
     width: 90%;
@@ -185,6 +254,7 @@ main {
     opacity: 0.7;
 }
 
+
 /* スマホ対応 */
 @media (max-width: 600px) {
     .news-item { flex-direction: column; }
@@ -210,9 +280,17 @@ footer {
 /* --- スマホ対応 (メディアクエリ) --- */
 @media (max-width: 768px) {
     header {
+        .profile-section {
+        flex-direction: column; /* 写真と文を縦に並べる */
         text-align: center;
+        padding: 20px;
     }
-
+    
+.profile-image {
+        width: 80%;
+        margin-bottom: 20px;
+    }
+    
     nav ul li {
         margin: 0 10px;
     }
