@@ -94,6 +94,67 @@ nav ul li a {
     text-transform: lowercase;
 }
 
+/* --- HOMEページ：最新ニュースセクション --- */
+.home-news {
+    width: 90%;
+    max-width: 600px;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    background: rgba(255, 255, 255, 0.8);
+    padding: 30px;
+    border-radius: 15px;
+}
+
+.section-title {
+    font-size: 1.5rem;
+    letter-spacing: 0.1em;
+    text-align: center;
+    margin-bottom: 25px;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+}
+
+.home-news-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.home-news-list li {
+    border-bottom: 1px solid #eee;
+}
+
+.home-news-list li a {
+    display: flex;
+    padding: 15px 5px;
+    text-decoration: none;
+    color: #333;
+    transition: background 0.3s;
+}
+
+.home-news-list li a:hover {
+    background: rgba(255, 255, 255, 0.5);
+}
+
+.home-news-list .date {
+    width: 100px;
+    font-size: 0.85rem;
+    color: #888;
+}
+
+.home-news-list .title {
+    flex: 1;
+    font-size: 0.95rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; /* 長いタイトルを「...」で省略 */
+}
+
+.view-more {
+    text-align: center;
+    margin-top: 25px;
+}
+
 /* ==========================================================================
    3. About ページ
    ========================================================================== */
