@@ -186,7 +186,7 @@ nav ul li a {
     box-sizing: border-box;
 }
 
-/* リンク要素とリンクなし要素の余白と位置を完全に統一 */
+/* リンク要素とリンクなし要素の見た目を完全に統一 */
 .news-link, 
 .no-link-item {
     display: flex;
@@ -199,11 +199,12 @@ nav ul li a {
     cursor: default;     /* 基本は矢印 */
 }
 
-/* リンクがある場合のみ指マークとホバー効果を適用 */
+/* リンクがある場合の個別設定 */
 .news-link {
     cursor: pointer;
 }
 
+/* リンクがあるカードのみホバー時に変化させる */
 .news-item:has(.news-link):hover {
     background: rgba(255, 255, 255, 1.0);
     transform: translateY(-3px);
@@ -236,11 +237,6 @@ nav ul li a {
     color: #666;
 }
 
-.news-text .date {
-    font-size: 0.8rem;
-    color: #888;
-}
-
 /* --- HOMEページ(index.html)のリスト形式用の微調整 --- */
 .home-news {
     width: 90%;
@@ -270,10 +266,20 @@ nav ul li a {
     border-bottom: 1px solid #eee;
 }
 
-/* HOME用：リンクありなしのパディング統一 */
+.home-news-list li:last-child {
+    border-bottom: none;
+}
+
+/* HOME用：リンクありなしのパディングと幅を完全に統一 */
 .home-news-list li .news-link,
 .home-news-list li .no-link-item {
     padding: 15px 10px;
+    min-height: 50px;
+}
+
+/* リンクがある時だけHOMEで背景色を変える */
+.home-news-list li .news-link:hover {
+    background: rgba(255, 255, 255, 0.5);
 }
 
 .home-news-list .date {
@@ -382,7 +388,7 @@ footer {
         font-size: 1.5rem;
     }
 
-    /* News (一覧) */
+    /* News 一覧ページのスマホ表示調整 */
     .news-link, .no-link-item {
         flex-direction: column;
         align-items: flex-start;
@@ -393,6 +399,11 @@ footer {
         height: 150px;
         margin-right: 0;
         margin-bottom: 15px;
+    }
+
+    /* Homeニュースの日付幅調整 */
+    .home-news-list .date {
+        width: 80px;
     }
 
     /* Game */
