@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,93 +8,130 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
+
 <body>
 
     <div class="background-image"></div>
 
     <header>
-	<nav>
-	    <ul>
+        <nav>
+            <ul>
                 <li><a href="index.html">home</a></li>
                 <li><a href="about.html">about</a></li>
                 <li><a href="news.html">news</a></li>
                 <li><a href="music.html">music</a></li>
                 <li><a href="game.html">game</a></li>
-<!--	        <li><a href="goods.html">Goods</a></li>-->
-	    </ul>
-	</nav>
+                <!--	        <li><a href="goods.html">Goods</a></li>-->
+            </ul>
+        </nav>
     </header>
 
     <main>
-        <h1 class="page-title">Lavi AI singer-songwriter</h1>
+        <!--        <h1 class="page-title">Lavi AI singer-songwriter</h1> -->
+
+        <div class="home-banner">
+            <a href="special-link.html">
+                <img src="banner.png" alt="Special Banner" class="banner-img">
+            </a>
+        </div>
 
         <div class="content-box">
             <div class="music-player">
-	            <iframe data-testid="embed-iframe" style="border-radius:12px" src="https://open.spotify.com/embed/album/3CuxzuKY9LlDlviUo5TUEY?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                <iframe data-testid="embed-iframe" style="border-radius:12px"
+                    src="https://open.spotify.com/embed/album/3CuxzuKY9LlDlviUo5TUEY?utm_source=generator" width="100%"
+                    height="352" frameBorder="0" allowfullscreen=""
+                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                    loading="lazy"></iframe>
             </div>
         </div>
-        
-<section class="home-news">
-    <h2 class="section-title">LATEST NEWS</h2>
-    <ul id="news-list-container" class="home-news-list">
-        <li style="text-align:center; padding:20px; border:none;">Loading...</li>
-    </ul>
-    <div class="view-more">
-        <a href="news.html" class="btn">VIEW ALL NEWS</a>
-    </div>
-</section>
 
-<script>
-    // ニュースデータの定義（新しいものを上に書く）
-    const allNews = [
-        { date: "20xx.xx.xx", title: "作業用BGMにおすすめ", url: "news/20xxxxx2.html" },
-        { date: "20xx.xx.xx", title: "○○を公開", url: "news/20xxxxx1.html" },
-        { date: "202x.xx.xx", title: "公式サイトをオープンしました",url: "" },
-        { date: "202.xx.xx", title: "旧ニュース", url: "" }
-    ];
+        <section class="home-news">
+            <h2 class="section-title">LATEST NEWS</h2>
+            <ul id="news-list-container" class="home-news-list">
+                <li style="text-align:center; padding:20px; border:none;">Loading...</li>
+            </ul>
+            <div class="view-more">
+                <a href="news.html" class="btn">VIEW ALL NEWS</a>
+            </div>
+        </section>
 
-    function displayLatestNews() {
-        const container = document.getElementById('news-list-container');
-        container.innerHTML = ''; // Loading表示を消去
+        <section class="video-slide-section">
+            <h2 class="section-title">VIDEOS</h2>
+            <div class="video-carousel">
+                <div class="video-item">
+                    <a href="https://www.youtube.com/watch?v=xxxx1" target="_blank">
+                        <img src="video-thumb1.jpg" alt="Video 1">
+                        <i class="fab fa-youtube play-icon"></i>
+                    </a>
+                </div>
+                <div class="video-item">
+                    <a href="https://www.youtube.com/watch?v=xxxx2" target="_blank">
+                        <img src="video-thumb2.jpg" alt="Video 2">
+                        <i class="fab fa-youtube play-icon"></i>
+                    </a>
+                </div>
+                <div class="video-item">
+                    <a href="https://www.youtube.com/watch?v=xxxx3" target="_blank">
+                        <img src="video-thumb3.jpg" alt="Video 3">
+                        <i class="fab fa-youtube play-icon"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
 
-        // 最新の3件だけを取り出す
-        const latestThree = allNews.slice(0, 3);
+        <script>
+            // ニュースデータの定義（新しいものを上に書く）
+            const allNews = [
+                { date: "20xx.xx.xx", title: "作業用BGMにおすすめ", url: "news/20xxxxx2.html" },
+                { date: "20xx.xx.xx", title: "○○を公開", url: "news/20xxxxx1.html" },
+                { date: "202x.xx.xx", title: "公式サイトをオープンしました", url: "" },
+                { date: "202.xx.xx", title: "旧ニュース", url: "" }
+            ];
 
-        latestThree.forEach(item => {
-            const li = document.createElement('li');
-            
-// URLがある場合とない場合で処理を分ける
-        if (item.url) {
-            // リンクあり：従来通り<a>タグで囲む
-            li.innerHTML = `
+            function displayLatestNews() {
+                const container = document.getElementById('news-list-container');
+                container.innerHTML = ''; // Loading表示を消去
+
+                // 最新の3件だけを取り出す
+                const latestThree = allNews.slice(0, 3);
+
+                latestThree.forEach(item => {
+                    const li = document.createElement('li');
+
+                    // URLがある場合とない場合で処理を分ける
+                    if (item.url) {
+                        // リンクあり：従来通り<a>タグで囲む
+                        li.innerHTML = `
                 <a href="${item.url}">
                     <span class="date">${item.date}</span>
                     <span class="title">${item.title}</span>
                 </a>
             `;
-        } else {
-            // リンクなし：<div>などで囲み、クリックできないようにする
-            li.innerHTML = `
+                    } else {
+                        // リンクなし：<div>などで囲み、クリックできないようにする
+                        li.innerHTML = `
                 <div class="no-link-item">
                     <span class="date">${item.date}</span>
                     <span class="title">${item.title}</span>
                 </div>
             `;
-        }
-            container.appendChild(li);
-        });
-    }
+                    }
+                    container.appendChild(li);
+                });
+            }
 
-    // 実行
-    displayLatestNews();
-</script>    
+            // 実行
+            displayLatestNews();
+        </script>
     </main>
 
     <footer>
         <div class="sns-links">
-            <a href="https://www.youtube.com/@LaviAIsinger-songwriter" target="_blank"><i class="fab fa-youtube"></i></a>
-            <a href="https://open.spotify.com/intl-ja/artist/19IjM1QzTxBX14RzfEIzNV" target="_blank"><i class="fab fa-spotify"></i></a>
-<!--    
+            <a href="https://www.youtube.com/@LaviAIsinger-songwriter" target="_blank"><i
+                    class="fab fa-youtube"></i></a>
+            <a href="https://open.spotify.com/intl-ja/artist/19IjM1QzTxBX14RzfEIzNV" target="_blank"><i
+                    class="fab fa-spotify"></i></a>
+            <!--    
             <a href="https://twitter.com/..." target="_blank"><i class="fab fa-x-twitter"></i></a>
             <a href="https://instagram.com/..." target="_blank"><i class="fab fa-instagram"></i></a>
 -->
@@ -102,4 +140,5 @@
     </footer>
 
 </body>
+
 </html>

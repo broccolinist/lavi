@@ -1,7 +1,8 @@
 /* ==========================================================================
    1. 基本レイアウト & 共通設定
    ========================================================================== */
-body, html {
+body,
+html {
     margin: 0;
     padding: 0;
     width: 100%;
@@ -44,7 +45,7 @@ main {
     width: 90%;
     max-width: 500px;
     border-radius: 15px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
 }
 
 /* 共通ボタン */
@@ -105,7 +106,7 @@ nav ul li a {
     width: 100%;
     max-width: 600px;
     margin-bottom: 40px;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
 }
 
 .about-main-img {
@@ -188,12 +189,13 @@ nav ul li a {
 }
 
 /* リンク要素とリンクなし要素の見た目を完全に統一 */
-.news-link, 
+.news-link,
 .no-link-item {
     display: flex;
     align-items: center;
     width: 100%;
-    padding: 20px;       /* news.htmlの基本余白 */
+    padding: 20px;
+    /* news.htmlの基本余白 */
     text-decoration: none;
     color: inherit;
     box-sizing: border-box;
@@ -212,7 +214,7 @@ nav ul li a {
 /* リンクがある時だけ浮き上がらせる */
 .news-item:has(.news-link):hover {
     transform: translateY(-3px);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
 }
 
 /* 画像とテキストのレイアウト (news.html) */
@@ -293,6 +295,7 @@ nav ul li a {
 .home-news-list li a {
     cursor: pointer;
 }
+
 .home-news-list li a:hover {
     background: rgba(255, 255, 255, 0.5);
 }
@@ -333,7 +336,7 @@ nav ul li a {
     background: rgba(255, 255, 255, 0.9);
     border-radius: 15px;
     overflow: hidden;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease;
 }
 
@@ -395,7 +398,8 @@ footer {
     }
 
     /* News 一覧ページのスマホ表示調整 */
-    .news-link, .no-link-item {
+    .news-link,
+    .no-link-item {
         flex-direction: column;
         align-items: flex-start;
     }
