@@ -415,4 +415,76 @@ footer {
     .home-news-list .date {
         width: 80px;
     }
+    
+/* --- HOMEバナー --- */
+    .home-banner {
+        width: 90%;
+        max-width: 800px;
+        margin-bottom: 30px;
+    }
+    .banner-img {
+        width: 100%;
+        height: auto;
+        border-radius: 10px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        transition: transform 0.3s;
+    }
+    .banner-img:hover {
+        transform: scale(1.02);
+    }
+
+    /* --- 動画スライド (カルーセル) --- */
+    .video-slide-section {
+        width: 100%;
+        max-width: 800px;
+        margin-bottom: 80px;
+    }
+
+    .video-carousel {
+        display: flex;
+        overflow-x: auto; /* 横スクロールを可能にする */
+        gap: 20px;
+        padding: 20px 10px;
+        scrollbar-width: thin; /* Firefox用スクロールバー設定 */
+    }
+
+    /* スクロールバーのデザイン（任意） */
+    .video-carousel::-webkit-scrollbar {
+        height: 6px;
+    }
+    .video-carousel::-webkit-scrollbar-thumb {
+        background: #ccc;
+        border-radius: 10px;
+    }
+
+    .video-item {
+        flex: 0 0 250px; /* 横幅250pxで固定し、縮ませない */
+        position: relative;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        transition: transform 0.3s;
+    }
+
+    .video-item:hover {
+        transform: translateY(-5px);
+    }
+
+    .video-item img {
+        width: 100%;
+        height: 150px;
+        object-fit: cover;
+        display: block;
+    }
+
+    /* YouTubeアイコンを画像に重ねる */
+    .play-icon {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 3rem;
+        color: rgba(255, 255, 255, 0.8);
+        pointer-events: none; /* アイコンがクリックを邪魔しないようにする */
+    }
 }
