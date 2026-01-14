@@ -344,7 +344,7 @@ footer {
 
 /* 3. ホバーした時の変化 */
     .news-item:hover {
-        background: rgba(255, 255, 255, 1.0); /* 背景を不透明の白にする */
+        background: rgba(128, 128, 128, 1.0); /* 背景を不透明の白にする */
         transform: translateY(-3px);           /* 少しだけ上に浮かす */
         box-shadow: 0 10px 20px rgba(0,0,0,0.1); /* 影をつけて立体感を出す */
     }
