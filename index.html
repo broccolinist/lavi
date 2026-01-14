@@ -139,24 +139,70 @@
         <p class="copyright">&copy; 2026 Lavi AI singer-songwriter </p>
     </footer>
 
-    // スクロールに合わせて中央の画像を明るくする処理
+<script>
+    // --- 動画無限ループスライダーの制御 ---
     const carousel = document.querySelector('.video-carousel');
-    const items = document.querySelectorAll('.video-item');
+    // 元のアイテムを取得
+    const originalItems = Array.from(carousel.querySelectorAll('.video-item'));
 
-    carousel.addEventListener('scroll', () => {
-    let minDistance = Infinity;
-    let activeItem = null;
-
-    items.forEach(item => {
-    const rect = item.getBoundingClientRect();
-    const distance = Math.abs((rect.left + rect.right) / 2 - window.innerWidth / 2);
-    if (distance < minDistance) { minDistance=distance; activeItem=item; } }); items.forEach(item=>
-        item.classList.remove('is-active'));
-        if (activeItem) activeItem.classList.add('is-active');
+    if (carousel && originalItems.length > 0) {
+        // 1. 無限ループのために要素を前後2回ずつ複製して連結（1-2-3 -> 1-2-3 [1-2-3] 1-2-3）
+        originalItems.forEach(item => {
+            const cloneBefore = item.cloneNode(true);
+            const cloneAfter = item.cloneNode(true);
+            carousel.appendChild(cloneAfter);
+            carousel.insertBefore(cloneBefore, carousel.firstChild);
         });
 
-        // 初期状態でも中央を明るくするために一度発火させる
-        carousel.dispatchEvent(new Event('scroll'));
+        const gap = 30; // CSSのgapと同じ値
+        const itemWidth = originalItems[0].offsetWidth + gap;
+
+        // 2. 初期位置を中央（複製した要素の後のオリジナル要素）に設定
+        const startScroll = itemWidth * originalItems.length;
+        carousel.scrollLeft = startScroll;
+
+        // 3. スクロール監視
+        carousel.addEventListener('scroll', () => {
+            const scrollLeft = carousel.scrollLeft;
+            const scrollWidth = carousel.scrollWidth;
+            const clientWidth = carousel.clientWidth;
+
+            // 右端付近に到達したら中央へワープ
+            if (scrollLeft + clientWidth >= scrollWidth - 5) {
+                carousel.scrollLeft = startScroll;
+            }
+            // 左端付近に到達したら中央へワープ
+            if (scrollLeft <= 5) {
+                carousel.scrollLeft = startScroll;
+            }
+
+            // --- 中央の要素を強調(明るく)する処理 ---
+            let minDistance = Infinity;
+            let activeItem = null;
+            const allItems = carousel.querySelectorAll('.video-item');
+
+            allItems.forEach(item => {
+                const rect = item.getBoundingClientRect();
+                // 画面の中心位置と、要素の中心位置の距離を計算
+                const itemCenter = (rect.left + rect.right) / 2;
+                const distance = Math.abs(itemCenter - window.innerWidth / 2);
+
+                if (distance < minDistance) {
+                    minDistance = distance;
+                    activeItem = item;
+                }
+            });
+
+            allItems.forEach(item => item.classList.remove('is-active'));
+            if (activeItem) activeItem.classList.add('is-active');
+        });
+
+        // 初期表示時にも中央を明るくする
+        setTimeout(() => {
+            carousel.dispatchEvent(new Event('scroll'));
+        }, 100);
+    }
+</script>
 
 </body>
 

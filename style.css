@@ -84,14 +84,6 @@ nav ul li a {
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
-/* --- VIDEOSスライド --- */
-.video-slide-section {
-    width: 100%;
-    margin: 50px 0 80px;
-    overflow: hidden;
-    /* はみ出しを隠す */
-}
-
 .section-title {
     font-size: 1.5rem;
     letter-spacing: 0.1em;
@@ -101,15 +93,21 @@ nav ul li a {
     padding-bottom: 10px;
 }
 
+/* --- VIDEOSスライド --- */
+.video-slide-section {
+    width: 100%;
+    margin: 50px 0 80px;
+    overflow: hidden;
+}
+
 .video-carousel {
     display: flex;
     overflow-x: auto;
-    scroll-snap-type: x mandatory;
+    /* scroll-snap-type はスクリプトと干渉するためオフにします */
+    scroll-snap-type: none; 
     gap: 30px;
-    padding: 20px calc(50% - 225px);
-    /* 画面中央に1枚目が来るように調整 (450pxの半分) */
+    padding: 20px 0;
     scrollbar-width: none;
-    -ms-overflow-style: none;
 }
 
 /* スクロールバーを隠す (Chrome/Safari) */
@@ -118,25 +116,20 @@ nav ul li a {
 }
 
 .video-item {
-    flex: 0 0 450px;
-    /* サイズ固定 */
-    scroll-snap-align: center;
+    flex: 0 0 450px; /* サイズ固定 */
     position: relative;
     border-radius: 12px;
     overflow: hidden;
     background: #000;
-    transition: transform 0.3s, opacity 0.3s;
-    /* 変化を滑らかに */
-    opacity: 0.3;
-    /* 基本はかなり薄くする */
+    transition: opacity 0.4s ease, transform 0.4s ease;
+    opacity: 0.2; /* 左右の画像は薄く */
 }
 
-/* 中央に来ているもの、またはホバーしたものを明るくする */
-.video-item:hover,
+/* JavaScriptで中央判定された要素 */
 .video-item.is-active {
-    opacity: 1;
-    transform: scale(1.05);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    opacity: 1; /* 中央は明るく */
+    transform: scale(1.05); /* 少し大きく */
+    z-index: 10;
 }
 
 .video-item img {
@@ -153,8 +146,8 @@ nav ul li a {
     transform: translate(-50%, -50%);
     font-size: 50px !important;
     color: #fff;
-    z-index: 5;
-    filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.5));
+    pointer-events: none;
+    filter: drop-shadow(0 0 10px rgba(0,0,0,0.5));
 }
 
 /* ==========================================================================
