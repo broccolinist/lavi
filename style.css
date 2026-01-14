@@ -260,6 +260,14 @@ nav ul li a {
         cursor: pointer;
     }
 
+/* リンクがないニュース項目のスタイル */
+.no-link-item {
+    display: flex;
+    padding: 15px 5px;
+    color: #333;
+    cursor: default; /* カーソルを指（ポインタ）にしない */
+}
+
 /* 3. ホバーした時の変化 */
     .news-item:hover {
         background: rgba(220, 220, 220, 1.0); /* 背景を不透明のグレーにする */
@@ -267,6 +275,10 @@ nav ul li a {
         box-shadow: 0 10px 20px rgba(0,0,0,0.1); /* 影をつけて立体感を出す */
     }
 
+/* リンクがある時のようなホバー効果を無効化、または弱くする */
+.no-link-item:hover {
+    background: transparent; 
+}
 /* 4. リンク色を固定（クリック済みでも色を変えない） */
     .news-link:visited,
     .news-link:hover,

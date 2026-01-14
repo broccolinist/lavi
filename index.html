@@ -46,7 +46,7 @@
     const allNews = [
         { date: "20xx.xx.xx", title: "作業用BGMにおすすめ", url: "news/20xxxxx2.html" },
         { date: "20xx.xx.xx", title: "○○を公開", url: "news/20xxxxx1.html" },
-        { date: "202x.xx.xx", title: "公式サイトをオープンしました" },
+        { date: "202x.xx.xx", title: "公式サイトをオープンしました",url: "" },
         { date: "202.xx.xx", title: "旧ニュース", url: "" }
     ];
 
@@ -59,12 +59,25 @@
 
         latestThree.forEach(item => {
             const li = document.createElement('li');
+            
+// URLがある場合とない場合で処理を分ける
+        if (item.url) {
+            // リンクあり：従来通り<a>タグで囲む
             li.innerHTML = `
                 <a href="${item.url}">
                     <span class="date">${item.date}</span>
                     <span class="title">${item.title}</span>
                 </a>
             `;
+        } else {
+            // リンクなし：<div>などで囲み、クリックできないようにする
+            li.innerHTML = `
+                <div class="no-link-item">
+                    <span class="date">${item.date}</span>
+                    <span class="title">${item.title}</span>
+                </div>
+            `;
+        }
             container.appendChild(li);
         });
     }
