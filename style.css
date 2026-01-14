@@ -191,7 +191,7 @@ nav ul li a {
 
 /* 2. 記事カード全体の見た目とアニメーション */
     .news-item {
-        background: rgba(245, 245, 245, 0.8); /* 少し透けた白 */
+        background: rgba(255, 255, 255, 0.8); /* 少し透けた白 */
         margin-bottom: 20px;
         border-radius: 8px;
         overflow: hidden;
@@ -201,7 +201,7 @@ nav ul li a {
 
 /* 3. ホバーした時の変化 */
     .news-item:hover {
-        background: rgba(128, 128, 128, 1.0); /* 背景を不透明のグレーにする */
+        background: rgba(245, 245, 245, 1.0); /* 背景を不透明のグレーにする */
         transform: translateY(-3px);           /* 少しだけ上に浮かす */
         box-shadow: 0 10px 20px rgba(0,0,0,0.1); /* 影をつけて立体感を出す */
     }
