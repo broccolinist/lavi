@@ -191,7 +191,7 @@ nav ul li a {
 
 /* 2. 記事カード全体の見た目とアニメーション */
     .news-item {
-        background: rgba(255, 255, 255, 0.8); /* 少し透けた白 */
+        background: rgba(245, 245, 245, 0.8); /* 少し透けた白 */
         margin-bottom: 20px;
         border-radius: 8px;
         overflow: hidden;
