@@ -201,7 +201,7 @@ nav ul li a {
 
 /* 3. ホバーした時の変化 */
     .news-item:hover {
-        background: rgba(245, 245, 245, 1.0); /* 背景を不透明のグレーにする */
+        background: rgba(220, 220, 220, 1.0); /* 背景を不透明のグレーにする */
         transform: translateY(-3px);           /* 少しだけ上に浮かす */
         box-shadow: 0 10px 20px rgba(0,0,0,0.1); /* 影をつけて立体感を出す */
     }
