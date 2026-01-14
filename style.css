@@ -103,11 +103,12 @@ nav ul li a {
 .video-carousel {
     display: flex;
     overflow-x: auto;
-    /* scroll-snap-type はスクリプトと干渉するためオフにします */
-    scroll-snap-type: none; 
     gap: 30px;
     padding: 20px 0;
     scrollbar-width: none;
+    -ms-overflow-style: none;
+    /* スクリプト制御のため snap は使用しない */
+    scroll-snap-type: none; 
 }
 
 /* スクロールバーを隠す (Chrome/Safari) */
@@ -122,13 +123,13 @@ nav ul li a {
     overflow: hidden;
     background: #000;
     transition: opacity 0.4s ease, transform 0.4s ease;
-    opacity: 0.2; /* 左右の画像は薄く */
+    opacity: 0.2; /* 左右はかなり薄く */
 }
 
-/* JavaScriptで中央判定された要素 */
+/* 中央の強調 */
 .video-item.is-active {
-    opacity: 1; /* 中央は明るく */
-    transform: scale(1.05); /* 少し大きく */
+    opacity: 1;
+    transform: scale(1.05);
     z-index: 10;
 }
 
