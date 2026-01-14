@@ -25,57 +25,32 @@
         <h1 class="page-title">NEWS</h1>
         
         <div class="news-container">
-            <article class="news-item" onclick="openModal('modal1')">
-                <img src="news1.jpg" alt="写真１" class="news-thumb">
-                <div class="news-text">
-                    <span class="date">20xx.xx.xx</span>
-                    <h3>○○を公開</h3>
-                    <p>今回の新曲をご紹介します</p>
-                </div>
+            <article class="news-item">
+                <a href="news/20xxxxx1.html" class="news-link">
+                    <img src="news1.jpg" alt="写真１" class="news-thumb">
+                    <div class="news-text">
+                        <span class="date">20xx.xx.xx</span>
+                        <h3>○○を公開</h3>
+                        <p>今回の新曲をご紹介します</p>
+                    </div>
+                </a>
             </article>
 
-            <article class="news-item" onclick="openModal('modal2')">
-                <img src="news2.jpg" alt="写真2" class="news-thumb">
-                <div class="news-text">
-                    <span class="date">20xx.xx.xx</span>
-                    <h3>作業用BGMにおすすめ</h3>
-                    <p>おすすめの楽曲をまとめました</p>
-                </div>
+            <article class="news-item">
+                <a href="news/20xxxxx2.html" class="news-link">
+                    <img src="news2.jpg" alt="写真2" class="news-thumb">
+                    <div class="news-text">
+                        <span class="date">20xx.xx.xx</span>
+                        <h3>作業用BGMにおすすめ</h3>
+                        <p>おすすめの楽曲をまとめました</p>
+                    </div>
+                </a>
             </article>
         </div>
     </main>
 
-    <div id="modal1" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal('modal1')">&times;</span>
-            <img src="news1.jpg" class="modal-img">
-            <h2>○○を公開</h2>
-            <p class="modal-date">20xx.xx.xx</p>
-            <div class="modal-body">
-                詳細な記事。
-            </div>
-        </div>
-    </div>
+    <footer>
+        </footer>
 
-<div id="modal2" class="modal">
-    <div class="modal-content">
-        <span class="close" onclick="closeModal('modal2')">&times;</span>
-        <img src="news2.jpg" class="modal-img">
-        <h2>BGM</h2>
-        <p class="modal-date">20xx.xx.xx</p>
-        <div class="modal-body">
-            詳細な記事。
-        </div>
-    </div>
-</div>
-
-    <script>
-        function openModal(id) { document.getElementById(id).style.display = "block"; }
-        function closeModal(id) { document.getElementById(id).style.display = "none"; }
-        // モーダルの外側をクリックしても閉じる設定
-        window.onclick = function(event) {
-            if (event.target.className === 'modal') { event.target.style.display = "none"; }
-        }
-    </script>
 </body>
 </html>

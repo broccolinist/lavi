@@ -1,10 +1,13 @@
-/* --- 基本レイアウト --- */
+/* ==========================================================================
+   1. 基本レイアウト & 共通設定
+   ========================================================================== */
 body, html {
     margin: 0;
     padding: 0;
     width: 100%;
     overflow-x: hidden;
     font-family: 'Helvetica Neue', Arial, sans-serif;
+    color: #333;
 }
 
 .background-image {
@@ -17,7 +20,57 @@ body, html {
     z-index: -1;
 }
 
-/* --- ヘッダー・ナビゲーション --- */
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 50px;
+    min-height: 80vh;
+}
+
+.page-title {
+    font-size: 3rem;
+    font-weight: 300;
+    letter-spacing: 0.2em;
+    margin-bottom: 40px;
+    color: #333;
+    text-align: center;
+}
+
+/* 共通のコンテンツボックス */
+.content-box {
+    background: rgba(255, 255, 255, 0.85);
+    padding: 20px;
+    width: 90%;
+    max-width: 500px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+}
+
+/* 共通ボタン */
+.btn {
+    display: inline-block;
+    text-decoration: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    color: #333;
+    border: 1px solid #333;
+    transition: 0.3s;
+}
+
+.btn:hover {
+    opacity: 0.7;
+}
+
+.play-btn {
+    background: #333;
+    color: #fff;
+}
+
+/* ==========================================================================
+   2. ヘッダー & ナビゲーション
+   ========================================================================== */
 header {
     padding: 20px;
     text-align: right;
@@ -26,6 +79,7 @@ header {
 nav ul {
     list-style: none;
     padding: 0;
+    margin: 0;
 }
 
 nav ul li {
@@ -37,66 +91,37 @@ nav ul li a {
     text-decoration: none;
     color: #333;
     font-weight: 500;
-    text-transform: lowercase; /* index.htmlの表記に合わせる */
+    text-transform: lowercase;
 }
 
-/* --- コンテンツエリア --- */
-main {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding-top: 50px;
-    min-height: 80vh;
-}
-
-/* ページタイトル (MUSIC) */
-.page-title {
-    font-size: 3rem;
-    font-weight: 300;
-    letter-spacing: 0.2em;
-    margin-bottom: 40px;
-    color: #333;
-}
-
-.content-box {
-    background: rgba(255, 255, 255, 0.85);
-    padding: 20px;
-    width: 90%;
-    max-width: 500px;
-    border-radius: 15px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-}
-
-/* --- Aboutページ専用のデザイン --- */
-
-/* 全体を包むコンテナ */
+/* ==========================================================================
+   3. About ページ
+   ========================================================================== */
 .about-wrapper {
     width: 90%;
     max-width: 800px;
     margin: 0 auto 100px;
     display: flex;
-    flex-direction: column; /* スマホ・PC共通で縦並びから整える */
+    flex-direction: column;
     align-items: center;
 }
 
-/* 写真のスタイリング */
 .about-image-container {
     width: 100%;
     max-width: 600px;
     margin-bottom: 40px;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.3); /* 写真に深みを出す影 */
+    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
 }
 
 .about-main-img {
     width: 100%;
     height: auto;
     display: block;
-    border-radius: 4px; /* わずかに角を丸める */
+    border-radius: 4px;
 }
 
-/* テキストボックス */
 .about-content-box {
-    background: rgba(255, 255, 255, 0.9); /* 背景が透ける白 */
+    background: rgba(255, 255, 255, 0.9);
     padding: 40px;
     border-radius: 10px;
     width: 100%;
@@ -111,7 +136,7 @@ main {
 
 .tagline {
     font-size: 0.9rem;
-    color: #ff00ff; /* アクセントカラー：ピンク */
+    color: #ff00ff;
     font-weight: bold;
     margin-bottom: 30px;
     text-transform: uppercase;
@@ -120,11 +145,8 @@ main {
 .biography p {
     line-height: 1.8;
     margin-bottom: 20px;
-    font-size: 1rem;
-    color: #333;
 }
 
-/* 履歴リスト */
 .about-history h3 {
     border-bottom: 1px solid #ddd;
     padding-bottom: 10px;
@@ -139,88 +161,19 @@ main {
 .about-history li {
     margin-bottom: 10px;
     font-size: 0.9rem;
+    display: flex;
 }
 
 .about-history li span {
     font-weight: bold;
     margin-right: 20px;
     color: #666;
+    min-width: 80px;
 }
 
-/* --- レスポンシブ調整 --- */
-@media (max-width: 768px) {
-    .about-content-box {
-        padding: 20px;
-    }
-    
-    .artist-name {
-        font-size: 1.5rem;
-    }
-}
-
-/* プロフィール部分（写真とテキスト） */
-.profile-section {
-    display: flex;
-    align-items: center;
-    gap: 40px;
-    background: rgba(255, 255, 255, 0.85);
-    padding: 40px;
-    border-radius: 15px;
-    margin-bottom: 40px;
-}
-
-.profile-image {
-    flex: 1;
-}
-
-.profile-image img {
-    width: 100%;
-    border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-}
-
-.profile-text {
-    flex: 1.5;
-}
-
-.profile-text h2 {
-    margin-top: 0;
-    font-size: 2rem;
-    letter-spacing: 0.1em;
-}
-
-.role {
-    color: #ff00ff; /* キャプチャにあるようなピンク系アクセント */
-    font-weight: bold;
-    margin-bottom: 20px;
-}
-
-/* タイムライン（履歴） */
-.history-section {
-    background: rgba(255, 255, 255, 0.85);
-    padding: 40px;
-    border-radius: 15px;
-}
-
-.timeline {
-    list-style: none;
-    padding: 0;
-}
-
-.timeline li {
-    margin-bottom: 15px;
-    display: flex;
-    border-bottom: 1px solid #eee;
-    padding-bottom: 10px;
-}
-
-.year {
-    width: 100px;
-    font-weight: bold;
-    color: #666;
-}
-
-/* ニュースリストのスタイル */
+/* ==========================================================================
+   4. News ページ & 記事詳細
+   ========================================================================== */
 .news-container {
     width: 90%;
     max-width: 800px;
@@ -229,53 +182,69 @@ main {
 
 .news-item {
     background: rgba(255, 255, 255, 0.9);
-    display: flex;
     margin-bottom: 20px;
-    cursor: pointer;
     border-radius: 8px;
     overflow: hidden;
-    transition: transform 0.2s;
+    transition: background 0.3s ease;
 }
 
-.news-item:hover { transform: scale(1.02); }
-
-.news-thumb { width: 30%; object-fit: cover; }
-.news-text { padding: 20px; width: 70%; }
-.news-text h3 { margin: 10px 0; font-size: 1.2rem; }
-.date { font-size: 0.8rem; color: #888; }
-
-/* モーダルのスタイル */
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 1000;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background-color: rgba(0,0,0,0.7);
+.news-item:hover {
+    background: rgba(255, 255, 255, 1.0);
 }
 
-.modal-content {
-    background-color: #fff;
-    margin: 5% auto;
-    padding: 30px;
-    width: 80%;
-    max-width: 700px;
-    border-radius: 12px;
-    position: relative;
-    max-height: 80vh;
-    overflow-y: auto;
+.news-link {
+    display: flex;
+    text-decoration: none;
+    color: inherit;
+    width: 100%;
 }
 
-.close {
-    position: absolute;
-    right: 20px; top: 10px;
-    font-size: 30px;
-    cursor: pointer;
+.news-thumb {
+    width: 30%;
+    object-fit: cover;
 }
 
-.modal-img { width: 100%; border-radius: 8px; margin-bottom: 20px; }
+.news-text {
+    padding: 20px;
+    width: 70%;
+}
 
-/* --- ゲームページ専用スタイル --- */
+.news-text .date {
+    font-size: 0.8rem;
+    color: #888;
+}
+
+/* 記事詳細 (article1.htmlなど) */
+.article-container {
+    background: rgba(255, 255, 255, 0.9);
+    width: 90%;
+    max-width: 800px;
+    margin: 40px auto 100px;
+    padding: 40px;
+    border-radius: 15px;
+    box-sizing: border-box;
+}
+
+.article-header {
+    border-bottom: 1px solid #eee;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+}
+
+.article-main-img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin-bottom: 30px;
+}
+
+.article-body {
+    line-height: 2.0;
+}
+
+/* ==========================================================================
+   5. Game ページ
+   ========================================================================== */
 .game-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -307,49 +276,15 @@ main {
     padding: 20px;
 }
 
-.game-info h3 {
-    margin: 0 0 10px;
-    font-size: 1.4rem;
-}
-
 .game-links {
     display: flex;
     gap: 10px;
     margin-top: 15px;
 }
 
-/* ボタンのデザイン */
-.btn {
-    text-decoration: none;
-    padding: 8px 15px;
-    border-radius: 5px;
-    font-size: 0.9rem;
-    color: #333;
-    border: 1px solid #333;
-    transition: 0.3s;
-}
-
-.play-btn {
-    background: #333;
-    color: #fff;
-}
-
-.btn:hover {
-    opacity: 0.7;
-}
-
-
-/* スマホ対応 */
-@media (max-width: 600px) {
-    .news-item { flex-direction: column; }
-    .news-thumb { width: 100%; height: 150px; }
-    .news-text { width: 100%; }
-    .game-grid {
-    .grid-template-columns: 1fr; /* 1列にする */
-    }
-}
-
-/* --- フッター --- */
+/* ==========================================================================
+   6. フッター & SNS
+   ========================================================================== */
 footer {
     text-align: center;
     padding: 40px 0 20px;
@@ -359,33 +294,55 @@ footer {
     font-size: 24px;
     color: #333;
     margin: 0 15px;
+    text-decoration: none;
 }
 
-/* --- スマホ対応 (メディアクエリ) --- */
+/* ==========================================================================
+   7. レスポンシブ (スマホ対応)
+   ========================================================================== */
 @media (max-width: 768px) {
     header {
-        .profile-section {
-        flex-direction: column; /* 写真と文を縦に並べる */
         text-align: center;
-        padding: 20px;
     }
-    
-.profile-image {
-        width: 80%;
-        margin-bottom: 20px;
-    }
-    
+
     nav ul li {
         margin: 0 10px;
     }
 
     .page-title {
         font-size: 2rem;
-        margin-bottom: 20px;
     }
 
-    .content-box {
-        width: 85%;
-        padding: 10px;
+    /* About */
+    .about-content-box {
+        padding: 20px;
+    }
+
+    .artist-name {
+        font-size: 1.5rem;
+    }
+
+    /* News */
+    .news-link {
+        flex-direction: column;
+    }
+
+    .news-thumb {
+        width: 100%;
+        height: 150px;
+    }
+
+    .news-text {
+        width: 100%;
+    }
+
+    /* Game */
+    .game-grid {
+        grid-template-columns: 1fr;
+    }
+
+    /* Article Detail */
+    .article-container {
+        padding: 20px;
     }
 }
