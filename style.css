@@ -67,11 +67,95 @@ main {
     box-shadow: 0 10px 30px rgba(0,0,0,0.05);
 }
 
-/* --- Aboutページ専用スタイル --- */
-.about-container {
+/* --- Aboutページ専用のデザイン --- */
+
+/* 全体を包むコンテナ */
+.about-wrapper {
     width: 90%;
-    max-width: 900px;
-    margin-bottom: 50px;
+    max-width: 800px;
+    margin: 0 auto 100px;
+    display: flex;
+    flex-direction: column; /* スマホ・PC共通で縦並びから整える */
+    align-items: center;
+}
+
+/* 写真のスタイリング */
+.about-image-container {
+    width: 100%;
+    max-width: 600px;
+    margin-bottom: 40px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.3); /* 写真に深みを出す影 */
+}
+
+.about-main-img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 4px; /* わずかに角を丸める */
+}
+
+/* テキストボックス */
+.about-content-box {
+    background: rgba(255, 255, 255, 0.9); /* 背景が透ける白 */
+    padding: 40px;
+    border-radius: 10px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.artist-name {
+    font-size: 2rem;
+    letter-spacing: 0.2em;
+    margin-bottom: 5px;
+}
+
+.tagline {
+    font-size: 0.9rem;
+    color: #ff00ff; /* アクセントカラー：ピンク */
+    font-weight: bold;
+    margin-bottom: 30px;
+    text-transform: uppercase;
+}
+
+.biography p {
+    line-height: 1.8;
+    margin-bottom: 20px;
+    font-size: 1rem;
+    color: #333;
+}
+
+/* 履歴リスト */
+.about-history h3 {
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+    margin-top: 40px;
+}
+
+.about-history ul {
+    list-style: none;
+    padding: 0;
+}
+
+.about-history li {
+    margin-bottom: 10px;
+    font-size: 0.9rem;
+}
+
+.about-history li span {
+    font-weight: bold;
+    margin-right: 20px;
+    color: #666;
+}
+
+/* --- レスポンシブ調整 --- */
+@media (max-width: 768px) {
+    .about-content-box {
+        padding: 20px;
+    }
+    
+    .artist-name {
+        font-size: 1.5rem;
+    }
 }
 
 /* プロフィール部分（写真とテキスト） */
