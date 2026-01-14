@@ -184,6 +184,7 @@ nav ul li a {
     transition: all 0.3s ease;
     width: 100%;
     box-sizing: border-box;
+    display: block;
 }
 
 /* リンク要素とリンクなし要素の見た目を完全に統一 */
@@ -192,26 +193,29 @@ nav ul li a {
     display: flex;
     align-items: center;
     width: 100%;
-    padding: 20px;       /* ニュース詳細(news.html)の基本余白 */
+    padding: 20px;       /* news.htmlの基本余白 */
     text-decoration: none;
     color: inherit;
     box-sizing: border-box;
-    cursor: default;     /* 基本は矢印 */
+    cursor: default;
 }
 
-/* リンクがある場合の個別設定 */
+/* リンクがある場合の挙動 */
 .news-link {
     cursor: pointer;
 }
 
-/* リンクがあるカードのみホバー時に変化させる */
-.news-item:has(.news-link):hover {
+.news-item:hover {
     background: rgba(255, 255, 255, 1.0);
+}
+
+/* リンクがある時だけ浮き上がらせる */
+.news-item:has(.news-link):hover {
     transform: translateY(-3px);
     box-shadow: 0 10px 20px rgba(0,0,0,0.1);
 }
 
-/* 画像とテキストのレイアウト (news.html用) */
+/* 画像とテキストのレイアウト (news.html) */
 .news-thumb {
     width: 120px;
     height: 80px;
@@ -260,6 +264,7 @@ nav ul li a {
 .home-news-list {
     list-style: none;
     padding: 0;
+    margin: 0;
 }
 
 .home-news-list li {
@@ -270,15 +275,25 @@ nav ul li a {
     border-bottom: none;
 }
 
-/* HOME用：リンクありなしのパディングと幅を完全に統一 */
-.home-news-list li .news-link,
+/* HOME用：リンクあり<a>とリンクなし<div>のスタイルを強制統一 */
+.home-news-list li a,
 .home-news-list li .no-link-item {
+    display: flex;
+    align-items: center;
     padding: 15px 10px;
+    text-decoration: none;
+    color: #333;
+    width: 100%;
+    box-sizing: border-box;
+    cursor: default;
     min-height: 50px;
 }
 
-/* リンクがある時だけHOMEで背景色を変える */
-.home-news-list li .news-link:hover {
+/* リンクがある場合は指マークにし、ホバーで少し色を変える */
+.home-news-list li a {
+    cursor: pointer;
+}
+.home-news-list li a:hover {
     background: rgba(255, 255, 255, 0.5);
 }
 
@@ -379,15 +394,6 @@ footer {
         font-size: 2rem;
     }
 
-    /* About */
-    .about-content-box {
-        padding: 20px;
-    }
-
-    .artist-name {
-        font-size: 1.5rem;
-    }
-
     /* News 一覧ページのスマホ表示調整 */
     .news-link, .no-link-item {
         flex-direction: column;
@@ -404,10 +410,5 @@ footer {
     /* Homeニュースの日付幅調整 */
     .home-news-list .date {
         width: 80px;
-    }
-
-    /* Game */
-    .game-grid {
-        grid-template-columns: 1fr;
     }
 }
