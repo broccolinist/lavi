@@ -757,10 +757,30 @@ footer {
    8. レスポンシブ (スマホ対応)
    ========================================================================== */
 @media (max-width: 768px) {
+
+    /* 1. コンテンツ領域の最小高さ制限を解除する */
     main {
-        /* スマホでは余白や高さをさらにタイトにする */
         padding-top: 60px;
-        min-height: calc(100dvh - 60px);
+        /* ヘッダーとの距離を少し詰める */
+        min-height: auto;
+        /* 画面いっぱいに広げる設定を解除 */
+    }
+
+    /* 2. フッターの余白を調整して上に引き上げる */
+    footer {
+        padding: 20px 0 20px;
+        /* 上下の余白を少しタイトにする */
+        text-align: center;
+        width: 100%;
+    }
+
+    /* 3. コンテンツボックス下の余白も調整 */
+    .content-box,
+    .home-banner,
+    .news-container,
+    .about-wrapper {
+        margin-bottom: 20px;
+        /* 下側の余白を少し小さくしてフッターを近づける */
     }
 }
 
