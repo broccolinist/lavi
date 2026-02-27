@@ -333,15 +333,19 @@ nav ul::-webkit-scrollbar-thumb {
 
 /* --- HOMEバナー --- */
 /* --- バナー全体の器 --- */
-.home-banner {
+/* .home-banner {
     width: 90%;
     max-width: 800px;
     margin-bottom: 30px;
     overflow: hidden;
-    /* 枠外のキャラを隠す */
+    枠外のキャラを隠す
     border-radius: 10px;
     position: relative;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+} */
+
+.home-banner {
+    animation: charSlideIn 5.0s ease-out forwards;
 }
 
 .banner-wrapper {
@@ -352,28 +356,28 @@ nav ul::-webkit-scrollbar-thumb {
 }
 
 /* 背景画像（動かない） */
-.banner-bg {
+/* .banner-bg {
     width: 100%;
     height: auto;
-}
+} */
 
 /* キャラクター画像（左からスライド） */
-.banner-char {
+/* .banner-char {
     position: absolute;
     top: 0;
     left: 0;
     height: 100%;
-    /* バナーの高さに合わせる */
+    バナーの高さに合わせる
     width: auto;
     z-index: 2;
 
-    /* アニメーションの設定 */
+    アニメーションの設定
     opacity: 0;
     transform: translateX(-20%);
     animation: charSlideIn 5.0s cubic-bezier(0.25, 1, 0.5, 1) forwards;
     animation-delay: 0.3s;
-    /* ページが開いてから少し遅らせる */
-}
+    ページが開いてから少し遅らせる
+} */
 
 /* キャラクターのスライドアニメーション定義 */
 @keyframes charSlideIn {
