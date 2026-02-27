@@ -114,9 +114,12 @@ header {
 
 /* 2番目の線：中央の横棒を利用して、左右の「点」を作る */
 .menu-btn-container.open .menu-btn span:nth-child(2) {
-    opacity: 1; /* 消さずに表示する */
-    transform: scaleX(1.0); /* 横に少し長くして「点」の存在感を出す */
-    background-color: transparent; /* 真ん中部分は透明にする */
+    opacity: 1;
+    /* 消さずに表示する */
+    transform: scaleX(1.2);
+    /* 横に少し長くして「点」の存在感を出す */
+    background-color: transparent;
+    /* 真ん中部分は透明にする */
 }
 
 /* 2番目の線の両端を擬似要素で作る */
@@ -125,17 +128,21 @@ header {
     content: "";
     position: absolute;
     top: 0;
-    width: 10%; /* 線の長さを短くして「点」に見せる */
+    width: 10%;
+    /* 線の長さを短くして「点」に見せる */
     height: 100%;
-    background-color: #333; /* 線の色 */
+    background-color: #333;
+    /* 線の色 */
 }
 
 .menu-btn-container.open .menu-btn span:nth-child(2)::before {
-    left: -2px; /* 左側に配置 */
+    left: -1.5px;
+    /* 左側に配置 */
 }
 
 .menu-btn-container.open .menu-btn span:nth-child(2)::after {
-    right: -2px; /* 右側に配置 */
+    right: -1.5px;
+    /* 右側に配置 */
 }
 
 /* 3番目の線：／ */
@@ -282,15 +289,17 @@ nav ul li a:hover {
 
 /* キャラクターのスライドアニメーション定義 */
 @keyframes charSlideIn {
-0% {
-        transform: translateX(-50%); /* かなり左からスタート */
+    0% {
+        transform: translateX(-50%);
+        /* かなり左からスタート */
         opacity: 0;
     }
+
     100% {
         /* ここで最終的な位置を決定。
            例：-10% にすると、キャラの体の一部が少し左にはみ出した状態で止まります。
            0% にすると左端ピッタリになります。 */
-        transform: translateX(-15%); 
+        transform: translateX(-15%);
         opacity: 1;
     }
 }
@@ -581,6 +590,59 @@ nav ul li a:hover {
 }
 
 /* ==========================================================================
+   7. Contact ページ
+   ========================================================================== */
+
+/* --- コンタクトフォーム --- */
+.contact-box {
+    max-width: 600px;
+    width: 90%;
+}
+
+.contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+.form-group label {
+    font-size: 0.9rem;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #191970;
+}
+
+.form-group input,
+.form-group textarea {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+.submit-btn {
+    background-color: #191970;
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: 0.3s;
+    margin-top: 10px;
+}
+
+.submit-btn:hover {
+    background-color: pink;
+    color: #191970;
+}
+
+/* ==========================================================================
    7. フッター & SNS
    ========================================================================== */
 footer {
@@ -631,17 +693,18 @@ footer {
 
     .banner-char {
         /* スマホではキャラが大きく見えがちなので、位置をさらに左へ逃がす */
-        transform: translateX(-30%); 
+        transform: translateX(-30%);
     }
-    
+
     @keyframes charSlideIn {
         0% {
             transform: translateX(-60%);
             opacity: 0;
         }
+
         100% {
             /* スマホでちょうど良いと感じる位置に調整してください */
-            transform: translateX(-15%); 
+            transform: translateX(-15%);
             opacity: 1;
         }
     }
