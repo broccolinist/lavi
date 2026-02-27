@@ -1,29 +1,83 @@
-<form action="https://ssgform.com/s/あなたのフォームID" method="POST" class="contact-form">
-    <div class="form-group">
-        <label>件名</label>
-        <input type="text" name="件名" required>
-    </div>
-    <div class="form-group">
-        <label>件名</label>
-        <input type="text" name="subject" required>
-    </div>
-    <div class="form-group">
-        <label>名前</label>
-        <input type="text" name="name" required>
-    </div>
-    <div class="form-group">
-        <label>フリガナ</label>
-        <input type="text" name="kana">
-    </div>
-    <div class="form-group">
-        <label>連絡先（メールアドレス）</label>
-        <input type="email" name="email" required>
-    </div>
-    <div class="form-group">
-        <label>内容</label>
-        <textarea name="message" rows="5" required></textarea>
-    </div>
-    <button type="submit" class="btn submit-btn">送信する</button>
-</form>
-</div>
-</main>
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact | Lavi AI</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="background-image"></div>
+    <header id="common-header"></header>
+
+    <main>
+        <h1 class="page-title">CONTACT</h1>
+
+        <div class="content-box contact-box">
+            <form action="https://ssgform.com/s/ksv3VlVP7hTt" method="POST" class="contact-form">
+                <div class="form-group">
+                    <label>件名</label>
+                    <input type="text" name="件名" required>
+                </div>
+                <div class="form-group">
+                    <label>名前</label>
+                    <input type="text" name="お名前" required>
+                </div>
+                <div class="form-group">
+                    <label>フリガナ</label>
+                    <input type="text" name="フリガナ">
+                </div>
+                <div class="form-group">
+                    <label>連絡先（メールアドレス）</label>
+                    <input type="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label>内容</label>
+                    <textarea name="お問い合わせ内容" rows="5" required></textarea>
+                </div>
+
+                <input type="hidden" name="redirect_to"
+                    value="https://【あなたのGitHubアカウント名】.github.io/【リポジトリ名】/index.html">
+
+                <button type="submit" class="btn submit-btn">送信する</button>
+            </form>
+        </div>
+    </main>
+
+    <footer id="common-footer"></footer>
+
+    <script>
+        async function loadCommonParts() {
+            const headerRes = await fetch('header.html');
+            const headerHtml = await headerRes.text();
+            document.getElementById('common-header').innerHTML = headerHtml;
+            const footerRes = await fetch('footer.html');
+            const footerHtml = await footerRes.text();
+            document.getElementById('common-footer').innerHTML = footerHtml;
+            setupMenu();
+        }
+
+        function setupMenu() {
+            const menuBtn = document.getElementById('menuBtn');
+            const navMenu = document.getElementById('navMenu');
+            if (menuBtn && navMenu) {
+                menuBtn.addEventListener('click', () => {
+                    menuBtn.classList.toggle('open');
+                    navMenu.classList.toggle('open');
+                });
+                navMenu.querySelectorAll('a').forEach(link => {
+                    link.addEventListener('click', () => {
+                        menuBtn.classList.remove('open');
+                        navMenu.classList.remove('open');
+                    });
+                });
+            }
+        }
+        loadCommonParts();
+    </script>
+</body>
+
+</html>

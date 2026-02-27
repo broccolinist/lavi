@@ -593,16 +593,17 @@ nav ul li a:hover {
    7. Contact ページ
    ========================================================================== */
 
-/* --- コンタクトフォーム --- */
+/* --- CONTACT FORM STYLE --- */
 .contact-box {
     max-width: 600px;
     width: 90%;
+    margin: 20px auto;
 }
 
 .contact-form {
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 20px;
 }
 
 .form-group {
@@ -613,33 +614,36 @@ nav ul li a:hover {
 
 .form-group label {
     font-size: 0.9rem;
-    margin-bottom: 5px;
+    margin-bottom: 8px;
     font-weight: bold;
     color: #191970;
 }
 
 .form-group input,
 .form-group textarea {
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
     font-size: 1rem;
+    background: rgba(255, 255, 255, 0.9);
 }
 
 .submit-btn {
     background-color: #191970;
     color: white;
-    padding: 12px;
+    padding: 15px;
     border: none;
-    border-radius: 25px;
+    border-radius: 30px;
+    font-size: 1.1rem;
     cursor: pointer;
-    transition: 0.3s;
+    transition: all 0.3s ease;
     margin-top: 10px;
 }
 
 .submit-btn:hover {
     background-color: pink;
     color: #191970;
+    transform: translateY(-2px);
 }
 
 /* ==========================================================================
