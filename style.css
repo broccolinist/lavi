@@ -122,7 +122,7 @@ header {
 .menu-btn-container.open .menu-btn span:nth-child(1)::before {
     content: "";
     position: absolute;
-    width: 100%;
+    width: 30%;
     height: 100%;
     background-color: #333; /* 線と同じ色 */
     /* ＼ に対して垂直に交差させて、横向きのパーツを作る */
@@ -135,7 +135,7 @@ header {
 .menu-btn-container.open .menu-btn span:nth-child(3)::before {
     content: "";
     position: absolute;
-    width: 100%;
+    width: 30%;
     height: 100%;
     background-color: #333;
     /* ／ に対して垂直に交差させて、横向きのパーツを作る */
