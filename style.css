@@ -115,7 +115,7 @@ header {
 /* 2番目の線：中央の横棒を利用して、左右の「点」を作る */
 .menu-btn-container.open .menu-btn span:nth-child(2) {
     opacity: 1; /* 消さずに表示する */
-    transform: scaleX(1.2); /* 横に少し長くして「点」の存在感を出す */
+    transform: scaleX(1.0); /* 横に少し長くして「点」の存在感を出す */
     background-color: transparent; /* 真ん中部分は透明にする */
 }
 
