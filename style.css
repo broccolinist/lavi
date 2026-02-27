@@ -553,9 +553,14 @@ footer {
     padding: 40px 0 20px;
 }
 
+.page-title {
+    font-size: 4.0rem;
+    color: #fffafa;
+}
+
 .sns-links a {
     font-size: 24px;
-    color: #333;
+    color: #fffafa;
     margin: 0 15px;
     text-decoration: none;
 }
@@ -563,7 +568,7 @@ footer {
 .copyright {
     margin-top: 20px;
     font-size: 0.8rem;
-    color: #888;
+    color: #fffafa;
 }
 
 /* ==========================================================================
