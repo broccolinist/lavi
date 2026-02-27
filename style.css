@@ -333,65 +333,50 @@ nav ul::-webkit-scrollbar-thumb {
 
 /* --- HOMEバナー --- */
 /* --- バナー全体の器 --- */
-/* .home-banner {
-    width: 90%;
-    max-width: 800px;
+.home-banner {
+    width: 100%;
+    max-width: 1200px;
+    /* キャラクターが動く範囲を広めに確保 */
     margin-bottom: 30px;
     overflow: hidden;
-    枠外のキャラを隠す
-    border-radius: 10px;
-    position: relative;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-} */
-
-.home-banner {
-    animation: charSlideIn 5.0s ease-out forwards;
+    /* 画面外から出てくる際のはみ出しを隠す */
 }
 
 .banner-wrapper {
     position: relative;
     width: 100%;
-    line-height: 0;
-    /* 画像の下の隙間を消す */
+    height: 450px;
+    /* キャラクターが表示される領域の高さ */
+    display: flex;
+    align-items: flex-end;
+    /* キャラクターを下に接地させる */
 }
 
-/* 背景画像（動かない） */
-/* .banner-bg {
-    width: 100%;
-    height: auto;
-} */
-
-/* キャラクター画像（左からスライド） */
-/* .banner-char {
-    position: absolute;
-    top: 0;
-    left: 0;
+/* --- キャラクターの設定とアニメーション --- */
+.banner-char {
     height: 100%;
-    バナーの高さに合わせる
+    /* wrapperの高さに合わせる */
+    max-height: 450px;
+    /* ★ここでキャラクターのサイズ（高さ）を調整してください */
     width: auto;
+    object-fit: contain;
     z-index: 2;
 
-    アニメーションの設定
-    opacity: 0;
-    transform: translateX(-20%);
-    animation: charSlideIn 5.0s cubic-bezier(0.25, 1, 0.5, 1) forwards;
-    animation-delay: 0.3s;
-    ページが開いてから少し遅らせる
-} */
+    /* アニメーションの適用 */
+    /* 2秒かけてスライドし、その後ふわふわ浮遊をループさせる */
+    animation: slideInLeft 4s ease-out forwards, charFloat 3s ease-in-out infinite 2s;
+}
 
-/* キャラクターのスライドアニメーション定義 */
-@keyframes charSlideIn {
+/* 左から右へスライドして登場するアニメーション */
+@keyframes slideInLeft {
     0% {
-        transform: translateX(-50%);
-        /* かなり左からスタート */
+        transform: translateX(-100%);
+        /* 画面の左外からスタート */
         opacity: 0;
     }
 
     100% {
-        /* ここで最終的な位置を決定。
-           例：-10% にすると、キャラの体の一部が少し左にはみ出した状態で止まります。
-           0% にすると左端ピッタリになります。 */
-        transform: translateX(-15%);
+        transform: translateX(75%);
         opacity: 1;
     }
 }
@@ -791,18 +776,33 @@ footer {
         /* スマホではキャラが大きく見えがちなので、位置をさらに左へ逃がす */
         transform: translateX(-30%);
     }
+}
 
-    @keyframes charSlideIn {
+@media (max-width: 768px) {
+
+    /* 1. キャラクターが表示される領域の高さをスマホ用に少し下げる */
+    .banner-wrapper {
+        height: 300px;
+    }
+
+    /* 2. キャラクター自体の最大サイズをスマホ用に調整 */
+    .banner-char {
+        max-height: 250px;
+        /* スマホで止まる位置を個別に設定（PCより控えめにする） */
+        animation: slideInLeftMobile 3s ease-out forwards, charFloatMobile 3s ease-in-out infinite 2s;
+    }
+
+    /* 3. スマホ専用のスライドアニメーション（止まる位置を調整） */
+    @keyframes slideInLeftMobile {
         0% {
-            transform: translateX(-60%);
+            transform: translateX(-100%);
             opacity: 0;
         }
 
         100% {
-            /* スマホでちょうど良いと感じる位置に調整してください */
-            transform: translateX(-15%);
+            /* 75%だと突き抜けるので、10%〜20%くらいで調整してみてください */
+            transform: translateX(15%);
             opacity: 1;
         }
     }
-
 }
