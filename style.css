@@ -333,12 +333,18 @@ nav ul::-webkit-scrollbar-thumb {
    ========================================================================== */
 /* --- トップページ専用のスタイル --- */
 
-/* index.htmlの時だけスクロールを禁止し、高さを固定 */
+/* --- index.html（トップページ）専用：画面を固定してスクロールを禁止 --- */
 body:has(.top-page-main) {
     height: 100vh;
     height: 100dvh;
+    width: 100%;
+    /* 縦横のスクロールと、スマホ特有の「引っ張り」を禁止 */
     overflow: hidden;
-    /* スクロールを完全に禁止 */
+    position: fixed;
+    left: 0;
+    top: 0;
+    /* iOS Safariなどのバウンス対策 */
+    overscroll-behavior: none;
 }
 
 .top-page-main {
@@ -350,37 +356,26 @@ body:has(.top-page-main) {
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
-    /* 中身（バナー）を一番下に配置 */
     align-items: center;
+    /* ここにも念のためバウンス防止を追加 */
+    overscroll-behavior-y: none;
 }
 
-.top-page-main .home-banner {
-    width: 100%;
-    margin-bottom: 0;
-    /* 下の隙間をなくす */
-    max-width: none;
-}
-
+/* キャラクターの配置を微調整（画面の本当の底に合わせる） */
 .top-page-main .banner-wrapper {
-    height: 80vh;
-    /* キャラクターが表示される高さの限界 */
+    height: 100vh;
+    /* 画面いっぱいの高さを確保 */
+    height: 100dvh;
     display: flex;
     align-items: flex-end;
-    /* 足元を画面最下部に合わせる */
+    /* 底に接地 */
     justify-content: flex-start;
-    /* 左から出てくる起点 */
 }
 
-/* キャラクターのサイズ調整（PC） */
 .top-page-main .banner-char {
-    height: 90%;
-    /* 画面の高さに対してのサイズ */
-    max-height: 600px;
-    /* PCでの大きすぎるのを防ぐ */
-    width: auto;
-    object-fit: contain;
-    /* アニメーションは前回設定したものを継続、または下記で上書き */
-    animation: slideInLeft 4s ease-out forwards, charFloat 3s ease-in-out infinite 2s;
+    /* ...既存のサイズ設定（max-heightなど）... */
+    margin-bottom: -2px;
+    /* わずかにマイナスすることで、隙間なく底に接地させます */
 }
 
 /* --- スマホ用の調整 --- */
