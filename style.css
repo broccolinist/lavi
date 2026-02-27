@@ -25,7 +25,7 @@ main {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding-top: 50px;
+    padding-top: 80px;
     min-height: 80vh;
 }
 
@@ -145,8 +145,12 @@ header {
     右側に配置
 } */
 
-/* 3番目の線：／ */
 .menu-btn-container.open .menu-btn span:nth-child(2) {
+    opacity: 0;
+}
+
+/* 3番目の線：／ */
+.menu-btn-container.open .menu-btn span:nth-child(3) {
     transform: translateY(-6px) rotate(-45deg);
 }
 
@@ -258,10 +262,38 @@ nav ul::-webkit-scrollbar-thumb {
     border-radius: 10px;
 }
 
-.navMenu {
-    font-size: 1.6rem;
-    color: #191970;
-    text-shadow: 1px 1px 2px #191970;
+/* --- ナビゲーションメニュー --- */
+#navMenu {
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+
+    /* アニメーション設定 */
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease-in-out;
+}
+
+/* メニューが開いた状態 */
+#navMenu.open {
+    max-height: 100px;
+    /* メニューの高さ。中身に合わせて調整 */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* リスト部分の余白調整 */
+#navMenu ul {
+    display: flex;
+    list-style: none;
+    padding: 35px 20px 20px 20px;
+    /* 上側に少し余裕を持たせてボタンとの干渉を防ぐ */
+    margin: 0;
+    overflow-x: auto;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
 }
 
 /* ロゴ画像のサイズをメニューバーの高さ（45px）に合わせて調整 */
