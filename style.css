@@ -189,7 +189,7 @@ nav ul li a:hover {
 .navMenu {
     font-size: 1.6rem;
     color: #191970;
-    text-shadow: 1px 1px 2px #ffc0cb;
+    text-shadow: 1px 1px 2px #191970;
 }
 
 /* ロゴ画像のサイズをメニューバーの高さ（45px）に合わせて調整 */
