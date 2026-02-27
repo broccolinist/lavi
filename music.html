@@ -42,6 +42,24 @@
                     loading="lazy"></iframe>
             </div>
         </div>
+        <script>
+            // ハンバーガメニュー
+            const menuBtn = document.getElementById('menuBtn');
+            const navMenu = document.getElementById('navMenu');
+
+            menuBtn.addEventListener('click', () => {
+                menuBtn.classList.toggle('open');
+                navMenu.classList.toggle('open');
+            });
+
+            // リンクをクリックしたら閉じる
+            document.querySelectorAll('nav a').forEach(link => {
+                link.addEventListener('click', () => {
+                    menuBtn.classList.remove('open');
+                    navMenu.classList.remove('open');
+                });
+            });
+        </script>
     </main>
 
     <footer>
