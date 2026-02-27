@@ -116,46 +116,42 @@ header {
     transform: translateY(-6px) rotate(-45deg);
 }
 
-/* --- 右上から左へ伸びる細長いメニュー --- */
+/* --- 左上から右へ伸びる細長いメニュー --- */
 nav {
     position: fixed;
     top: 20px;
-    /* ボタンと同じ高さに配置 */
-    right: 0;
-    width: 0;
-    /* 最初は幅ゼロ */
+    /* ボタンと同じ高さ、同じ左端を起点にする */
+    left: 20px;
+    width: 45px;
+    /* 最初はボタンと同じ幅（または0） */
     height: 45px;
-    /* ボタンと同じ高さの細長いバー */
+    /* ボタンと同じ高さ */
     background: rgba(255, 255, 255, 0.95);
     z-index: 1000;
     transition: width 0.5s cubic-bezier(0.25, 1, 0.5, 1);
-    /* スッと伸びる動き */
     overflow: hidden;
-    /* はみ出した文字を隠す */
     display: flex;
     align-items: center;
-    border-radius: 25px 0 0 25px;
-    /* 左側だけ丸める */
-    box-shadow: -2px 2px 10px rgba(0, 0, 0, 0.05);
+    border-radius: 25px;
+    /* ボタンに合わせて丸める */
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.05);
 }
 
-/* メニューが開いた時（端まで到達） */
+/* メニューが開いた時（右端まで伸びる） */
 nav.open {
-    width: 100%;
-    /* 左端まで伸びる */
+    width: calc(100% - 40px);
+    /* 画面右端に少し余白を残して伸びる */
 }
 
 nav ul {
     list-style: none;
-    padding: 0 20px 0 80px;
-    /* 左側のボタンと重ならないよう余白 */
+    /* ボタンと重ならないよう左側に余白（45px分+α）を空ける */
+    padding: 0 20px 0 60px;
     margin: 0;
     display: flex;
     width: 100%;
     justify-content: space-around;
-    /* 項目を均等に配置 */
     white-space: nowrap;
-    /* 改行を防ぐ */
 }
 
 nav ul li a {
@@ -167,6 +163,7 @@ nav ul li a {
     text-transform: lowercase;
     transition: color 0.3s;
 }
+
 
 nav ul li a:hover {
     color: #888;
