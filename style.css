@@ -361,6 +361,12 @@ body:has(.top-page-main) {
     overscroll-behavior-y: none;
 }
 
+.top-page-main .home-banner {
+    width: 100%;
+    margin-bottom: 0; /* 下の隙間をなくす */
+    max-width: none;
+}
+
 /* キャラクターの配置を微調整（画面の本当の底に合わせる） */
 .top-page-main .banner-wrapper {
     height: 100vh;
@@ -373,7 +379,11 @@ body:has(.top-page-main) {
 }
 
 .top-page-main .banner-char {
-    /* ...既存のサイズ設定（max-heightなど）... */
+    height: 90%; /* 画面の高さに対してのサイズ */
+    max-height: 600px; /* PCでの大きすぎるのを防ぐ */
+    width: auto;
+    object-fit: contain;
+    animation: slideInLeft 4s ease-out forwards, charFloat 3s ease-in-out infinite 2s;
     margin-bottom: -2px;
     /* わずかにマイナスすることで、隙間なく底に接地させます */
 }
