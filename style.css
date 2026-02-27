@@ -116,10 +116,14 @@ header {
 
 .menu-btn-container.open .menu-btn span:nth-child(3) {
     transform: translateY(-6px) rotate(-45deg);
-    transform: translateX(-3px) translateY(-1px) rotate(-0deg);
-    transform: translateX(-3px) translateY(-1px) rotate(-180deg);
 }
 
+.menu-btn-container.open .menu-btn span:nth-child(4) {
+    transform: translateX(-3px) translateY(-1px) rotate(-0deg);
+}
+.menu-btn-container.open .menu-btn span:nth-child(5) {
+    transform: translateX(3px) translateY(-1px) rotate(-180deg);
+}
 /* --- 左上から右へ伸びる細長いメニュー --- */
 nav {
     position: fixed;
