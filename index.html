@@ -14,14 +14,19 @@
     <div class="background-image"></div>
 
     <header>
-        <nav>
+        <div class="menu-btn" id="menuBtn">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+
+        <nav id="navMenu">
             <ul>
-                <li><a href="index.html"><font color="#F0FFFF">home</font></a></li>
-                <li><a href="about.html"><font color="#F0FFFF">about</font></a></li>
-                <li><a href="news.html"><font color="#F0FFFF">news</font></a></li>
-                <li><a href="music.html"><font color="#F0FFFF">music</font></a></li>
-                <li><a href="game.html"><font color="#F0FFFF">game</font></a></li>
-                <!--	        <li><a href="goods.html">Goods</a></li>-->
+                <li><a href="index.html">home</a></li>
+                <li><a href="about.html">about</a></li>
+                <li><a href="news.html">news</a></li>
+                <li><a href="music.html">music</a></li>
+                <li><a href="game.html">game</a></li>
             </ul>
         </nav>
     </header>
@@ -80,6 +85,24 @@
         </section>
 
         <script>
+            // ハンバーガメニュー
+            const menuBtn = document.getElementById('menuBtn');
+            const navMenu = document.getElementById('navMenu');
+
+            menuBtn.addEventListener('click', () => {
+                menuBtn.classList.toggle('open');
+                navMenu.classList.toggle('open');
+            });
+
+            // メニュー内のリンクをクリックしたらメニューを閉じる
+            const navLinks = document.querySelectorAll('nav ul li a');
+            navLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    menuBtn.classList.remove('open');
+                    navMenu.classList.remove('open');
+                });
+            });
+
             // ニュースデータの定義（新しいものを上に書く）
             const allNews = [
                 { date: "20xx.xx.xx", title: "作業用BGMにおすすめ", url: "news/20xxxxx2.html" },
@@ -139,75 +162,75 @@
         <p class="copyright">&copy; 2026 Lavi AI singer-songwriter </p>
     </footer>
 
-<script>
-    const carousel = document.querySelector('.video-carousel');
-    const originalItems = Array.from(carousel.querySelectorAll('.video-item'));
+    <script>
+        const carousel = document.querySelector('.video-carousel');
+        const originalItems = Array.from(carousel.querySelectorAll('.video-item'));
 
-    if (carousel && originalItems.length > 0) {
-        // --- 1. 要素の複製（順序を 1-2-3 [1-2-3] 1-2-3 にする） ---
-        
-        // 後ろに追加 (1-2-3 の順で末尾へ)
-        originalItems.forEach(item => {
-            const clone = item.cloneNode(true);
-            carousel.appendChild(clone);
-        });
+        if (carousel && originalItems.length > 0) {
+            // --- 1. 要素の複製（順序を 1-2-3 [1-2-3] 1-2-3 にする） ---
 
-        // 前に追加 (1-2-3 の順を保って先頭へ)
-        // reverse() して insertBefore することで 1-2-3 の順序を維持します
-        [...originalItems].reverse().forEach(item => {
-            const clone = item.cloneNode(true);
-            carousel.insertBefore(clone, carousel.firstChild);
-        });
-
-        const gap = 30; 
-        const itemWidth = originalItems[0].offsetWidth + gap;
-
-        // --- 2. 初期位置の設定 ---
-        // 複製した「1-2-3」の次にある、オリジナルの「1」が中央に来るように計算
-        // 画面中央に配置するため、(画面幅/2 - アイテム幅/2)を調整
-        const startScroll = (itemWidth * originalItems.length) - (window.innerWidth / 2 - originalItems[0].offsetWidth / 2);
-        carousel.scrollLeft = startScroll;
-
-        // --- 3. スクロール監視とループ処理 ---
-        carousel.addEventListener('scroll', () => {
-            const scrollLeft = carousel.scrollLeft;
-            const itemTotalWidth = itemWidth * originalItems.length;
-
-            // 右にスクロールしすぎたら中央へ戻す
-            if (scrollLeft >= itemTotalWidth * 2) {
-                carousel.scrollLeft -= itemTotalWidth;
-            }
-            // 左にスクロールしすぎたら中央へ戻す
-            if (scrollLeft <= 0) {
-                carousel.scrollLeft += itemTotalWidth;
-            }
-
-            // --- 中央要素の強調表示 ---
-            let minDistance = Infinity;
-            let activeItem = null;
-            const allItems = carousel.querySelectorAll('.video-item');
-
-            allItems.forEach(item => {
-                const rect = item.getBoundingClientRect();
-                const itemCenter = rect.left + rect.width / 2;
-                const distance = Math.abs(itemCenter - window.innerWidth / 2);
-
-                if (distance < minDistance) {
-                    minDistance = distance;
-                    activeItem = item;
-                }
+            // 後ろに追加 (1-2-3 の順で末尾へ)
+            originalItems.forEach(item => {
+                const clone = item.cloneNode(true);
+                carousel.appendChild(clone);
             });
 
-            allItems.forEach(item => item.classList.remove('is-active'));
-            if (activeItem) activeItem.classList.add('is-active');
-        });
+            // 前に追加 (1-2-3 の順を保って先頭へ)
+            // reverse() して insertBefore することで 1-2-3 の順序を維持します
+            [...originalItems].reverse().forEach(item => {
+                const clone = item.cloneNode(true);
+                carousel.insertBefore(clone, carousel.firstChild);
+            });
 
-        // 初期実行
-        setTimeout(() => {
-            carousel.dispatchEvent(new Event('scroll'));
-        }, 100);
-    }
-</script>
+            const gap = 30;
+            const itemWidth = originalItems[0].offsetWidth + gap;
+
+            // --- 2. 初期位置の設定 ---
+            // 複製した「1-2-3」の次にある、オリジナルの「1」が中央に来るように計算
+            // 画面中央に配置するため、(画面幅/2 - アイテム幅/2)を調整
+            const startScroll = (itemWidth * originalItems.length) - (window.innerWidth / 2 - originalItems[0].offsetWidth / 2);
+            carousel.scrollLeft = startScroll;
+
+            // --- 3. スクロール監視とループ処理 ---
+            carousel.addEventListener('scroll', () => {
+                const scrollLeft = carousel.scrollLeft;
+                const itemTotalWidth = itemWidth * originalItems.length;
+
+                // 右にスクロールしすぎたら中央へ戻す
+                if (scrollLeft >= itemTotalWidth * 2) {
+                    carousel.scrollLeft -= itemTotalWidth;
+                }
+                // 左にスクロールしすぎたら中央へ戻す
+                if (scrollLeft <= 0) {
+                    carousel.scrollLeft += itemTotalWidth;
+                }
+
+                // --- 中央要素の強調表示 ---
+                let minDistance = Infinity;
+                let activeItem = null;
+                const allItems = carousel.querySelectorAll('.video-item');
+
+                allItems.forEach(item => {
+                    const rect = item.getBoundingClientRect();
+                    const itemCenter = rect.left + rect.width / 2;
+                    const distance = Math.abs(itemCenter - window.innerWidth / 2);
+
+                    if (distance < minDistance) {
+                        minDistance = distance;
+                        activeItem = item;
+                    }
+                });
+
+                allItems.forEach(item => item.classList.remove('is-active'));
+                if (activeItem) activeItem.classList.add('is-active');
+            });
+
+            // 初期実行
+            setTimeout(() => {
+                carousel.dispatchEvent(new Event('scroll'));
+            }, 100);
+        }
+    </script>
 
 </body>
 

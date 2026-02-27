@@ -69,21 +69,80 @@ header {
     text-align: right;
 }
 
+/* --- ハンバーガーボタンのスタイル --- */
+.menu-btn {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    /* 右上に配置（お好みで左にも変更可） */
+    z-index: 100;
+    width: 30px;
+    height: 25px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.menu-btn span {
+    display: block;
+    width: 100%;
+    height: 2px;
+    background-color: #333;
+    transition: all 0.3s ease;
+}
+
+/* ボタンがクリックされた時の形（X印） */
+.menu-btn.open span:nth-child(1) {
+    transform: translateY(11.5px) rotate(45deg);
+}
+
+.menu-btn.open span:nth-child(2) {
+    opacity: 0;
+}
+
+.menu-btn.open span:nth-child(3) {
+    transform: translateY(-11.5px) rotate(-45deg);
+}
+
+/* --- メニュー本体（左から出てくる設定） --- */
+nav {
+    position: fixed;
+    top: 0;
+    left: -100%;
+    /* 最初は画面の左外に隠す */
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.95);
+    z-index: 99;
+    transition: all 0.4s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* メニューが開いた時 */
+nav.open {
+    left: 0;
+    /* 画面内に戻す */
+}
+
 nav ul {
     list-style: none;
     padding: 0;
-    margin: 0;
+    text-align: center;
 }
 
 nav ul li {
-    display: inline-block;
-    margin-left: 20px;
+    margin: 30px 0;
 }
 
 nav ul li a {
     text-decoration: none;
     color: #333;
-    font-weight: 500;
+    font-size: 1.5rem;
+    font-weight: 300;
+    letter-spacing: 0.2em;
     text-transform: lowercase;
 }
 
@@ -129,7 +188,7 @@ nav ul li a {
     scrollbar-width: none;
     -ms-overflow-style: none;
     /* スクリプト制御のため snap は使用しない */
-    scroll-snap-type: none; 
+    scroll-snap-type: none;
 }
 
 /* スクロールバーを隠す (Chrome/Safari) */
@@ -138,13 +197,15 @@ nav ul li a {
 }
 
 .video-item {
-    flex: 0 0 450px; /* サイズ固定 */
+    flex: 0 0 450px;
+    /* サイズ固定 */
     position: relative;
     border-radius: 12px;
     overflow: hidden;
     background: #000;
     transition: opacity 0.4s ease, transform 0.4s ease;
-    opacity: 0.2; /* 左右はかなり薄く */
+    opacity: 0.2;
+    /* 左右はかなり薄く */
 }
 
 /* 中央の強調 */
@@ -169,7 +230,7 @@ nav ul li a {
     font-size: 50px !important;
     color: #fff;
     pointer-events: none;
-    filter: drop-shadow(0 0 10px rgba(0,0,0,0.5));
+    filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.5));
 }
 
 /* ==========================================================================
@@ -232,16 +293,18 @@ nav ul li a {
 }
 
 /* リンク要素とリンクなし要素の余白と位置を完全に統一 */
-.news-link, 
+.news-link,
 .no-link-item {
     display: flex;
     align-items: center;
     width: 100%;
-    padding: 20px;       /* ニュース詳細(news.html)の基本余白 */
+    padding: 20px;
+    /* ニュース詳細(news.html)の基本余白 */
     text-decoration: none;
     color: inherit;
     box-sizing: border-box;
-    cursor: default;     /* 基本は矢印 */
+    cursor: default;
+    /* 基本は矢印 */
 }
 
 /* リンクがある場合のみ指マークとホバー効果を適用 */
@@ -252,7 +315,7 @@ nav ul li a {
 .news-item:has(.news-link):hover {
     background: rgba(255, 255, 255, 1.0);
     transform: translateY(-3px);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
 }
 
 /* 画像とテキストのレイアウト (news.html用) */
@@ -302,7 +365,7 @@ nav ul li a {
     width: 100%;
     max-width: 600px;
     margin-bottom: 40px;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
 }
 
 .about-main-img {
@@ -360,7 +423,7 @@ nav ul li a {
     background: rgba(255, 255, 255, 0.9);
     border-radius: 15px;
     overflow: hidden;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease;
 }
 
