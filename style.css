@@ -112,41 +112,41 @@ header {
     position: relative;
 }
 
-/* 2番目の線：中央の横棒を利用して、左右の「点」を作る */
+/* 2番目の線：中央の横棒を利用して、左右の「点」を作る
 .menu-btn-container.open .menu-btn span:nth-child(2) {
     opacity: 1;
-    /* 消さずに表示する */
+    消さずに表示する
     transform: scaleX(1.2);
-    /* 横に少し長くして「点」の存在感を出す */
+    横に少し長くして「点」の存在感を出す
     background-color: transparent;
-    /* 真ん中部分は透明にする */
+    真ん中部分は透明にする
 }
 
-/* 2番目の線の両端を擬似要素で作る */
+2番目の線の両端を擬似要素で作る
 .menu-btn-container.open .menu-btn span:nth-child(2)::before,
 .menu-btn-container.open .menu-btn span:nth-child(2)::after {
     content: "";
     position: absolute;
     top: 0;
     width: 10%;
-    /* 線の長さを短くして「点」に見せる */
+    線の長さを短くして「点」に見せる
     height: 100%;
     background-color: #333;
-    /* 線の色 */
+    線の色
 }
 
 .menu-btn-container.open .menu-btn span:nth-child(2)::before {
     left: -1.5px;
-    /* 左側に配置 */
+    左側に配置
 }
 
 .menu-btn-container.open .menu-btn span:nth-child(2)::after {
     right: -1.5px;
-    /* 右側に配置 */
-}
+    右側に配置
+} */
 
 /* 3番目の線：／ */
-.menu-btn-container.open .menu-btn span:nth-child(3) {
+.menu-btn-container.open .menu-btn span:nth-child(2) {
     transform: translateY(-6px) rotate(-45deg);
 }
 
@@ -219,7 +219,7 @@ nav ul li a:hover {
 
     /* 隠れた部分があることを示すグラデーション（マスク） */
     nav {
-        position: relative;
+        position: fixed;
         overflow: hidden;
     }
 
