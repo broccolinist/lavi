@@ -67,7 +67,8 @@ main {
 header {
     padding: 20px;
     text-align: right;
-    padding: 0; /* 余計な余白を消す */
+    padding: 0;
+    /* 余計な余白を消す */
 }
 
 /* --- メニューボタン（左上・白地） --- */
@@ -85,7 +86,7 @@ header {
     justify-content: center;
     align-items: center;
     cursor: pointer;
-    box-shadow: 0 2px 8px rgba(255, 192, 203, 0.1);
+    box-shadow: 0 2px 8px rgba(255, 255, 255, 0.039);
 }
 
 .menu-btn {
@@ -127,7 +128,7 @@ nav {
     /* 最初はボタンと同じ幅（または0） */
     height: 45px;
     /* ボタンと同じ高さ */
-    background: rgba(255, 192, 203, 0.95);
+    background: rgba(255, 192, 203, 0.9);
     z-index: 1000;
     transition: width 0.5s cubic-bezier(0.25, 1, 0.5, 1);
     overflow: hidden;
@@ -183,6 +184,12 @@ nav ul li a:hover {
     nav ul li a {
         font-size: 0.8rem;
     }
+}
+
+.navMenu {
+    font-size: 1.6rem;
+    color: #191970;
+    text-shadow: 1px 1px 2px #ffc0cb;
 }
 
 /* ロゴ画像のサイズをメニューバーの高さ（45px）に合わせて調整 */
@@ -269,6 +276,8 @@ nav ul li a:hover {
     margin-bottom: 25px;
     border-bottom: 1px solid #ddd;
     padding-bottom: 10px;
+    color: #191970;
+    text-shadow: 1px 1px 2px pink;
 }
 
 /* --- VIDEOSスライド --- */
