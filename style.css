@@ -241,7 +241,7 @@ nav ul li a:hover {
 
     /* アニメーションの設定 */
     opacity: 0;
-    animation: charSlideIn 3.0s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+    animation: charSlideIn 5.0s cubic-bezier(0.25, 1, 0.5, 1) forwards;
     animation-delay: 0.3s;
     /* ページが開いてから少し遅らせる */
 }
