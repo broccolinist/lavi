@@ -106,45 +106,44 @@ header {
 }
 
 /* ボタンが開いた時のアニメーション（X印） */
-/* 1. 1番上の線を「＼」の短いパーツにする */
 .menu-btn-container.open .menu-btn span:nth-child(1) {
     transform: translateY(6px) rotate(45deg);
-    width: 50%; /* 長さを半分にする */
-    /* ここにウサギの顔の中央部分（「※」の横棒）を追加 */
-}
-/* 1番上の線の左側に、短い縦棒を追加して交差させる */
-.menu-btn-container.open .menu-btn span:nth-child(1)::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: #333;
-    transform: rotate(-90deg); /* 垂直にする */
 }
 
-/* 2. 真ん中の線は消す */
 .menu-btn-container.open .menu-btn span:nth-child(2) {
     opacity: 0;
 }
 
-/* 3. 一番下の線を「／」の短いパーツにする */
 .menu-btn-container.open .menu-btn span:nth-child(3) {
     transform: translateY(-6px) rotate(-45deg);
-    width: 50%; /* 長さを半分にする */
 }
-/* 一番下の線の左側に、短い縦棒を追加して交差させる */
-.menu-btn-container.open .menu-btn span:nth-child(3)::before {
-    content: '';
+
+/* 左側の点 */
+.menu-btn-container.open .menu-btn span:nth-child(1)::before {
+    content: "";
     position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: #333; /* 線と同じ色 */
+    /* ＼ に対して垂直に交差させて、横向きのパーツを作る */
+    transform: rotate(-45deg); 
+    left: -2px;
     top: 0;
-    left: 0;
+}
+
+/* 右側の点 */
+.menu-btn-container.open .menu-btn span:nth-child(3)::before {
+    content: "";
+    position: absolute;
     width: 100%;
     height: 100%;
     background-color: #333;
-    transform: rotate(90deg); /* 垂直にする */
+    /* ／ に対して垂直に交差させて、横向きのパーツを作る */
+    transform: rotate(45deg);
+    right: -2px;
+    top: 0;
 }
+
 /* --- 左上から右へ伸びる細長いメニュー --- */
 nav {
     position: fixed;
