@@ -126,7 +126,7 @@ nav {
     /* 最初はボタンと同じ幅（または0） */
     height: 45px;
     /* ボタンと同じ高さ */
-    background: rgba(255, 255, 255, 0.95);
+    background: rgba(192, 192, 192, 0.95);
     z-index: 1000;
     transition: width 0.5s cubic-bezier(0.25, 1, 0.5, 1);
     overflow: hidden;
@@ -184,22 +184,81 @@ nav ul li a:hover {
     }
 }
 
+/* ロゴ画像のサイズをメニューバーの高さ（45px）に合わせて調整 */
+.nav-logo {
+    height: 25px;
+    /* メニューバーの高さ45pxに対して、少し余裕を持たせる */
+    width: auto;
+    /* 横幅は比率を維持 */
+    display: block;
+    transition: transform 0.3s;
+}
+
+/* ホバーした時に少し浮かせる演出 */
+.nav-logo:hover {
+    transform: scale(1.1);
+}
+
 /* ==========================================================================
    3. HOME専用要素 (バナー / スライド)
    ========================================================================== */
 
 /* --- HOMEバナー --- */
+/* --- バナー全体の器 --- */
 .home-banner {
     width: 90%;
     max-width: 800px;
     margin-bottom: 30px;
+    overflow: hidden;
+    /* 枠外のキャラを隠す */
+    border-radius: 10px;
+    position: relative;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
-.banner-img {
+.banner-wrapper {
+    position: relative;
+    width: 100%;
+    line-height: 0;
+    /* 画像の下の隙間を消す */
+}
+
+/* 背景画像（動かない） */
+.banner-bg {
     width: 100%;
     height: auto;
-    border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* キャラクター画像（左からスライド） */
+.banner-char {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    /* バナーの高さに合わせる */
+    width: auto;
+    z-index: 2;
+
+    /* アニメーションの設定 */
+    opacity: 0;
+    animation: charSlideIn 1.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+    animation-delay: 0.3s;
+    /* ページが開いてから少し遅らせる */
+}
+
+/* キャラクターのスライドアニメーション定義 */
+@keyframes charSlideIn {
+    0% {
+        transform: translateX(-100px);
+        /* 100px左からスタート */
+        opacity: 0;
+    }
+
+    100% {
+        transform: translateX(0);
+        /* 本来の位置へ */
+        opacity: 1;
+    }
 }
 
 .section-title {
