@@ -14,10 +14,12 @@
     <div class="background-image"></div>
 
     <header>
-        <div class="menu-btn" id="menuBtn">
-            <span></span>
-            <span></span>
-            <span></span>
+        <div class="menu-btn-container" id="menuBtn">
+            <div class="menu-btn">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
         </div>
 
         <nav id="navMenu">
@@ -90,13 +92,13 @@
             const navMenu = document.getElementById('navMenu');
 
             menuBtn.addEventListener('click', () => {
+                // ボタンの見た目とメニューの開閉を切り替え
                 menuBtn.classList.toggle('open');
                 navMenu.classList.toggle('open');
             });
 
-            // メニュー内のリンクをクリックしたらメニューを閉じる
-            const navLinks = document.querySelectorAll('nav ul li a');
-            navLinks.forEach(link => {
+            // リンクをクリックしたらメニューを閉じる処理
+            document.querySelectorAll('nav a').forEach(link => {
                 link.addEventListener('click', () => {
                     menuBtn.classList.remove('open');
                     navMenu.classList.remove('open');

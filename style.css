@@ -70,15 +70,28 @@ header {
 }
 
 /* --- ハンバーガーボタンのスタイル --- */
-.menu-btn {
+.menu-btn-container {
     position: fixed;
     top: 20px;
-    right: 20px;
-    /* 右上に配置（お好みで左にも変更可） */
-    z-index: 100;
-    width: 30px;
-    height: 25px;
+    left: 20px;
+    /* 左上に配置 */
+    z-index: 1000;
+    width: 50px;
+    height: 50px;
+    background: #fff;
+    /* 白地 */
+    border-radius: 50%;
+    /* 丸形 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
     cursor: pointer;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.menu-btn {
+    width: 25px;
+    height: 18px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -89,60 +102,62 @@ header {
     width: 100%;
     height: 2px;
     background-color: #333;
+    /* 三本線の色 */
     transition: all 0.3s ease;
 }
 
-/* ボタンがクリックされた時の形（X印） */
-.menu-btn.open span:nth-child(1) {
-    transform: translateY(11.5px) rotate(45deg);
+/* ボタンが開いた時のアニメーション（X印） */
+.menu-btn-container.open .menu-btn span:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
 }
 
-.menu-btn.open span:nth-child(2) {
+.menu-btn-container.open .menu-btn span:nth-child(2) {
     opacity: 0;
 }
 
-.menu-btn.open span:nth-child(3) {
-    transform: translateY(-11.5px) rotate(-45deg);
+.menu-btn-container.open .menu-btn span:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg);
 }
 
-/* --- メニュー本体（左から出てくる設定） --- */
+/* --- 上部から出てくるメニュー本体 --- */
 nav {
     position: fixed;
-    top: 0;
-    left: -100%;
-    /* 最初は画面の左外に隠す */
+    top: -300px;
+    /* 最初は上に隠す（メニューの高さに合わせて調整） */
+    left: 0;
     width: 100%;
-    height: 100%;
     background: rgba(255, 255, 255, 0.95);
-    z-index: 99;
-    transition: all 0.4s ease;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    z-index: 999;
+    transition: all 0.5s ease;
+    padding: 80px 0 30px;
+    /* ボタンと重ならないよう上部余白 */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
 }
 
-/* メニューが開いた時 */
+/* メニューが開いた状態 */
 nav.open {
-    left: 0;
-    /* 画面内に戻す */
+    top: 0;
 }
 
 nav ul {
     list-style: none;
     padding: 0;
-    text-align: center;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 nav ul li {
-    margin: 30px 0;
+    margin: 15px 0;
 }
 
 nav ul li a {
     text-decoration: none;
     color: #333;
-    font-size: 1.5rem;
-    font-weight: 300;
-    letter-spacing: 0.2em;
+    font-size: 1.2rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
     text-transform: lowercase;
 }
 
