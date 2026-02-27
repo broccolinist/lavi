@@ -118,32 +118,6 @@ header {
     transform: translateY(-6px) rotate(-45deg);
 }
 
-/* 左側の点 */
-.menu-btn-container.open .menu-btn span:nth-child(1)::before {
-    content: "";
-    position: absolute;
-    width: 10%;
-    height: 150%;
-    background-color: #333; /* 線と同じ色 */
-    /* ＼ に対して垂直に交差させて、横向きのパーツを作る */
-    transform: rotate(-45deg); 
-    left: -2px;
-    top: 0;
-}
-
-/* 右側の点 */
-.menu-btn-container.open .menu-btn span:nth-child(3)::before {
-    content: "";
-    position: absolute;
-    width: 10%;
-    height: 150%;
-    background-color: #333;
-    /* ／ に対して垂直に交差させて、横向きのパーツを作る */
-    transform: rotate(45deg);
-    right: -2px;
-    top: 0;
-}
-
 /* --- 左上から右へ伸びる細長いメニュー --- */
 nav {
     position: fixed;
