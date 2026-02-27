@@ -123,7 +123,7 @@ header {
     content: "";
     position: absolute;
     width: 10%;
-    height: 50%;
+    height: 150%;
     background-color: #333; /* 線と同じ色 */
     /* ＼ に対して垂直に交差させて、横向きのパーツを作る */
     transform: rotate(-45deg); 
@@ -136,7 +136,7 @@ header {
     content: "";
     position: absolute;
     width: 10%;
-    height: 50%;
+    height: 150%;
     background-color: #333;
     /* ／ に対して垂直に交差させて、横向きのパーツを作る */
     transform: rotate(45deg);
