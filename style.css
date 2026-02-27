@@ -98,18 +98,34 @@ header {
 }
 
 .menu-btn span {
-    display: block;
+    position: absolute;
+    /* absoluteに統一 */
     width: 100%;
     height: 2px;
-    background-color: #333;
+    background-color: #191970;
     transition: all 0.3s ease;
+    left: 0;
+}
+
+/* 通常時の3本線の位置 */
+.menu-btn span:nth-child(1) {
+    top: 0;
+}
+
+.menu-btn span:nth-child(2) {
+    top: 11px;
+}
+
+.menu-btn span:nth-child(3) {
+    top: 22px;
 }
 
 /* ボタンが開いた時のアニメーション（X印） */
 /* 1番上の線：＼ */
 .menu-btn-container.open .menu-btn span:nth-child(1) {
-    transform: translateY(6px) rotate(45deg);
-    position: relative;
+    top: 11px;
+    /* 中央に移動してから回転 */
+    transform: rotate(45deg);
 }
 
 /* 2番目の線：中央の横棒を利用して、左右の「点」を作る
@@ -145,13 +161,18 @@ header {
     右側に配置
 } */
 
+/* 2番目の線：消去 */
 .menu-btn-container.open .menu-btn span:nth-child(2) {
     opacity: 0;
+    transform: translateX(-10px);
+    /* 念のため左に飛ばして完全に消す */
 }
 
 /* 3番目の線：／ */
 .menu-btn-container.open .menu-btn span:nth-child(3) {
-    transform: translateY(-6px) rotate(-45deg);
+    top: 11px;
+    /* 中央に移動してから回転 */
+    transform: rotate(-45deg);
 }
 
 /* --- 左上から右へ伸びる細長いメニュー --- */
