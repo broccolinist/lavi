@@ -80,7 +80,7 @@ header {
     /* メニューより上に配置 */
     width: 45px;
     height: 45px;
-    background: #fff;
+    background: #ffc0cb;
     border-radius: 50%;
     display: flex;
     justify-content: center;
@@ -264,23 +264,27 @@ nav ul::-webkit-scrollbar-thumb {
 
 /* --- ナビゲーションメニュー --- */
 #navMenu {
+    position: fixed;
+    /* 固定 */
     top: 0;
-    left: 0;
+    left: -100%;
+    /* 初期状態は画面の左外に隠す */
     width: 100%;
-    z-index: 1000;
-    background: rgba(255, 255, 255, 0.95);
+    height: 100px;
+    /* メニューの高さ */
+    background: rgba(255, 192, 203, 0.90);
     backdrop-filter: blur(10px);
-
-    /* アニメーション設定 */
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.4s ease-in-out;
+    z-index: 1000;
+    transition: left 0.4s ease-in-out;
+    /* 左から右へのアニメーション */
+    display: flex;
+    align-items: center;
 }
 
 /* メニューが開いた状態 */
 #navMenu.open {
-    max-height: 100px;
-    /* メニューの高さ。中身に合わせて調整 */
+    left: 0;
+    /* 画面内にスライド */
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
@@ -288,12 +292,24 @@ nav ul::-webkit-scrollbar-thumb {
 #navMenu ul {
     display: flex;
     list-style: none;
-    padding: 35px 20px 20px 20px;
-    /* 上側に少し余裕を持たせてボタンとの干渉を防ぐ */
+    padding: 0 20px 0 80px;
+    /* 左側に80pxの余白を作り、右側からスタートさせる */
     margin: 0;
+    width: 100%;
     overflow-x: auto;
     white-space: nowrap;
     -webkit-overflow-scrolling: touch;
+    align-items: center;
+}
+
+/* スクロールバーを非表示にする設定 */
+#navMenu ul::-webkit-scrollbar {
+    display: none;
+}
+
+#navMenu ul {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
 }
 
 /* ロゴ画像のサイズをメニューバーの高さ（45px）に合わせて調整 */
