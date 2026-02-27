@@ -11,25 +11,8 @@
 
 <body>
     <div class="background-image"></div>
-    <header>
-        <div class="menu-btn-container" id="menuBtn">
-            <div class="menu-btn">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-        </div>
 
-        <nav id="navMenu">
-            <ul>
-                <li><a href="index.html">home</a></li>
-                <li><a href="about.html">about</a></li>
-                <li><a href="news.html">news</a></li>
-                <li><a href="music.html">music</a></li>
-                <li><a href="game.html">game</a></li>
-            </ul>
-        </nav>
-    </header>
+    <header id="common-header"></header>
 
     <main>
         <h1 class="page-title">GAME</h1>
@@ -80,8 +63,39 @@
         </script>
     </main>
 
-    <footer>
-    </footer>
+    <footer id="common-footer"></footer>
+
+    <script>
+        async function loadCommonParts() {
+            // ヘッダーの読み込み
+            const headerRes = await fetch('header.html');
+            const headerHtml = await headerRes.text();
+            document.getElementById('common-header').innerHTML = headerHtml;
+
+            // フッターの読み込み
+            const footerRes = await fetch('footer.html');
+            const footerHtml = await footerRes.text();
+            document.getElementById('common-footer').innerHTML = footerHtml;
+
+            // --- ヘッダー読み込み後にハンバーガーメニューのJSを起動させる ---
+            setupMenu();
+        }
+
+        function setupMenu() {
+            const menuBtn = document.getElementById('menuBtn');
+            const navMenu = document.getElementById('navMenu');
+            if (menuBtn && navMenu) {
+                menuBtn.addEventListener('click', () => {
+                    menuBtn.classList.toggle('open');
+                    navMenu.classList.toggle('open');
+                });
+            }
+        }
+
+        // 実行
+        loadCommonParts();
+    </script>
+    
 </body>
 
 </html>

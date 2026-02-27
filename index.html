@@ -13,41 +13,16 @@
 
     <div class="background-image"></div>
 
-    <header>
-        <div class="menu-btn-container" id="menuBtn">
-            <div class="menu-btn">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-        </div>
-
-        <nav id="navMenu">
-            <ul>
-                <li><a href="index.html">home</a></li>
-                <li><a href="about.html">about</a></li>
-                <li><a href="news.html">news</a></li>
-                <li><a href="music.html">music</a></li>
-                <li><a href="game.html">game</a></li>
-            </ul>
-            <!-- <ul>
-                <li><a href="index.html"><img src="img/logo-home.png" alt="home" class="nav-logo"></a></li>
-                <li><a href="about.html"><img src="img/logo-about.png" alt="about" class="nav-logo"></a></li>
-                <li><a href="news.html"><img src="img/logo-news.png" alt="news" class="nav-logo"></a></li>
-                <li><a href="music.html"><img src="img/logo-music.png" alt="music" class="nav-logo"></a></li>
-                <li><a href="game.html"><img src="img/logo-game.png" alt="game" class="nav-logo"></a></li>
-            </ul> -->
-        </nav>
-    </header>
+    <header id="common-header"></header>
 
     <main>
         <!--        <h1 class="page-title">Lavi AI singer-songwriter</h1> -->
 
         <div class="home-banner">
-                <div class="banner-wrapper">
-                    <img src="haikyo.png" alt="Background" class="banner-bg">
-                    <img src="img/picture/lavi_ue.png" alt="Character" class="banner-char">
-                </div>
+            <div class="banner-wrapper">
+                <img src="haikyo.png" alt="Background" class="banner-bg">
+                <img src="img/picture/lavi_ue.png" alt="Character" class="banner-char">
+            </div>
         </div>
 
         <div class="content-box">
@@ -157,19 +132,7 @@
         </script>
     </main>
 
-    <footer>
-        <div class="sns-links">
-            <a href="https://www.youtube.com/@LaviAIsinger-songwriter" target="_blank"><i
-                    class="fab fa-youtube"></i></a>
-            <a href="https://open.spotify.com/intl-ja/artist/19IjM1QzTxBX14RzfEIzNV" target="_blank"><i
-                    class="fab fa-spotify"></i></a>
-            <!--    
-            <a href="https://twitter.com/..." target="_blank"><i class="fab fa-x-twitter"></i></a>
-            <a href="https://instagram.com/..." target="_blank"><i class="fab fa-instagram"></i></a>
--->
-        </div>
-        <p class="copyright">&copy; 2026 Lavi AI singer-songwriter </p>
-    </footer>
+    <footer id="common-footer"></footer>
 
     <script>
         const carousel = document.querySelector('.video-carousel');
@@ -241,6 +204,37 @@
         }
     </script>
 
+    <script>
+        async function loadCommonParts() {
+            // ヘッダーの読み込み
+            const headerRes = await fetch('header.html');
+            const headerHtml = await headerRes.text();
+            document.getElementById('common-header').innerHTML = headerHtml;
+
+            // フッターの読み込み
+            const footerRes = await fetch('footer.html');
+            const footerHtml = await footerRes.text();
+            document.getElementById('common-footer').innerHTML = footerHtml;
+
+            // --- ヘッダー読み込み後にハンバーガーメニューのJSを起動させる ---
+            setupMenu();
+        }
+
+        function setupMenu() {
+            const menuBtn = document.getElementById('menuBtn');
+            const navMenu = document.getElementById('navMenu');
+            if (menuBtn && navMenu) {
+                menuBtn.addEventListener('click', () => {
+                    menuBtn.classList.toggle('open');
+                    navMenu.classList.toggle('open');
+                });
+            }
+        }
+
+        // 実行
+        loadCommonParts();
+    </script>
+    
 </body>
 
 </html>
