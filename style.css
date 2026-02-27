@@ -67,6 +67,7 @@ main {
 header {
     padding: 20px;
     text-align: right;
+    padding: 0; /* 余計な余白を消す */
 }
 
 /* --- メニューボタン（左上・白地） --- */
