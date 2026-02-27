@@ -80,7 +80,7 @@ header {
     /* メニューより上に配置 */
     width: 45px;
     height: 45px;
-    background: #ffc0cb;
+    background: #fffafa;
     border-radius: 50%;
     display: flex;
     justify-content: center;
@@ -266,11 +266,11 @@ nav ul::-webkit-scrollbar-thumb {
 #navMenu {
     position: fixed;
     /* 固定 */
-    top: 0;
+    top: 20px;
     left: -100%;
     /* 初期状態は画面の左外に隠す */
     width: 100%;
-    height: 100px;
+    height: 40px;
     /* メニューの高さ */
     background: rgba(255, 192, 203, 0.90);
     backdrop-filter: blur(10px);
