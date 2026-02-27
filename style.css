@@ -241,7 +241,7 @@ nav ul li a:hover {
 .banner-char {
     position: absolute;
     top: 0;
-    left: -80px;
+    left: 0;
     height: 100%;
     /* バナーの高さに合わせる */
     width: auto;
@@ -249,6 +249,7 @@ nav ul li a:hover {
 
     /* アニメーションの設定 */
     opacity: 0;
+    transform: translateX(-20%);
     animation: charSlideIn 5.0s cubic-bezier(0.25, 1, 0.5, 1) forwards;
     animation-delay: 0.3s;
     /* ページが開いてから少し遅らせる */
@@ -256,15 +257,15 @@ nav ul li a:hover {
 
 /* キャラクターのスライドアニメーション定義 */
 @keyframes charSlideIn {
-    0% {
-        transform: translateX(-180px);
-        /* 100px左からスタート */
+0% {
+        transform: translateX(-50%); /* かなり左からスタート */
         opacity: 0;
     }
-
     100% {
-        transform: translateX(-50px);
-        /* 本来の位置へ */
+        /* ここで最終的な位置を決定。
+           例：-10% にすると、キャラの体の一部が少し左にはみ出した状態で止まります。
+           0% にすると左端ピッタリになります。 */
+        transform: translateX(-15%); 
         opacity: 1;
     }
 }
@@ -602,4 +603,22 @@ footer {
         padding: 20px 10%;
         /* スマホでも左右を見切らせる */
     }
+
+    .banner-char {
+        /* スマホではキャラが大きく見えがちなので、位置をさらに左へ逃がす */
+        transform: translateX(-30%); 
+    }
+    
+    @keyframes charSlideIn {
+        0% {
+            transform: translateX(-60%);
+            opacity: 0;
+        }
+        100% {
+            /* スマホでちょうど良いと感じる位置に調整してください */
+            transform: translateX(-15%); 
+            opacity: 1;
+        }
+    }
+
 }
