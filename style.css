@@ -331,6 +331,71 @@ nav ul::-webkit-scrollbar-thumb {
 /* ==========================================================================
    3. HOME専用要素 (バナー / スライド)
    ========================================================================== */
+/* --- トップページ専用のスタイル --- */
+
+/* index.htmlの時だけスクロールを禁止し、高さを固定 */
+body:has(.top-page-main) {
+    height: 100vh;
+    height: 100dvh;
+    overflow: hidden;
+    /* スクロールを完全に禁止 */
+}
+
+.top-page-main {
+    padding-top: 0;
+    margin: 0;
+    width: 100%;
+    height: 100vh;
+    height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    /* 中身（バナー）を一番下に配置 */
+    align-items: center;
+}
+
+.top-page-main .home-banner {
+    width: 100%;
+    margin-bottom: 0;
+    /* 下の隙間をなくす */
+    max-width: none;
+}
+
+.top-page-main .banner-wrapper {
+    height: 80vh;
+    /* キャラクターが表示される高さの限界 */
+    display: flex;
+    align-items: flex-end;
+    /* 足元を画面最下部に合わせる */
+    justify-content: flex-start;
+    /* 左から出てくる起点 */
+}
+
+/* キャラクターのサイズ調整（PC） */
+.top-page-main .banner-char {
+    height: 90%;
+    /* 画面の高さに対してのサイズ */
+    max-height: 600px;
+    /* PCでの大きすぎるのを防ぐ */
+    width: auto;
+    object-fit: contain;
+    /* アニメーションは前回設定したものを継続、または下記で上書き */
+    animation: slideInLeft 4s ease-out forwards, charFloat 3s ease-in-out infinite 2s;
+}
+
+/* --- スマホ用の調整 --- */
+@media (max-width: 768px) {
+    .top-page-main .banner-wrapper {
+        height: 70vh;
+        /* スマホでは少し控えめな高さに */
+    }
+
+    .top-page-main .banner-char {
+        max-height: 400px;
+        /* スマホでのサイズ */
+        animation: slideInLeftMobile 3s ease-out forwards, charFloatMobile 3s ease-in-out infinite 2s;
+    }
+}
 
 /* --- HOMEバナー --- */
 /* --- バナー全体の器 --- */
