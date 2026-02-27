@@ -92,12 +92,11 @@
             const navMenu = document.getElementById('navMenu');
 
             menuBtn.addEventListener('click', () => {
-                // ボタンの見た目とメニューの開閉を切り替え
                 menuBtn.classList.toggle('open');
                 navMenu.classList.toggle('open');
             });
 
-            // リンクをクリックしたらメニューを閉じる処理
+            // リンクをクリックしたら閉じる
             document.querySelectorAll('nav a').forEach(link => {
                 link.addEventListener('click', () => {
                     menuBtn.classList.remove('open');
