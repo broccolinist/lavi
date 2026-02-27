@@ -233,7 +233,7 @@ nav ul li a:hover {
 .banner-char {
     position: absolute;
     top: 0;
-    left: 0;
+    left: -50px;
     height: 100%;
     /* バナーの高さに合わせる */
     width: auto;
@@ -241,7 +241,7 @@ nav ul li a:hover {
 
     /* アニメーションの設定 */
     opacity: 0;
-    animation: charSlideIn 1.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+    animation: charSlideIn 3.0s cubic-bezier(0.25, 1, 0.5, 1) forwards;
     animation-delay: 0.3s;
     /* ページが開いてから少し遅らせる */
 }
@@ -249,13 +249,13 @@ nav ul li a:hover {
 /* キャラクターのスライドアニメーション定義 */
 @keyframes charSlideIn {
     0% {
-        transform: translateX(-100px);
+        transform: translateX(-150px);
         /* 100px左からスタート */
         opacity: 0;
     }
 
     100% {
-        transform: translateX(0);
+        transform: translateX(-30px);
         /* 本来の位置へ */
         opacity: 1;
     }
