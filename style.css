@@ -233,7 +233,7 @@ nav ul li a:hover {
 .banner-char {
     position: absolute;
     top: 0;
-    left: -50px;
+    left: -80px;
     height: 100%;
     /* バナーの高さに合わせる */
     width: auto;
@@ -249,13 +249,13 @@ nav ul li a:hover {
 /* キャラクターのスライドアニメーション定義 */
 @keyframes charSlideIn {
     0% {
-        transform: translateX(-150px);
+        transform: translateX(-180px);
         /* 100px左からスタート */
         opacity: 0;
     }
 
     100% {
-        transform: translateX(-30px);
+        transform: translateX(-50px);
         /* 本来の位置へ */
         opacity: 1;
     }
