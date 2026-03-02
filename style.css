@@ -778,6 +778,139 @@ body:has(.top-page-main) {
     margin-right: 5px;
 }
 
+/* --- ディスコグラフィーセクション --- */
+.music-section {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    /* 画面幅に合わせて自動で並べる */
+    gap: 30px;
+    width: 90%;
+    max-width: 1000px;
+    margin: 40px auto;
+}
+
+.discography-item {
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease;
+    list-style: none;
+}
+
+.discography-item[open] {
+    grid-column: 1 / -1;
+    /* 開いた時は横幅いっぱいに広げる（重要！） */
+    transform: scale(1.02);
+}
+
+.discography-summary {
+    cursor: pointer;
+    list-style: none;
+    text-align: center;
+    padding: 20px;
+}
+
+.discography-summary::-webkit-details-marker {
+    display: none;
+}
+
+/* デフォルトの矢印を消す */
+
+/* ジャケット画像の設定 */
+.jacket-wrapper {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    /* 正方形を維持 */
+    margin-bottom: 15px;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.jacket-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* マウスホバー時の演出 */
+.jacket-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(25, 25, 112, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.jacket-wrapper:hover .jacket-overlay {
+    opacity: 1;
+}
+
+.view-detail {
+    color: white;
+    font-weight: bold;
+    border: 1px solid white;
+    padding: 5px 15px;
+}
+
+.music-title {
+    font-size: 1.2rem;
+    color: #191970;
+    margin: 10px 0 5px;
+}
+
+.release-date {
+    font-size: 0.8rem;
+    color: #666;
+}
+
+/* 詳細部分のデザイン */
+.music-detail-content {
+    padding: 0 30px 30px;
+    text-align: center;
+    animation: fadeIn 0.5s ease;
+}
+
+.streaming-links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.stream-btn {
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 25px;
+    font-size: 0.9rem;
+    color: white;
+    transition: opacity 0.3s;
+}
+
+.spotify {
+    background: #1DB954;
+}
+
+.apple {
+    background: #000000;
+}
+
+.youtube {
+    background: #FF0000;
+}
+
+.stream-btn:hover {
+    opacity: 0.8;
+}
+
 /* ==========================================================================
    Game ページ
    ========================================================================== */
