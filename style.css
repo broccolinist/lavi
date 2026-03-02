@@ -782,7 +782,7 @@ body:has(.top-page-main) {
 .music-section {
     display: grid;
     /* 一覧時：PCでは4〜5列、スマホでも2列くらいに小さく並べる */
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: 20px;
     width: 95%;
     max-width: 1100px;
@@ -796,6 +796,49 @@ body:has(.top-page-main) {
     overflow: hidden;
     list-style: none;
     transition: all 0.3s ease;
+}
+
+/* 通常時（閉じている時） */
+.status-btn::before {
+    content: "VIEW DETAIL";
+}
+
+/* 楽曲（details）が開いている時のボタン表示 */
+.discography-item[open] .status-btn::before {
+    content: "CLOSE / 閉じる";
+}
+
+/* ボタン自体のスタイル調整（前回までの view-detail を継承） */
+.status-btn {
+    color: white;
+    font-weight: bold;
+    border: 1px solid white;
+    padding: 8px 15px;
+    background: rgba(0, 0, 0, 0.3);
+    /* 少し背景を付けて視認性を上げる */
+    transition: all 0.3s;
+}
+
+/* 詳細が開いている時は、ボタンを中央上部などに固定して押しやすくするのもアリです */
+.discography-item[open] .jacket-overlay {
+    opacity: 1;
+    /* 詳細表示中はずっとボタンを見せておく */
+    height: auto;
+    padding: 20px 0;
+    background: none;
+    /* オーバーレイの背景を消す */
+    pointer-events: none;
+    /* 背後の詳細コンテンツを触れるように */
+}
+
+.discography-item[open] .status-btn {
+    pointer-events: auto;
+    /* ボタンだけは触れるように */
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: #191970;
+    z-index: 2001;
 }
 
 /* ★詳細が開いた時の設定（1画面に抑える） */
