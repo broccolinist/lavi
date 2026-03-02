@@ -781,27 +781,90 @@ body:has(.top-page-main) {
 /* --- ディスコグラフィーセクション --- */
 .music-section {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    /* 画面幅に合わせて自動で並べる */
-    gap: 30px;
-    width: 90%;
-    max-width: 1000px;
+    /* 一覧時：PCでは4〜5列、スマホでも2列くらいに小さく並べる */
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 20px;
+    width: 95%;
+    max-width: 1100px;
     margin: 40px auto;
 }
 
+/* 各アイテム */
 .discography-item {
     background: rgba(255, 255, 255, 0.9);
-    border-radius: 15px;
+    border-radius: 12px;
     overflow: hidden;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
-    transition: transform 0.3s ease;
     list-style: none;
+    transition: all 0.3s ease;
 }
 
+/* ★詳細が開いた時の設定（1画面に抑える） */
 .discography-item[open] {
-    grid-column: 1 / -1;
-    /* 開いた時は横幅いっぱいに広げる（重要！） */
-    transform: scale(1.02);
+    position: fixed;
+    /* 画面に対して固定 */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    /* 画面中央に配置 */
+    width: 90vw;
+    max-width: 600px;
+    height: auto;
+    max-height: 85vh;
+    /* 画面高の85%以内に収める */
+    z-index: 2000;
+    /* メニューより上にくるように */
+    box-shadow: 0 0 100px rgba(0, 0, 0, 0.5);
+    overflow-y: auto;
+    /* 内容が多い場合は中でスクロール */
+}
+
+/* 詳細が開いている時の背景を暗く見せる（擬似要素） */
+.discography-item[open]::before {
+    content: "";
+    position: fixed;
+    top: -100vh;
+    left: -100vw;
+    width: 300vw;
+    height: 300vh;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* 一覧時の画像サイズ調整 */
+.jacket-wrapper {
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+}
+
+/* 閉じボタンのデザイン */
+.close-btn-text {
+    display: none;
+    /* 通常時は非表示 */
+}
+
+.discography-item[open] .close-btn-text {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 8px 20px;
+    background: #191970;
+    color: white;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+
+/* スマホ用の微調整 */
+@media (max-width: 768px) {
+    .music-section {
+        grid-template-columns: repeat(2, 1fr);
+        /* スマホは2列 */
+        gap: 10px;
+    }
+
+    .music-title {
+        font-size: 0.9rem;
+    }
 }
 
 .discography-summary {
