@@ -726,6 +726,7 @@ body:has(.top-page-main) {
     /* デフォルトの矢印を消す（Chrome/Safari） */
     position: relative;
     display: block;
+    font-size: 0.9rem;
 }
 
 /* 矢印を自作する場合 */
@@ -744,13 +745,24 @@ body:has(.top-page-main) {
 
 /* 回答部分（クリックで表示） */
 .qa-answer {
-    padding: 20px;
+    padding: 0 25px 25px;
     background: rgba(255, 192, 203, 0.1);
     /* ほんのりピンク */
-    display: flex;
+    display: block;
     gap: 15px;
     align-items: flex-start;
     border-top: 1px solid rgba(25, 25, 112, 0.1);
+    animation: fadeIn 0.4s ease;
+}
+
+/* --- キャラクターアイコンの設定 --- */
+.char-icon {
+    float: left;
+    /* 左に浮かせる */
+    margin-right: 15px;
+    /* 文字との間に隙間を作る */
+    margin-bottom: 5px;
+    /* 下に回り込む文字との隙間 */
 }
 
 .char-icon img {
@@ -759,12 +771,14 @@ body:has(.top-page-main) {
     border-radius: 50%;
     object-fit: cover;
     border: 2px solid white;
+    display: block;
+    /* 余計な隙間を防止 */
 }
 
-.answer-text {
-    margin: 0;
+/* --- 回答テキストの設定 --- */
+.answer-content {
     line-height: 1.6;
-    color: #333;
+    /* margin-leftなどは不要になります */
 }
 
 .q-icon {
@@ -775,14 +789,31 @@ body:has(.top-page-main) {
 .a-icon {
     font-weight: bold;
     color: #191970;
+    font-size: 1rem;
     margin-right: 5px;
+    float: left;
+}
+
+.answer-text {
+    margin: 0;
+    line-height: 1.6;
+    color: #444;
+    font-size: 0.85rem;
+    display: block;
+}
+
+/* 回答が終わった後にレイアウトが崩れないように（おまじない） */
+.qa-answer::after {
+    content: "";
+    display: block;
+    clear: both;
 }
 
 /* --- ディスコグラフィーセクション --- */
 .music-section {
     display: grid;
     /* 一覧時：PCでは4〜5列、スマホでも2列くらいに小さく並べる */
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 20px;
     width: 95%;
     max-width: 1100px;
@@ -805,7 +836,7 @@ body:has(.top-page-main) {
 
 /* 楽曲（details）が開いている時のボタン表示 */
 .discography-item[open] .status-btn::before {
-    content: "CLOSE / 閉じる";
+    content: "CLOSE";
 }
 
 /* ボタン自体のスタイル調整（前回までの view-detail を継承） */
