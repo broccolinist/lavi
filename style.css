@@ -764,6 +764,7 @@ body:has(.top-page-main) {
 /* --- キャラクターアイコンの設定 --- */
 .char-icon {
     float: left;
+    margin: 5px;
     /* 左に浮かせる */
     margin-right: 15px;
     /* 文字との間に隙間を作る */
@@ -801,7 +802,7 @@ body:has(.top-page-main) {
 }
 
 .answer-text {
-    margin: 0;
+    margin: 5px;
     line-height: 1.6;
     color: #444;
     font-size: 0.85rem;
