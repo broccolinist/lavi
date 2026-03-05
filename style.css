@@ -603,22 +603,18 @@ body:has(.top-page-main) {
     width: 100%;
 }
 
-/* 記事内の画像がはみ出さないようにする設定 */
-.content-box img {
-    max-width: 100%;
-    height: auto;
-    border-radius: 8px;
-    margin-top: 10px;
-}
-
 /* ニュースカード全体の枠組み */
 .news-content-box {
+    padding: 20px;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    margin-bottom: 30px;
     background: rgba(253, 255, 255, 0.7);
     margin-bottom: 20px;
     border-radius: 8px;
     overflow: hidden;
     transition: all 0.3s ease;
-    width: 100%;
     box-sizing: border-box;
     backdrop-filter: blur(12px);
     border-radius: 15px;
@@ -631,6 +627,14 @@ body:has(.top-page-main) {
     /* 縁を白く光らせてガラス感を出す */
     border: 1px solid rgba(255, 255, 255, 0.4);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+/* 記事内の画像がはみ出さないようにする設定 */
+.news-content-box img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin-top: 10px;
 }
 
 /* リンク要素とリンクなし要素の余白と位置を完全に統一 */
