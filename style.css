@@ -747,9 +747,12 @@ body:has(.top-page-main) {
             100% 100%,
             5% 100%,
             0% 95%); */
+    position: relative;
+    animation: glitch-box 4s infinite;
+    /* 4秒おきにグリッチ発生 */
 }
 
-/* 右下に小さなデジタルコード風のテキスト追加（擬似要素） */
+/* 右下に小さなデジタルコード風のテキスト追加（擬似要素）
 .about-content-box::after {
     content: "LAVI_SYSTEM_STABLE";
     position: absolute;
@@ -759,6 +762,31 @@ body:has(.top-page-main) {
     font-family: monospace;
     color: rgba(255, 105, 180, 0.5);
     letter-spacing: 1px;
+} */
+
+@keyframes glitch-box {
+
+    0%,
+    90%,
+    100% {
+        transform: translate(0);
+    }
+
+    92% {
+        transform: translate(-2px, 1px);
+    }
+
+    94% {
+        transform: translate(2px, -1px);
+    }
+
+    96% {
+        transform: translate(-1px, 2px);
+    }
+
+    98% {
+        transform: translate(1px, -2px);
+    }
 }
 
 .about-history h3 {
@@ -1243,6 +1271,46 @@ footer {
     font-size: 4.0rem;
     color: #191970;
     text-shadow: 1px 1px 2px pink;
+}
+
+.about-page-title {
+    font-size: 4.0rem;
+    color: #191970;
+    text-shadow: 1px 1px 2px pink;
+    position: relative;
+    display: inline-block;
+}
+
+/* 文字の複製を作って色をずらす（擬似要素） */
+.about-page-title::before,
+.about-page-title::after {
+    content: "ABOUT"; /* HTMLと同じ文字を入れる */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.8;
+}
+
+.about-page-title::before {
+    color: #00f2ff; /* シアン */
+    z-index: -1;
+    animation: glitch-color 3s infinite;
+}
+
+.about-page-title::after {
+    color: #ff69b4; /* ピンク */
+    z-index: -2;
+    animation: glitch-color 3s infinite reverse;
+}
+
+@keyframes glitch-color {
+    0%, 100% { transform: translate(0); }
+    20% { transform: translate(-1px, 1px); }
+    40% { transform: translate(1px, -1px); }
+    60% { transform: translate(-1px, -1px); }
+    80% { transform: translate(1px, 1px); }
 }
 
 .sns-links a {
