@@ -11,89 +11,78 @@
 
 <body>
     <div class="background-image"></div>
-
     <header id="common-header"></header>
 
     <main>
         <h1 class="page-title">NEWS</h1>
-
-        <div class="news-container">
-            <article class="news-item">
-                <a href="news/20xxxxx1.html" class="news-link">
-                    <img src="news1.jpg" alt="写真１" class="news-thumb">
-                    <div class="news-text">
-                        <span class="date">20xx.xx.xx</span>
-                        <h3>○○を公開</h3>
-                        <p>今回の新曲をご紹介します</p>
-                    </div>
-                </a>
-            </article>
-
-            <article class="news-item">
-                <a href="news/20xxxxx2.html" class="news-link">
-                    <img src="news2.jpg" alt="写真2" class="news-thumb">
-                    <div class="news-text">
-                        <span class="date">20xx.xx.xx</span>
-                        <h3>作業用BGMにおすすめ</h3>
-                        <p>おすすめの楽曲をまとめました</p>
-                    </div>
-                </a>
-            </article>
-
-            <article class="news-item">
-                <div class="no-link-item">
-                    <img src="news_common.jpg" alt="お知らせ" class="news-thumb">
-                    <div class="news-text">
-                        <span class="date">202x.xx.xx</span>
-                        <h3>公式サイトをオープンしました</h3>
-                    </div>
-                </div>
-            </article>
-
-        </div>
+        <div id="news-container" class="news-container">
+            </div>
     </main>
 
     <footer id="common-footer"></footer>
 
     <script>
+        // 1. 共通パーツを読み込む関数
         async function loadCommonParts() {
-            // ヘッダーの読み込み
-            const headerRes = await fetch('header.html');
-            const headerHtml = await headerRes.text();
-            document.getElementById('common-header').innerHTML = headerHtml;
+            try {
+                const headerRes = await fetch('header.html');
+                const headerHtml = await headerRes.text();
+                document.getElementById('common-header').innerHTML = headerHtml;
 
-            // フッターの読み込み
-            const footerRes = await fetch('footer.html');
-            const footerHtml = await footerRes.text();
-            document.getElementById('common-footer').innerHTML = footerHtml;
+                const footerRes = await fetch('footer.html');
+                const footerHtml = await footerRes.text();
+                document.getElementById('common-footer').innerHTML = footerHtml;
 
-            // --- ヘッダー読み込み後にハンバーガーメニューのJSを起動させる ---
-            setupMenu();
+                setupMenu();
+            } catch (error) {
+                console.error("共通パーツの読み込みに失敗:", error);
+            }
         }
 
+        // 2. 記事ファイルを読み込む関数
+        async function loadNewsArticles() {
+            const articleFiles = [
+                '20xxxxx1.html', // 記事ファイル名
+            ];
+
+            const container = document.getElementById('news-container');
+
+            for (const file of articleFiles) {
+                try {
+                    const response = await fetch(file);
+                    if (!response.ok) continue;
+
+                    const htmlContent = await response.text();
+                    const articleBox = document.createElement('div');
+                    articleBox.className = 'content-box';
+                    articleBox.style.marginBottom = '20px';
+                    articleBox.innerHTML = htmlContent;
+                    container.appendChild(articleBox);
+                } catch (error) {
+                    console.error("記事の読み込みに失敗:", file, error);
+                }
+            }
+        }
+
+        // 3. ハンバーガーメニューの設定
         function setupMenu() {
             const menuBtn = document.getElementById('menuBtn');
             const navMenu = document.getElementById('navMenu');
-
             if (menuBtn && navMenu) {
                 menuBtn.addEventListener('click', () => {
                     menuBtn.classList.toggle('open');
                     navMenu.classList.toggle('open');
                 });
-
-                // リンクをクリックしたらメニューを閉じる処理を追加
-                navMenu.querySelectorAll('a').forEach(link => {
-                    link.addEventListener('click', () => {
-                        menuBtn.classList.remove('open');
-                        navMenu.classList.remove('open');
-                    });
-                });
             }
         }
 
-        // 実行
-        loadCommonParts();
+        // すべてを順番に実行
+        async function init() {
+            await loadCommonParts();
+            await loadNewsArticles();
+        }
+
+        init();
     </script>
 </body>
-
 </html>

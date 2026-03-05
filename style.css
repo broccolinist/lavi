@@ -530,6 +530,34 @@ body:has(.top-page-main) {
    4. News ページ & 共通リスト設定
    ========================================================================== */
 
+/* 記事内のニュースタイトル */
+.news-item-title {
+    font-size: 1.1rem;
+    color: #191970;
+    margin: 10px 0;
+    border-bottom: 1px dotted rgba(25, 25, 112, 0.2);
+    padding-bottom: 5px;
+}
+
+/* 日付とカテゴリ */
+.news-meta {
+    font-size: 0.8rem;
+    display: flex;
+    gap: 10px;
+    color: #666;
+}
+
+.news-category {
+    color: #ff69b4;
+    /* ラヴィさんのピンク */
+    font-weight: bold;
+}
+
+.news-item-body {
+    font-size: 0.9rem;
+    line-height: 1.6;
+}
+
 /* HOMEの最新ニュース枠 */
 .home-news {
     width: 90%;
@@ -576,13 +604,24 @@ body:has(.top-page-main) {
 
 /* ニュースカード全体の枠組み */
 .news-item {
-    background: rgba(255, 255, 255, 0.8);
+    background: rgba(253, 255, 255, 0.7);
     margin-bottom: 20px;
     border-radius: 8px;
     overflow: hidden;
     transition: all 0.3s ease;
     width: 100%;
     box-sizing: border-box;
+    backdrop-filter: blur(12px);
+    border-radius: 15px;
+
+    /* ぼかしエフェクトを追加 */
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    /* Safari対応 */
+
+    /* 縁を白く光らせてガラス感を出す */
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
 }
 
 /* リンク要素とリンクなし要素の余白と位置を完全に統一 */
@@ -680,6 +719,33 @@ body:has(.top-page-main) {
     border-radius: 10px;
     width: 100%;
     box-sizing: border-box;
+    /* ピンクとブルーの2色の光を重ねることで、サイバーな奥行きを出します */
+    box-shadow:
+        0 0 10px rgba(255, 105, 180, 0.6),
+        /* 内側の淡いピンク */
+        0 0 25px rgba(0, 242, 255, 0.5);
+    /* 外側の淡いシアン */
+
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    /* 右上と左下を少しだけ斜めにカット */
+    /* clip-path: polygon(0% 0%,
+            95% 0%,
+            100% 5%,
+            100% 100%,
+            5% 100%,
+            0% 95%); */
+}
+
+/* 右下に小さなデジタルコード風のテキスト追加（擬似要素） */
+.about-content-box::after {
+    content: "LAVI_SYSTEM_STABLE";
+    position: absolute;
+    bottom: 10px;
+    right: 15px;
+    font-size: 9px;
+    font-family: monospace;
+    color: rgba(255, 105, 180, 0.5);
+    letter-spacing: 1px;
 }
 
 .about-history h3 {
