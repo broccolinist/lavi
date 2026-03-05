@@ -16,7 +16,7 @@
     <main>
         <h1 class="page-title">NEWS</h1>
         <div id="news-container" class="news-container">
-            </div>
+        </div>
     </main>
 
     <footer id="common-footer"></footer>
@@ -42,10 +42,12 @@
         // 2. 記事ファイルを読み込む関数
         async function loadNewsArticles() {
             const articleFiles = [
-                'news/20xxxxx1.html', // 記事ファイル名
+                '20xxxxx1.html',
             ];
 
             const container = document.getElementById('news-container');
+            // 一旦中身を空にする（二重読み込み防止）
+            container.innerHTML = '';
 
             for (const file of articleFiles) {
                 try {
@@ -53,9 +55,13 @@
                     if (!response.ok) continue;
 
                     const htmlContent = await response.text();
+
+                    // 外枠（ぼかし加工の箱）を作成
                     const articleBox = document.createElement('div');
                     articleBox.className = 'content-box';
-                    articleBox.style.marginBottom = '20px';
+                    articleBox.style.marginBottom = '30px'; // 記事同士の隙間
+                    articleBox.style.textAlign = 'left';    // 文字を左寄せに固定
+
                     articleBox.innerHTML = htmlContent;
                     container.appendChild(articleBox);
                 } catch (error) {
@@ -85,4 +91,5 @@
         init();
     </script>
 </body>
+
 </html>

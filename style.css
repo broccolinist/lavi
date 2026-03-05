@@ -597,9 +597,18 @@ body:has(.top-page-main) {
 
 /* ニュース一覧ページ(news.html)側のリンクなし項目も調整 */
 .news-container {
-    width: 90%;
-    max-width: 800px;
-    margin-bottom: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+/* 記事内の画像がはみ出さないようにする設定 */
+.content-box img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin-top: 10px;
 }
 
 /* ニュースカード全体の枠組み */
