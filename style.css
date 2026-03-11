@@ -565,97 +565,90 @@ body:has(.top-page-main) {
     padding-bottom: 5px;
 }
 
-/* .news_glitch {
-  font-size: 130px;
-  line-height: 1;
-  font-family: 'Poppins', sans-serif;
-  font-weight: 700;
-  position:absolute;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  margin: 0;
-  text-decoration: none;
-  color: #fff;
-  &:before,
-  &:after{
-    display: block;
-    content: 'NEWS';
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
-    opacity: .8;
-  }
-  &:after {
-    color: #f0f;
-    z-index: -2;
-  }
-  &:before {
-    color: #0ff;
-    z-index: -1;
-  }
-  &:hover {
-    &:before {
-      animation: glitch-left .3s cubic-bezier(.25, .46, .45, .94) both infinite
-    }
-    &:after {
-      animation: glitch-left-2 .3s cubic-bezier(.25, .46, .45, .94) reverse both infinite
-    }
-  }
-  .small & {
-    font-size: 22px;
-    font-weight: 400;
-    letter-spacing: 2px;
+.news_glitch {
+    font-size: 130px;
+    line-height: 1;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    transform: translate(0%, -50%);
+    margin: 0;
+    text-decoration: none;
+    color: #fff;
+    display: inline-block;
+    /* 自身の幅と高さを維持 */
+    position: relative;
+    animation: news-glitch-anim 4s linear infinite;
+    /* アニメーションを適用 */
+    z-index: 10;
+    margin-bottom: 40px;
+
+    /* 下のコンテンツ枠との距離を確保 */
     &:before,
-    &:after{
-      content: 'Start';
-    }
     &:after {
-      color: #F40080;
+        display: block;
+        content: 'NEWS';
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        opacity: .8;
     }
+
+    &:after {
+        color: #f0f;
+        z-index: -2;
+    }
+
     &:before {
-      color: #7FA500;
+        color: #0ff;
+        z-index: -1;
     }
-    &:hover {
-    &:before {
-        animation: glitch-small .5s cubic-bezier(.25, .46, .45, .94) both infinite
-      }
-      &:after {
-        animation: glitch-small .5s cubic-bezier(.25, .46, .45, .94) reverse both infinite
-      }
+
+        &:before {
+            animation: glitch-left .4s cubic-bezier(.25, .46, .45, .94) both infinite
+        }
+
+        &:after {
+            animation: glitch-left-2 .4s cubic-bezier(.25, .46, .45, .94) reverse both infinite
+        }
     }
-  }
-}
 
 @keyframes glitch-left {
     0% {
         transform: translate(0)
     }
+
     33% {
         transform: translate(-5px, 3px)
     }
+
     66% {
         transform: translate(5px, -3px)
     }
+
     to {
         transform: translate(0)
     }
 }
+
 @keyframes glitch-left-2 {
     0% {
         transform: translate(0)
     }
+
     33% {
         transform: translate(-5px, -3px)
     }
+
     66% {
         transform: translate(5px, 2px)
     }
+
     to {
         transform: translate(0)
     }
-} */
+}
 
 /* 日付とカテゴリ */
 .news-meta {
