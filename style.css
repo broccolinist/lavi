@@ -457,7 +457,7 @@ body:has(.top-page-main) {
     height: 100%;
     /* wrapperの高さに合わせる */
     max-height: 450px;
-    /* ★ここでキャラクターのサイズ（高さ）を調整してください */
+    /* キャラクターのサイズ（高さ）を調整 */
     width: auto;
     object-fit: contain;
     z-index: 2;
@@ -470,7 +470,7 @@ body:has(.top-page-main) {
 /* 左から右へスライドして登場するアニメーション */
 @keyframes slideInLeft {
     0% {
-        transform: translateX(-100%);
+        transform: translateX(100%);
         /* 画面の左外からスタート */
         opacity: 0;
     }
