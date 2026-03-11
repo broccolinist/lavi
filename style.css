@@ -565,7 +565,7 @@ body:has(.top-page-main) {
     padding-bottom: 5px;
 }
 
-.news_glitch {
+/* .news_glitch {
   font-size: 130px;
   line-height: 1;
   font-family: 'Poppins', sans-serif;
@@ -655,7 +655,7 @@ body:has(.top-page-main) {
     to {
         transform: translate(0)
     }
-}
+} */
 
 /* 日付とカテゴリ */
 .news-meta {
