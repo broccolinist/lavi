@@ -476,7 +476,7 @@ body:has(.top-page-main) {
     }
 
     100% {
-        transform: translateX(75%);
+        transform: translateX(70%);
         opacity: 1;
     }
 }
