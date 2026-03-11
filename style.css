@@ -6,9 +6,22 @@
 }
 
 :root {
-    --labs-sys-color-sun-2: #ff69b4;
-    ;
+    --labs-sys-color-background: #111;
+    --labs-sys-color-on-background: white;
+    --base-speed: 4s;
+    --labs-sys-color-grid: #fac4ff;
+    --labs-sys-color-grid-glow: #df7373;
+    --labs-sys-color-sun-1: #fdb428;
+    --labs-sys-color-sun-2: #f672ca;
+    --labs-sys-color-sun-glow: #b9f;
+    --labs-sys-color-star: #f6c0c0;
+    --color-palm-trunk: #333;
+    --color-palm-leaf: #333;
+    --color-palm-leaf-2: #b9f;
     --labs-sys-color-triangle: #6eccee;
+    --labs-sys-color-volume: var(--labs-sys-color-triangle);
+    /* --labs-sys-color-sun-2: #ff69b4;
+    --labs-sys-color-triangle: #6eccee; */
 }
 
 /* ==========================================================================
@@ -762,70 +775,49 @@ body:has(.top-page-main) {
         flow-gradient 5s linear infinite,
         kode-text 4s linear infinite;
 
-    /* 2. 本体の text-shadow は完全に消す */
     text-shadow: none !important;
-}
-
-/* 3. 影専用の要素：文字の「外側」だけにピンクが出るように調整 */
-.about-page-title::after {
-    content: "ABOUT";
-    position: absolute;
-    left: 2px;
-    top: 2px;
-    z-index: -1;
-    /* 物理的に背面に配置 */
-
-    /* 影の色を設定 */
-    color: pink;
-    -webkit-text-fill-color: pink;
-
-    /* ぼかしを入れることで、文字の隙間からピンクが漏れ出すようにする */
-    filter: blur(2px);
-    opacity: 0.4;
-
-    /* 本体と同じバグる動きをさせる */
-    animation: kode-text 4s linear infinite;
-    pointer-events: none;
 }
 
 /* --- アニメーション定義 --- */
 
-/* 背景の位置をスライドさせて「流れ」を作る */
-@keyframes flow-gradient {
-    0% {
-        background-position: 0% center;
-    }
-
-    100% {
-        background-position: -200% center;
-    }
-}
-
 /* 形と明るさを変えて「バグ」を作る */
-/* ※backgroundを指定すると流れが止まるため、形(transform)の変化に絞ります */
 @keyframes kode-text {
+    from {
+        --angle: 45deg;
+        transform: translateY(0vh);
+    }
 
-    0%,
-    48%,
-    53%,
-    100% {
-        transform: translateY(0) scaleY(1) skewX(0);
+    49.5% {
+        --angle: 360deg;
+        transform: translateY(-1vh);
         filter: brightness(100%);
     }
 
     50% {
-        transform: translateY(-2px) scaleY(0.1) skewX(256deg);
-        filter: brightness(180%);
-        /* バグった瞬間に発光 */
+        --angle: 360deg;
+        transform: translateY(-1vh) scaleY(0.1) skewX(253deg);
+        filter: brightness(190%);
     }
 
     51% {
-        transform: translateY(-2px) scaleY(1.2) skewY(-5deg);
-        filter: brightness(140%);
+        --angle: 360deg;
+        transform: translateY(-1vh) scaleY(0.5) skewY(37deg);
+        filter: brightness(190%);
+    }
+
+    52% {
+        --angle: 360deg;
+        filter: brightness(190%);
+        transform: translateY(0vh);
+    }
+
+    to {
+        --angle: 45deg;
+        transform: translateY(0vh);
     }
 }
 
-.about-content-box {
+*/ .about-content-box {
     background: rgba(255, 255, 255, 0.9);
     padding: 40px;
     border-radius: 10px;
