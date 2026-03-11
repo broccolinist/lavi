@@ -6,7 +6,8 @@
 }
 
 :root {
-    --labs-sys-color-sun-2: #191970;;
+    --labs-sys-color-sun-2: #ff69b4;
+    ;
     --labs-sys-color-triangle: #6eccee;
 }
 
@@ -734,70 +735,93 @@ body:has(.top-page-main) {
     height: auto;
     display: block;
     border-radius: 4px;
-    /* -webkit-mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
-    mask-image: linear-gradient(to bottom, black 80%, transparent 100%); */
 }
 
 .about-page-title {
-    --angle: 45deg;
     font-size: 4rem;
     font-weight: 900;
     text-transform: uppercase;
     position: relative;
     display: inline-block;
-    
-    /* 1. ベースの文字色を紺色に固定 */
-    color: #191970;
 
-    /* 2. グラデーションの開始を紺色(#191970)に変更 */
-    /* ピンクの変数(var(--labs-sys-color-sun-2))を直接 #191970 に書き換えます */
-    background: linear-gradient(var(--angle), #191970, var(--labs-sys-color-triangle));
-    
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
+    /* 1. 本体の文字設定（グラデーション） */
+    color: transparent !important;
+    -webkit-text-fill-color: transparent !important;
+    background: linear-gradient(to right,
+            #191970 0%,
+            #6eccee 25%,
+            #ff69b4 50%,
+            #6eccee 75%,
+            #191970 100%) !important;
+    background-size: 200% auto !important;
+    -webkit-background-clip: text !important;
+    background-clip: text !important;
 
-    /* 3. アニメーションと発光も紺色ベースに調整 */
-    animation: kode-text 4s linear infinite;
-    filter: drop-shadow(0 0 5px rgba(25, 25, 112, 0.3));
-    margin-bottom: 20px;
+    /* アニメーション */
+    animation:
+        flow-gradient 5s linear infinite,
+        kode-text 4s linear infinite;
+
+    /* 2. 本体の text-shadow は完全に消す */
+    text-shadow: none !important;
 }
 
-/* 3. アニメーション*/
-@keyframes kode-text {
-    from {
-        --angle: 45deg;
-        transform: translateY(0vh);
+/* 3. 影専用の要素：文字の「外側」だけにピンクが出るように調整 */
+.about-page-title::after {
+    content: "ABOUT";
+    position: absolute;
+    left: 2px;
+    top: 2px;
+    z-index: -1;
+    /* 物理的に背面に配置 */
+
+    /* 影の色を設定 */
+    color: pink;
+    -webkit-text-fill-color: pink;
+
+    /* ぼかしを入れることで、文字の隙間からピンクが漏れ出すようにする */
+    filter: blur(2px);
+    opacity: 0.4;
+
+    /* 本体と同じバグる動きをさせる */
+    animation: kode-text 4s linear infinite;
+    pointer-events: none;
+}
+
+/* --- アニメーション定義 --- */
+
+/* 背景の位置をスライドさせて「流れ」を作る */
+@keyframes flow-gradient {
+    0% {
+        background-position: 0% center;
     }
 
-    49.5% {
-        --angle: 360deg;
-        transform: translateY(-2px);
-        filter: brightness(100%) contrast(120%);
+    100% {
+        background-position: -200% center;
+    }
+}
+
+/* 形と明るさを変えて「バグ」を作る */
+/* ※backgroundを指定すると流れが止まるため、形(transform)の変化に絞ります */
+@keyframes kode-text {
+
+    0%,
+    48%,
+    53%,
+    100% {
+        transform: translateY(0) scaleY(1) skewX(0);
+        filter: brightness(100%);
     }
 
     50% {
-        --angle: 360deg;
-        /* 一瞬だけ引き延ばしてバグらせる */
-        transform: translateY(-2px) scaleY(0.1) skewX(253deg);
-        filter: brightness(200%);
+        transform: translateY(-2px) scaleY(0.1) skewX(256deg);
+        filter: brightness(180%);
+        /* バグった瞬間に発光 */
     }
 
     51% {
-        --angle: 360deg;
         transform: translateY(-2px) scaleY(1.2) skewY(-5deg);
-        filter: brightness(150%);
-    }
-
-    52% {
-        --angle: 360deg;
-        filter: brightness(200%);
-        transform: translateY(0vh);
-    }
-
-    to {
-        --angle: 45deg;
-        transform: translateY(0vh);
+        filter: brightness(140%);
     }
 }
 
