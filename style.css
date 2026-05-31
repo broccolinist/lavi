@@ -289,119 +289,86 @@ nav ul::-webkit-scrollbar-thumb {
     border-radius: 10px;
 }
 
-/* --- ナビゲーションメニュー --- */
-/* #navMenu {
-    position: fixed; */
-    /* 固定 */
-    /* top: 20px;
-    left: -100%; */
-    /* 初期状態は画面の左外に隠す */
-    /* width: 90%;
-    height: 45px; */
-    /* メニューの高さ */
-    /* background: rgba(255, 192, 203, 0.90);
-    backdrop-filter: blur(10px);
-    z-index: 1000;
-    transition: left 0.4s ease-in-out; */
-    /* 左から右へのアニメーション */
-    /* display: flex;
-    align-items: center;
-} */
-
-/* メニューが開いた状態 */
-/* #navMenu.open {
-    left: 20px;*/
-    /* 画面内にスライド */
-/*    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-} */
-
-/* リスト部分の余白調整 */
-/* #navMenu ul {
-    display: flex;
-    list-style: none;
-    padding: 0 20px 0 80px; */
-    /* 左側に80pxの余白を作り、右側からスタートさせる */
-    /* margin: 0;
-    width: 100%;
-    overflow-x: auto;
-    white-space: nowrap;
-    -webkit-overflow-scrolling: touch;
-    align-items: center;
-} */
-
-/* スクロールバーを非表示にする設定 */
-/* #navMenu ul::-webkit-scrollbar {
-    display: none;
-}
-
-#navMenu ul {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-} */
-
-/* ハンバーガメニュー */
-.nav-menu {
+/* ==========================================================================
+   3. ナビゲーション（ハンバーガーメニュー展開エリア）
+   ========================================================================== */
+#navMenu {
     position: fixed;
     top: 0;
     right: -100%; /* 初期状態は画面の右外側に完全に隠す */
-    width: 300px;  /* PCでのメニューバーの幅 */
+    width: 300px;  /* PCでのメニューバーの横幅 */
     height: 100dvh; /* 画面全体の高さ */
-    background: rgba(17, 17, 17, 0.95); /* 背景色（少し透ける黒ベース） */
-    backdrop-filter: blur(10px); /* 背景をぼかしてサイバー感を演出 */
+    background: rgba(17, 17, 17, 0.95); /* 背景色（少し透ける黒） */
+    backdrop-filter: blur(10px); /* 後ろの背景をサイバー風にぼかす */
     
-    /* 中のリンクを縦並びにして中央に配置 */
+    /* 中の要素を中央縦並びにする */
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 30px; /* メニュー同士の縦の隙間 */
     
-    padding: 40px;
-    box-sizing: border-box;
-    transition: right 0.4s cubic-bezier(0.25, 1, 0.5, 1); /* スムーズなスライドイン */
+    transition: right 0.4s cubic-bezier(0.25, 1, 0.5, 1); /* 右からのスライドイン */
     z-index: 99; /* ヘッダーのボタンより下に、コンテンツより上に */
 }
 
-/* メニューが開いた時の状態（JSで .open がついた時） */
-.nav-menu.open {
-    right: 0; /* 右端を画面ぴったりに合わせて出現させる */
+/* メニューが開いた状態（JSで .open クラスがついた時） */
+#navMenu.open {
+    right: 0; /* 右端を画面ぴったりに合わせて出現 */
 }
 
-/* メニュー内のリンク設定（縦並び用） */
-.nav-menu a {
-    color: #fff;
-    text-decoration: none;
-    font-size: 1.5rem;
-    font-weight: bold;
-    letter-spacing: 2px;
+/* ナビゲーション内の ul（リストの初期設定をリセット） */
+#navMenu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column; /* 横並びから「縦並び」に変更 */
+    align-items: center;
+    gap: 25px; /* メニュー同士の縦の隙間 */
+    width: 100%;
+}
+
+#navMenu ul li {
     width: 100%;
     text-align: center;
+}
+
+/* メニュー内のリンクボタン設定 */
+#navMenu a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 1.4rem;
+    font-weight: bold;
+    text-transform: uppercase; /* 小文字で書いてあっても大文字に統一 */
+    letter-spacing: 2px;
+    display: block;
     padding: 10px 0;
     transition: color 0.3s, transform 0.3s;
 }
 
-/* ホバー時に他ページと合わせてピンクに光らせる */
-.nav-menu a:hover {
+/* ホバーした時にピンクに発光させるエフェクト */
+#navMenu a:hover {
     color: #ff69b4;
     transform: scale(1.1);
     text-shadow: 0 0 10px rgba(255, 105, 180, 0.6);
 }
 
+
 /* ==========================================================================
-   モバイル用（スマホ画面）のメディアクエリ設定
+   モバイル対応（画面幅 768px 以下のスマホ環境）
    ========================================================================== */
 @media (max-width: 768px) {
-    .nav-menu {
-        width: 100%; /* スマホの場合は画面いっぱいの幅にする */
-        right: -100%; /* スマホでも初期状態は右外側 */
+    #navMenu {
+        width: 100%; /* スマホの場合はメニューを画面いっぱいの幅にする */
+        right: -100%; /* 初期状態は右外側 */
     }
-    
-    .nav-menu.open {
+
+    #navMenu.open {
         right: 0;
     }
 
-    .nav-menu a {
-        font-size: 2rem; /* スマホは見やすいように少し文字を大きく */
+    #navMenu a {
+        font-size: 1.8rem; /* スマホではタップしやすいよう文字を少し大きく */
+        padding: 15px 0;
     }
 }
 
