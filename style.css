@@ -290,56 +290,56 @@ nav ul::-webkit-scrollbar-thumb {
 }
 
 /* --- ナビゲーションメニュー --- */
-#navMenu {
-    position: fixed;
+/* #navMenu {
+    position: fixed; */
     /* 固定 */
-    top: 20px;
-    left: -100%;
+    /* top: 20px;
+    left: -100%; */
     /* 初期状態は画面の左外に隠す */
-    width: 90%;
-    height: 45px;
+    /* width: 90%;
+    height: 45px; */
     /* メニューの高さ */
-    background: rgba(255, 192, 203, 0.90);
+    /* background: rgba(255, 192, 203, 0.90);
     backdrop-filter: blur(10px);
     z-index: 1000;
-    transition: left 0.4s ease-in-out;
+    transition: left 0.4s ease-in-out; */
     /* 左から右へのアニメーション */
-    display: flex;
+    /* display: flex;
     align-items: center;
-}
+} */
 
 /* メニューが開いた状態 */
-#navMenu.open {
-    left: 20px;
+/* #navMenu.open {
+    left: 20px;*/
     /* 画面内にスライド */
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-}
+/*    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+} */
 
 /* リスト部分の余白調整 */
-#navMenu ul {
+/* #navMenu ul {
     display: flex;
     list-style: none;
-    padding: 0 20px 0 80px;
+    padding: 0 20px 0 80px; */
     /* 左側に80pxの余白を作り、右側からスタートさせる */
-    margin: 0;
+    /* margin: 0;
     width: 100%;
     overflow-x: auto;
     white-space: nowrap;
     -webkit-overflow-scrolling: touch;
     align-items: center;
-}
+} */
 
 /* スクロールバーを非表示にする設定 */
-#navMenu ul::-webkit-scrollbar {
+/* #navMenu ul::-webkit-scrollbar {
     display: none;
 }
 
 #navMenu ul {
     -ms-overflow-style: none;
     scrollbar-width: none;
-}
+} */
 
-/* ハンバーガーメニュー */
+/* ハンバーガメニュー */
 .nav-menu {
     position: fixed;
     top: 0;
