@@ -102,18 +102,17 @@ header {
 .menu-btn-container {
     position: fixed;
     top: 20px;
-    left: 20px;
-    z-index: 1001;
-    /* メニューより上に配置 */
-    width: 45px;
-    height: 45px;
-    background: #fffafa;
-    border-radius: 50%;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    background-color: transparent;
+    cursor: pointer;
     display: flex;
     justify-content: center;
     align-items: center;
-    cursor: pointer;
-    box-shadow: 0 2px 8px rgba(255, 255, 255, 0.039);
+    
+    /* 【超重要】メニュー画面（z-index: 99）よりも手前に表示させる */
+    z-index: 100 !important; 
 }
 
 .menu-btn {
