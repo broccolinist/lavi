@@ -339,6 +339,72 @@ nav ul::-webkit-scrollbar-thumb {
     scrollbar-width: none;
 }
 
+/* ハンバーガーメニュー */
+.nav-menu {
+    position: fixed;
+    top: 0;
+    right: -100%; /* 初期状態は画面の右外側に完全に隠す */
+    width: 300px;  /* PCでのメニューバーの幅 */
+    height: 100dvh; /* 画面全体の高さ */
+    background: rgba(17, 17, 17, 0.95); /* 背景色（少し透ける黒ベース） */
+    backdrop-filter: blur(10px); /* 背景をぼかしてサイバー感を演出 */
+    
+    /* 中のリンクを縦並びにして中央に配置 */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 30px; /* メニュー同士の縦の隙間 */
+    
+    padding: 40px;
+    box-sizing: border-box;
+    transition: right 0.4s cubic-bezier(0.25, 1, 0.5, 1); /* スムーズなスライドイン */
+    z-index: 99; /* ヘッダーのボタンより下に、コンテンツより上に */
+}
+
+/* メニューが開いた時の状態（JSで .open がついた時） */
+.nav-menu.open {
+    right: 0; /* 右端を画面ぴったりに合わせて出現させる */
+}
+
+/* メニュー内のリンク設定（縦並び用） */
+.nav-menu a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 1.5rem;
+    font-weight: bold;
+    letter-spacing: 2px;
+    width: 100%;
+    text-align: center;
+    padding: 10px 0;
+    transition: color 0.3s, transform 0.3s;
+}
+
+/* ホバー時に他ページと合わせてピンクに光らせる */
+.nav-menu a:hover {
+    color: #ff69b4;
+    transform: scale(1.1);
+    text-shadow: 0 0 10px rgba(255, 105, 180, 0.6);
+}
+
+/* ==========================================================================
+   モバイル用（スマホ画面）のメディアクエリ設定
+   ========================================================================== */
+@media (max-width: 768px) {
+    .nav-menu {
+        width: 100%; /* スマホの場合は画面いっぱいの幅にする */
+        right: -100%; /* スマホでも初期状態は右外側 */
+    }
+    
+    .nav-menu.open {
+        right: 0;
+    }
+
+    .nav-menu a {
+        font-size: 2rem; /* スマホは見やすいように少し文字を大きく */
+    }
+}
+
 /* ロゴ画像のサイズをメニューバーの高さ（45px）に合わせて調整 */
 .nav-logo {
     height: 25px;
