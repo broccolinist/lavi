@@ -20,6 +20,8 @@
     --color-palm-leaf-2: #b9f;
     --labs-sys-color-triangle: #6eccee;
     --labs-sys-color-volume: var(--labs-sys-color-triangle);
+    /* --labs-sys-color-sun-2: #ff69b4;
+    --labs-sys-color-triangle: #6eccee; */
 }
 
 /* ==========================================================================
@@ -54,106 +56,69 @@ main {
     box-sizing: border-box;
 }
 
-/* 各ページの共通タイトル（白縁取り・ネオン調） */
-.page-title {
-    font-size: 4rem;
-    font-weight: 900;
-    color: transparent;
-    -webkit-text-stroke: 1px #fff;
-    text-transform: uppercase;
-    letter-spacing: 4px;
-    margin-bottom: 40px;
-    text-align: center;
-    filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.6));
-    animation: pulse-glow 3s ease-in-out infinite alternate;
-}
-
-@keyframes pulse-glow {
-    0% {
-        filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.6));
-    }
-    100% {
-        filter: drop-shadow(0 0 20px rgba(110, 204, 238, 0.8));
-    }
-}
-
-/* 共通のコンテンツボックス（すりガラス風加工） */
+/* --- コンテンツボックス --- */
 .content-box {
-    background: rgba(255, 255, 255, 0.08);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    border-radius: 16px;
-    padding: 40px;
+    background: rgba(255, 255, 255, 0.85);
+    padding: 20px;
     width: 90%;
-    max-width: 800px;
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-    color: #fff;
-    margin-bottom: 60px;
-    box-sizing: border-box;
+    max-width: 500px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    margin-bottom: 30px;
 }
 
-/* 共通のボタンデザイン */
+/* 共通ボタン */
 .btn {
     display: inline-block;
-    padding: 12px 30px;
-    background: transparent;
-    color: #fff;
-    border: 2px solid #6eccee;
-    border-radius: 30px;
     text-decoration: none;
-    font-weight: bold;
-    letter-spacing: 1px;
-    transition: all 0.3s ease;
-    box-shadow: 0 0 10px rgba(110, 204, 238, 0.2);
-    cursor: pointer;
+    padding: 8px 15px;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    color: #333;
+    border: 1px solid #333;
+    transition: 0.3s;
 }
 
 .btn:hover {
-    background: #6eccee;
-    color: #111;
-    box-shadow: 0 0 20px rgba(110, 204, 238, 0.6);
-    transform: translateY(-2px);
+    opacity: 0.7;
+}
+
+.play-btn {
+    background: #333;
+    color: #fff;
 }
 
 /* ==========================================================================
-   2. ヘッダー設定（ハンバーガーボタン制御含む）
+   2. ヘッダー & ナビゲーション
    ========================================================================== */
 header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 0; /* ヘッダー自体は高さをなくし、背後の要素のクリックを邪魔しない */
-    z-index: 100;
+    padding: 20px;
+    text-align: right;
+    padding: 0;
+    /* 余計な余白を消す */
 }
 
-/* ボタンのコンテナ（右上に完全にピン留め固定） */
+/* --- メニューボタン（左上・白地） --- */
 .menu-btn-container {
-    position: fixed !important;
-    top: 20px !important;
-    right: 20px !important;
-    width: 50px !important;
-    height: 50px !important;
-    background-color: rgba(17, 17, 17, 0.6) !important; /* 背景に馴染みつつ見やすくなる黒ベース */
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 1001;
+    /* メニューより上に配置 */
+    width: 45px;
+    height: 45px;
+    background: #fffafa;
     border-radius: 50%;
-    cursor: pointer !important;
-    display: flex !important;
-    justify-content: center !important;
-    align-items: center !important;
-    z-index: 101 !important; /* メニュー（99）より前面に固定、開閉を可能に */
-    transition: background-color 0.3s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(255, 255, 255, 0.039);
 }
 
-.menu-btn-container:hover {
-    background-color: rgba(255, 105, 180, 0.4) !important;
-}
-
-/* 三本線の線の形 */
 .menu-btn {
-    position: relative;
-    width: 25px;
-    height: 20px;
+    width: 20px;
+    height: 14px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -163,278 +128,1178 @@ header {
     display: block;
     width: 100%;
     height: 2px;
-    background-color: #fff !important; /* 線を白にする */
-    border-radius: 2px;
-    transition: transform 0.3s, opacity 0.3s;
+    background-color: #333;
+    transition: all 0.3s ease;
 }
 
-/* 三本線アニメーション（オープン時「×」マーク化） */
+/* ボタンが開いた時のアニメーション（X印） */
+/* 1番上の線：＼ */
 .menu-btn-container.open .menu-btn span:nth-child(1) {
-    transform: translateY(9px) rotate(45deg);
+    transform: translateY(6px) rotate(45deg);
 }
+
+/* 2番目の線：中央の横棒を利用して、左右の「点」を作る
+.menu-btn-container.open .menu-btn span:nth-child(2) {
+    opacity: 1;
+    消さずに表示する
+    transform: scaleX(1.2);
+    横に少し長くして「点」の存在感を出す
+    background-color: transparent;
+    真ん中部分は透明にする
+}
+
+2番目の線の両端を擬似要素で作る
+.menu-btn-container.open .menu-btn span:nth-child(2)::before,
+.menu-btn-container.open .menu-btn span:nth-child(2)::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    width: 10%;
+    線の長さを短くして「点」に見せる
+    height: 100%;
+    background-color: #333;
+    線の色
+}
+
+.menu-btn-container.open .menu-btn span:nth-child(2)::before {
+    left: -1.5px;
+    左側に配置
+}
+
+.menu-btn-container.open .menu-btn span:nth-child(2)::after {
+    right: -1.5px;
+    右側に配置
+} */
 
 .menu-btn-container.open .menu-btn span:nth-child(2) {
     opacity: 0;
+    transform: translateX(-10px);
 }
 
+/* 3番目の線：／ */
 .menu-btn-container.open .menu-btn span:nth-child(3) {
-    transform: translateY(-9px) rotate(-45deg);
+    transform: translateY(-6px) rotate(-45deg);
 }
 
-/* ==========================================================================
-   3. ナビゲーションメニューエリア（右からスライドイン・縦並び）
-   ========================================================================== */
-#navMenu {
+/* --- 左上から右へ伸びる細長いメニュー --- */
+nav {
     position: fixed;
-    top: 0;
-    right: -100%; /* 初期状態は右側に完全に隠す */
-    width: 300px; /* PCでのメニューバーの幅 */
-    height: 100dvh;
-    background: rgba(17, 17, 17, 0.95);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    top: 20px;
+    /* ボタンと同じ高さ、同じ左端を起点にする */
+    left: 20px;
+    width: 45px;
+    /* 最初はボタンと同じ幅（または0） */
+    height: 45px;
+    /* ボタンと同じ高さ */
+    background: rgba(255, 192, 203, 0.9);
+    z-index: 1000;
+    transition: width 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+    overflow: hidden;
     display: flex;
-    justify-content: center;
     align-items: center;
-    transition: right 0.4s cubic-bezier(0.25, 1, 0.5, 1);
-    z-index: 99; /* ボタン(101)より下、メインコンテンツより上 */
+    border-radius: 25px;
+    /* ボタンに合わせて丸める */
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.05);
 }
 
-/* ナビゲーションメニューが開いた時 */
-#navMenu.open {
-    right: 0;
+/* メニューが開いた時（右端まで伸びる） */
+nav.open {
+    width: calc(100% - 40px);
+    /* 画面右端に少し余白を残して伸びる */
 }
 
-/* リストアイテムの縦一列化 */
-#navMenu ul {
+nav ul {
     list-style: none;
-    padding: 0;
+    /* ボタンと重ならないよう左側に余白（45px分+α）を空ける */
+    padding: 0 20px 0 60px;
     margin: 0;
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 25px; /* メニュー間の縦の隙間 */
     width: 100%;
+    justify-content: space-around;
+    white-space: nowrap;
 }
 
-#navMenu ul li {
-    width: 100%;
-    text-align: center;
-}
-
-#navMenu a {
-    color: #fff;
+nav ul li a {
     text-decoration: none;
-    font-size: 1.4rem;
-    font-weight: bold;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    display: block;
-    padding: 10px 0;
-    transition: color 0.3s, transform 0.3s;
+    color: #333;
+    font-size: 0.9rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: lowercase;
+    transition: color 0.3s;
 }
 
-#navMenu a:hover {
-    color: #ff69b4;
+
+nav ul li a:hover {
+    color: #888;
+}
+
+/* スマホ表示での微調整 */
+@media (max-width: 768px) {
+    nav ul {
+        display: flex;
+        overflow-x: auto;
+        /* 横スクロールを許可 */
+        white-space: nowrap;
+        /* 折り返しを禁止 */
+        -webkit-overflow-scrolling: touch;
+        /* iOSでのスクロールを滑らかに */
+        padding: 10px 20px;
+        gap: 20px;
+    }
+
+    /* 隠れた部分があることを示すグラデーション（マスク） */
+    nav {
+        position: fixed;
+        overflow: hidden;
+    }
+
+    /* 右端にうっすら影（フェード）をつけて、消えかかっている演出をする */
+    nav::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 40px;
+        height: 100%;
+        background: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.9));
+        pointer-events: none;
+        /* 影の上からでもクリックできるようにする */
+    }
+
+    nav ul li a {
+        font-size: 0.8rem;
+    }
+}
+
+/* スクロールバー自体のデザイン（Webkit系ブラウザ用） */
+nav ul::-webkit-scrollbar {
+    height: 3px;
+    /* バーの太さ */
+}
+
+nav ul::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.05);
+    /* バーの背景色 */
+}
+
+nav ul::-webkit-scrollbar-thumb {
+    background: #191970;
+    /* バーの色（ネイビー） */
+    border-radius: 10px;
+}
+
+/* --- ナビゲーションメニュー --- */
+#navMenu {
+    position: fixed;
+    /* 固定 */
+    top: 20px;
+    left: -100%;
+    /* 初期状態は画面の左外に隠す */
+    width: 90%;
+    height: 45px;
+    /* メニューの高さ */
+    background: rgba(255, 192, 203, 0.90);
+    backdrop-filter: blur(10px);
+    z-index: 1000;
+    transition: left 0.4s ease-in-out;
+    /* 左から右へのアニメーション */
+    display: flex;
+    align-items: center;
+}
+
+/* メニューが開いた状態 */
+#navMenu.open {
+    left: 20px;
+    /* 画面内にスライド */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* リスト部分の余白調整 */
+#navMenu ul {
+    display: flex;
+    list-style: none;
+    padding: 0 20px 0 80px;
+    /* 左側に80pxの余白を作り、右側からスタートさせる */
+    margin: 0;
+    width: 100%;
+    overflow-x: auto;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+    align-items: center;
+}
+
+/* スクロールバーを非表示にする設定 */
+#navMenu ul::-webkit-scrollbar {
+    display: none;
+}
+
+#navMenu ul {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+/* ロゴ画像のサイズをメニューバーの高さ（45px）に合わせて調整 */
+.nav-logo {
+    height: 25px;
+    /* メニューバーの高さ45pxに対して、少し余裕を持たせる */
+    width: auto;
+    /* 横幅は比率を維持 */
+    display: block;
+    transition: transform 0.3s;
+}
+
+/* ホバーした時に少し浮かせる演出 */
+.nav-logo:hover {
     transform: scale(1.1);
-    text-shadow: 0 0 10px rgba(255, 105, 180, 0.6);
 }
 
 /* ==========================================================================
-   4. TOPページ専用設定
+   3. HOME専用要素 (バナー / スライド)
    ========================================================================== */
-.top-page-main {
-    padding-top: 0;
-    min-height: 100dvh;
-    justify-content: center;
+/* --- トップページ専用のスタイル --- */
+
+/* --- index.html（トップページ）専用：画面を固定してスクロールを禁止 --- */
+body:has(.top-page-main) {
+    height: 100vh;
+    height: 100dvh;
+    width: 100%;
+    /* 縦横のスクロールと、スマホ特有の「引っ張り」を禁止 */
+    overflow: hidden;
+    position: fixed;
+    left: 0;
+    top: 0;
+    /* iOS Safariなどのバウンス対策 */
+    overscroll-behavior: none;
 }
 
+.top-page-main {
+    padding-top: 0;
+    margin: 0;
+    width: 100%;
+    height: 100vh;
+    height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    /* ここにも念のためバウンス防止を追加 */
+    overscroll-behavior-y: none;
+}
+
+.top-page-main .home-banner {
+    width: 100%;
+    margin-bottom: 0;
+    /* 下の隙間をなくす */
+    max-width: none;
+}
+
+/* キャラクターの配置を微調整（画面の本当の底に合わせる） */
+.top-page-main .banner-wrapper {
+    height: 100vh;
+    /* 画面いっぱいの高さを確保 */
+    height: 100dvh;
+    display: flex;
+    align-items: flex-end;
+    /* 底に接地 */
+    justify-content: flex-start;
+}
+
+.top-page-main .banner-char {
+    height: 90%;
+    /* 画面の高さに対してのサイズ */
+    max-height: 600px;
+    /* PCでの大きすぎるのを防ぐ */
+    width: auto;
+    object-fit: contain;
+    animation: slideInLeft 4s ease-out forwards, charFloat 3s ease-in-out infinite 2s;
+    margin-bottom: -2px;
+    /* わずかにマイナスすることで、隙間なく底に接地させます */
+}
+
+/* --- スマホ用の調整 --- */
+@media (max-width: 768px) {
+    .top-page-main .banner-wrapper {
+        height: 70vh;
+        /* スマホでは少し控えめな高さに */
+    }
+
+    .top-page-main .banner-char {
+        max-height: 400px;
+        /* スマホでのサイズ */
+        animation: slideInLeftMobile 3s ease-out forwards, charFloatMobile 3s ease-in-out infinite 2s;
+    }
+}
+
+/* --- HOMEバナー --- */
+/* --- バナー全体の器 --- */
 .home-banner {
     width: 100%;
-    height: 100dvh;
-    position: relative;
+    max-width: 1200px;
+    /* キャラクターが動く範囲を広めに確保 */
+    margin-bottom: 30px;
     overflow: hidden;
+    /* 画面外から出てくる際のはみ出しを隠す */
 }
 
 .banner-wrapper {
     position: relative;
     width: 100%;
-    height: 100%;
+    height: 450px;
+    /* キャラクターが表示される領域の高さ */
     display: flex;
-    justify-content: center;
-    align-items: center;
+    align-items: flex-end;
+    /* キャラクターを下に接地させる */
 }
 
+/* --- キャラクターの設定とアニメーション --- */
 .banner-char {
-    position: absolute;
-    bottom: 0;
-    height: 95%;
+    height: 100%;
+    /* wrapperの高さに合わせる */
+    max-height: 450px;
+    /* キャラクターのサイズ（高さ）を調整 */
     width: auto;
     object-fit: contain;
     z-index: 2;
+
+    /* アニメーションの適用 */
+    /* 2秒かけてスライドし、その後ふわふわ浮遊をループさせる */
+    animation: slideInLeft 4s ease-out forwards, charFloat 3s ease-in-out infinite 2s;
+}
+
+/* 左から右へスライドして登場するアニメーション */
+@keyframes slideInLeft {
+    0% {
+        transform: translateX(100%);
+        /* 画面の左外からスタート */
+        opacity: 0;
+    }
+
+    100% {
+        transform: translateX(70%);
+        opacity: 1;
+    }
+}
+
+.section-title {
+    font-size: 1.5rem;
+    letter-spacing: 0.1em;
+    text-align: center;
+    margin-bottom: 25px;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+    color: #191970;
+    text-shadow: 1px 1px 2px pink;
+}
+
+/* --- VIDEOSスライド --- */
+.video-slide-section {
+    width: 100%;
+    margin: 50px 0 80px;
+    overflow: hidden;
+}
+
+.video-carousel {
+    display: flex;
+    overflow-x: auto;
+    gap: 30px;
+    padding: 20px 0;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    /* スクリプト制御のため snap は使用しない */
+    scroll-snap-type: none;
+}
+
+/* スクロールバーを隠す (Chrome/Safari) */
+.video-carousel::-webkit-scrollbar {
+    display: none;
+}
+
+.video-item {
+    flex: 0 0 450px;
+    /* サイズ固定 */
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #000;
+    transition: opacity 0.4s ease, transform 0.4s ease;
+    opacity: 0.2;
+    /* 左右はかなり薄く */
+}
+
+/* 中央の強調 */
+.video-item.is-active {
+    opacity: 1;
+    transform: scale(1.05);
+    z-index: 10;
+}
+
+.video-item img {
+    width: 450px !important;
+    height: 250px !important;
+    object-fit: cover;
+    display: block;
+}
+
+.play-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 50px !important;
+    color: #fff;
+    pointer-events: none;
+    filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.5));
 }
 
 /* ==========================================================================
-   5. ABOUT ページ専用設定（動くグラデーション＋背面加工）
+   4. News ページ & 共通リスト設定
    ========================================================================== */
+
+/* 記事内のニュースタイトル */
+.news-item-title {
+    font-size: 1.1rem;
+    color: #191970;
+    margin: 10px 0;
+    border-bottom: 1px dotted rgba(25, 25, 112, 0.2);
+    padding-bottom: 5px;
+}
+
+.news_glitch {
+    font-size: 130px;
+    line-height: 1;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    transform: translate(0%, 0%);
+    margin: 0;
+    text-decoration: none;
+    color: #fff;
+    display: inline-block;
+    /* 自身の幅と高さを維持 */
+    position: relative;
+    animation: news-glitch-anim 4s linear infinite;
+    /* アニメーションを適用 */
+    z-index: 10;
+    margin-bottom: 40px;
+
+    /* 下のコンテンツ枠との距離を確保 */
+    &:before,
+    &:after {
+        display: block;
+        content: 'NEWS';
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        opacity: .8;
+    }
+
+    &:after {
+        color: #f0f;
+        z-index: -2;
+    }
+
+    &:before {
+        color: #0ff;
+        z-index: -1;
+    }
+
+        &:before {
+            animation: glitch-left .4s cubic-bezier(.25, .46, .45, .94) both infinite
+        }
+
+        &:after {
+            animation: glitch-left-2 .4s cubic-bezier(.25, .46, .45, .94) reverse both infinite
+        }
+    }
+
+@keyframes glitch-left {
+    0% {
+        transform: translate(0)
+    }
+
+    33% {
+        transform: translate(-5px, 3px)
+    }
+
+    66% {
+        transform: translate(5px, -3px)
+    }
+
+    to {
+        transform: translate(0)
+    }
+}
+
+@keyframes glitch-left-2 {
+    0% {
+        transform: translate(0)
+    }
+
+    33% {
+        transform: translate(-5px, -3px)
+    }
+
+    66% {
+        transform: translate(5px, 2px)
+    }
+
+    to {
+        transform: translate(0)
+    }
+}
+
+/* 日付とカテゴリ */
+.news-meta {
+    font-size: 0.8rem;
+    display: flex;
+    gap: 10px;
+    color: #666;
+}
+
+.news-category {
+    color: #ff69b4;
+    /* ラヴィさんのピンク */
+    font-weight: bold;
+}
+
+.news-item-body {
+    font-size: 0.9rem;
+    line-height: 1.6;
+}
+
+/* HOMEの最新ニュース枠 */
+.home-news {
+    width: 90%;
+    max-width: 600px;
+    background: rgba(255, 255, 255, 0.8);
+    padding: 20px;
+    border-radius: 15px;
+    margin-bottom: 40px;
+}
+
+.home-news-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.home-news-list li {
+    border-bottom: 1px solid #eee;
+}
+
+.home-news-list li a,
+.home-news-list li .no-link-item {
+    display: flex;
+    align-items: center;
+    padding: 15px 10px;
+    text-decoration: none;
+    color: #333;
+    box-sizing: border-box;
+}
+
+.home-news-list .date {
+    width: 100px;
+    flex-shrink: 0;
+    font-size: 0.85rem;
+    color: #888;
+}
+
+/* ニュース一覧ページ(news.html)側のリンクなし項目も調整 */
+.news-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+/* ニュースカード全体の枠組み */
+.news-content-box {
+    padding: 20px;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    margin-bottom: 30px;
+    background: rgba(253, 255, 255, 0.7);
+    margin-bottom: 20px;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+    backdrop-filter: blur(12px);
+    border-radius: 15px;
+
+    /* ぼかしエフェクトを追加 */
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    /* Safari対応 */
+
+    /* 縁を白く光らせてガラス感を出す */
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+/* 記事内の画像がはみ出さないようにする設定 */
+.news-content-box img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin-top: 10px;
+}
+
+/* リンク要素とリンクなし要素の余白と位置を完全に統一 */
+.news-link,
+.no-link-item {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 20px;
+    /* ニュース詳細(news.html)の基本余白 */
+    text-decoration: none;
+    color: inherit;
+    box-sizing: border-box;
+    cursor: default;
+    /* 基本は矢印 */
+}
+
+/* リンクがある場合のみ指マークとホバー効果を適用 */
+.news-link {
+    cursor: pointer;
+}
+
+.news-item:has(.news-link):hover {
+    background: rgba(255, 255, 255, 1.0);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* 画像とテキストのレイアウト (news.html用) */
+.news-thumb {
+    width: 120px;
+    height: 80px;
+    object-fit: cover;
+    margin-right: 20px;
+    border-radius: 4px;
+    flex-shrink: 0;
+}
+
+.news-text {
+    flex: 1;
+}
+
+.news-text h3 {
+    margin: 0 0 5px 0;
+    font-size: 1.1rem;
+    color: #333;
+}
+
+.news-text p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.news-text .date {
+    font-size: 0.8rem;
+    color: #888;
+}
+
+/* ==========================================================================
+   5. About ページ
+   ========================================================================== */
+.about-wrapper {
+    width: 90%;
+    max-width: 800px;
+    margin: 0 auto 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.about-image-container {
+    width: 100%;
+    max-width: 600px;
+    margin-bottom: 0;
+    /* margin-bottom: 40px; */
+    box-shadow: none;
+    background: transparent;
+    position: relative;
+    z-index: 1;
+}
+
+.about-main-img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 4px;
+}
+
 .about-page-title {
     font-size: 4rem;
     font-weight: 900;
     text-transform: uppercase;
     position: relative;
     display: inline-block;
+
+    /* 1. 本体の文字設定（グラデーション） */
     color: transparent !important;
     -webkit-text-fill-color: transparent !important;
-
-    /* グラデーションアニメーション用背景 */
-    background: linear-gradient(
-        to right, 
-        #191970 0%, 
-        #6eccee 25%, 
-        #ff69b4 50%, 
-        #6eccee 75%, 
-        #191970 100%
-    ) !important;
+    background: linear-gradient(to right,
+            #191970 0%,
+            #6eccee 25%,
+            #ff69b4 50%,
+            #6eccee 75%,
+            #191970 100%) !important;
     background-size: 200% auto !important;
     -webkit-background-clip: text !important;
     background-clip: text !important;
 
-    animation: 
-        flow-gradient 5s linear infinite, 
+    /* アニメーション */
+    animation:
+        flow-gradient 5s linear infinite,
         kode-text 4s linear infinite;
 
-    text-shadow: none !important; /* 通常の影による崩れを完全排除 */
+    text-shadow: none !important;
 }
 
-/* ABOUTの文字の後ろにピンクの残像影を配置する */
-.about-page-title::after {
-    content: "ABOUT";
-    position: absolute;
-    left: 2px;
-    top: 2px;
-    z-index: -1;
-    color: pink;
-    -webkit-text-fill-color: pink;
-    filter: blur(2px);
-    opacity: 0.8;
-    animation: kode-text 4s linear infinite;
-    pointer-events: none;
-}
+/* --- アニメーション定義 --- */
 
-.about-wrapper {
-    display: flex;
-    gap: 40px;
-    width: 90%;
-    max-width: 1000px;
-    margin-bottom: 60px;
-    align-items: stretch;
-}
+/* 形と明るさを変えて「バグ」を作る */
+@keyframes kode-text {
+    from {
+        --angle: 45deg;
+        transform: translateY(0vh);
+    }
 
-.about-image-container {
-    flex: 1;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 16px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-    backdrop-filter: blur(4px);
-}
+    49.5% {
+        --angle: 360deg;
+        transform: translateY(-1vh);
+        filter: brightness(100%);
+    }
 
-.about-main-img {
-    max-width: 100%;
-    height: auto;
-    object-fit: contain;
-    border-radius: 8px;
+    50% {
+        --angle: 360deg;
+        transform: translateY(-1vh) scaleY(0.1) skewX(253deg);
+        filter: brightness(190%);
+    }
+
+    51% {
+        --angle: 360deg;
+        transform: translateY(-1vh) scaleY(0.5) skewY(37deg);
+        filter: brightness(190%);
+    }
+
+    52% {
+        --angle: 360deg;
+        filter: brightness(190%);
+        transform: translateY(0vh);
+    }
+
+    to {
+        --angle: 45deg;
+        transform: translateY(0vh);
+    }
 }
 
 .about-content-box {
-    flex: 1.2;
-    background: rgba(255, 255, 255, 0.08);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.9);
     padding: 40px;
-    color: #fff;
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+    border-radius: 10px;
+    width: 100%;
+    box-sizing: border-box;
+    /* ピンクとブルーの2色の光を重ねることで、サイバーな奥行きを出します */
+    box-shadow:
+        0 0 10px rgba(255, 105, 180, 0.6),
+        /* 内側の淡いピンク */
+        0 0 25px rgba(0, 242, 255, 0.5);
+    /* 外側の淡いシアン */
+
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    /* 右上と左下を少しだけ斜めにカット */
+    /* clip-path: polygon(0% 0%,
+            95% 0%,
+            100% 5%,
+            100% 100%,
+            5% 100%,
+            0% 95%); */
 }
 
-.artist-name {
-    font-size: 2rem;
-    margin-top: 0;
-    margin-bottom: 20px;
-    color: #6eccee;
-    letter-spacing: 1px;
-    border-bottom: 1px solid rgba(110, 204, 238, 0.3);
+.about-history h3 {
+    border-bottom: 1px solid #ddd;
     padding-bottom: 10px;
+    margin-top: 40px;
 }
 
-.biography p {
-    line-height: 1.8;
-    font-size: 1rem;
-    margin: 0;
+.about-history ul {
+    list-style: none;
+    padding: 0;
 }
 
-/* ==========================================================================
-   6. NEWS ページ専用設定
-   ========================================================================== */
-.news_glitch {
-    display: inline-block;
-    position: relative;
-    animation: news-glitch-anim 4s linear infinite;
-    z-index: 10;
-    margin-bottom: 40px;
-}
-
-.news-container {
-    width: 90%;
-    max-width: 800px;
-    margin-bottom: 60px;
-}
-
-.news-content-box {
-    background: rgba(255, 255, 255, 0.08);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    border-radius: 16px;
-    padding: 30px;
-    color: #fff;
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-    transition: transform 0.3s ease, border-color 0.3s ease;
-}
-
-.news-content-box:hover {
-    transform: translateY(-3px);
-    border-color: rgba(110, 204, 238, 0.4);
-}
-
-.news-date {
-    font-size: 0.9rem;
-    color: #ff69b4;
-    font-weight: bold;
+.about-history li {
     margin-bottom: 10px;
+    font-size: 0.9rem;
+    display: flex;
 }
 
-.news-title {
-    font-size: 1.4rem;
-    margin: 0 0 15px 0;
-    color: #6eccee;
+.about-history li span {
+    font-weight: bold;
+    margin-right: 20px;
+    color: #666;
+    min-width: 80px;
 }
 
-.news-text {
+/* --- 対談セクション --- */
+.interview-section {
+    width: 90%;
+    max-width: 600px;
+    margin: 40px auto;
+}
+
+.qa-item {
+    background: rgba(255, 255, 255, 0.8);
+    margin-bottom: 15px;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s;
+}
+
+/* 質問部分（常に表示） */
+.qa-question {
+    padding: 15px 20px;
+    font-weight: bold;
+    color: #191970;
+    cursor: pointer;
+    list-style: none;
+    /* デフォルトの矢印を消す（Chrome/Safari） */
+    position: relative;
+    display: block;
+    font-size: 0.9rem;
+}
+
+/* 矢印を自作する場合 */
+.qa-question::after {
+    content: '▼';
+    position: absolute;
+    right: 20px;
+    font-size: 0.8rem;
+    transition: transform 0.3s;
+}
+
+.qa-item[open] .qa-question::after {
+    transform: rotate(180deg);
+    /* 開いたときに矢印を上に向ける */
+}
+
+/* 回答部分（クリックで表示） */
+.qa-answer {
+    padding: 0 25px 25px;
+    background: rgba(255, 192, 203, 0.1);
+    /* ほんのりピンク */
+    display: block;
+    gap: 15px;
+    align-items: flex-start;
+    border-top: 1px solid rgba(25, 25, 112, 0.1);
+    animation: fadeIn 0.4s ease;
+}
+
+/* --- キャラクターアイコンの設定 --- */
+.char-icon {
+    float: left;
+    margin: 5px;
+    /* 左に浮かせる */
+    margin-right: 15px;
+    /* 文字との間に隙間を作る */
+    margin-bottom: 5px;
+    /* 下に回り込む文字との隙間 */
+}
+
+.char-icon img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid white;
+    display: block;
+    /* 余計な隙間を防止 */
+}
+
+/* --- 回答テキストの設定 --- */
+.answer-content {
     line-height: 1.6;
-    margin: 0;
-    font-size: 0.95rem;
+    /* margin-leftなどは不要になります */
+}
+
+.q-icon {
+    color: #ff69b4;
+    margin-right: 5px;
+}
+
+.a-icon {
+    font-weight: bold;
+    color: #191970;
+    font-size: 1rem;
+    margin-right: 5px;
+    float: left;
+}
+
+.answer-text {
+    margin: 5px;
+    line-height: 1.6;
+    color: #444;
+    font-size: 0.85rem;
+    display: block;
+}
+
+/* 回答が終わった後にレイアウトが崩れないように（おまじない） */
+.qa-answer::after {
+    content: "";
+    display: block;
+    clear: both;
+}
+
+/* --- ディスコグラフィーセクション --- */
+.music-section {
+    display: grid;
+    /* 一覧時：PCでは4〜5列、スマホでも2列くらいに小さく並べる */
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    width: 95%;
+    max-width: 1100px;
+    margin: 40px auto;
+}
+
+/* 各アイテム */
+.discography-item {
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 12px;
+    overflow: hidden;
+    list-style: none;
+    transition: all 0.3s ease;
+}
+
+/* 通常時（閉じている時） */
+.status-btn::before {
+    content: "VIEW DETAIL";
+}
+
+/* 楽曲（details）が開いている時のボタン表示 */
+.discography-item[open] .status-btn::before {
+    content: "CLOSE";
+}
+
+/* ボタン自体のスタイル調整（前回までの view-detail を継承） */
+.status-btn {
+    color: white;
+    font-weight: bold;
+    border: 1px solid white;
+    padding: 8px 15px;
+    background: rgba(0, 0, 0, 0.3);
+    /* 少し背景を付けて視認性を上げる */
+    transition: all 0.3s;
+}
+
+/* 詳細が開いている時は、ボタンを中央上部などに固定して押しやすくするのもアリです */
+.discography-item[open] .jacket-overlay {
+    opacity: 1;
+    /* 詳細表示中はずっとボタンを見せておく */
+    height: auto;
+    padding: 20px 0;
+    background: none;
+    /* オーバーレイの背景を消す */
+    pointer-events: none;
+    /* 背後の詳細コンテンツを触れるように */
+}
+
+.discography-item[open] .status-btn {
+    pointer-events: auto;
+    /* ボタンだけは触れるように */
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: #191970;
+    z-index: 2001;
+}
+
+/* ★詳細が開いた時の設定（1画面に抑える） */
+.discography-item[open] {
+    position: fixed;
+    /* 画面に対して固定 */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    /* 画面中央に配置 */
+    width: 90vw;
+    max-width: 600px;
+    height: auto;
+    max-height: 85vh;
+    /* 画面高の85%以内に収める */
+    z-index: 2000;
+    /* メニューより上にくるように */
+    box-shadow: 0 0 100px rgba(0, 0, 0, 0.5);
+    overflow-y: auto;
+    /* 内容が多い場合は中でスクロール */
+}
+
+/* 詳細が開いている時の背景を暗く見せる（擬似要素） */
+.discography-item[open]::before {
+    content: "";
+    position: fixed;
+    top: -100vh;
+    left: -100vw;
+    width: 300vw;
+    height: 300vh;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* 一覧時の画像サイズ調整 */
+.jacket-wrapper {
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+}
+
+/* 閉じボタンのデザイン */
+.close-btn-text {
+    display: none;
+    /* 通常時は非表示 */
+}
+
+.discography-item[open] .close-btn-text {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 8px 20px;
+    background: #191970;
+    color: white;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+
+/* スマホ用の微調整 */
+@media (max-width: 768px) {
+    .music-section {
+        grid-template-columns: repeat(2, 1fr);
+        /* スマホは2列 */
+        gap: 10px;
+    }
+
+    .music-title {
+        font-size: 0.9rem;
+    }
+}
+
+.discography-summary {
+    cursor: pointer;
+    list-style: none;
+    text-align: center;
+    padding: 20px;
+}
+
+.discography-summary::-webkit-details-marker {
+    display: none;
+}
+
+/* デフォルトの矢印を消す */
+
+/* ジャケット画像の設定 */
+.jacket-wrapper {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    /* 正方形を維持 */
+    margin-bottom: 15px;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.jacket-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* マウスホバー時の演出 */
+.jacket-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(25, 25, 112, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.jacket-wrapper:hover .jacket-overlay {
+    opacity: 1;
+}
+
+.view-detail {
+    color: white;
+    font-weight: bold;
+    border: 1px solid white;
+    padding: 5px 15px;
+}
+
+.music-title {
+    font-size: 1.2rem;
+    color: #191970;
+    margin: 10px 0 5px;
+}
+
+.release-date {
+    font-size: 0.8rem;
+    color: #666;
+}
+
+/* 詳細部分のデザイン */
+.music-detail-content {
+    padding: 0 30px 30px;
+    text-align: center;
+    animation: fadeIn 0.5s ease;
+}
+
+.streaming-links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.stream-btn {
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 25px;
+    font-size: 0.9rem;
+    color: white;
+    transition: opacity 0.3s;
+}
+
+.spotify {
+    background: #1DB954;
+}
+
+.apple {
+    background: #000000;
+}
+
+.youtube {
+    background: #FF0000;
+}
+
+.stream-btn:hover {
+    opacity: 0.8;
 }
 
 /* ==========================================================================
-   7. GAME ページ専用設定
+   Game ページ
    ========================================================================== */
 .game-grid {
     display: grid;
@@ -442,62 +1307,46 @@ header {
     gap: 30px;
     width: 90%;
     max-width: 1000px;
-    margin-bottom: 60px;
+    margin: 0 auto 50px;
 }
 
 .game-card {
-    background: rgba(255, 255, 255, 0.08);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 15px;
     overflow: hidden;
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease;
 }
 
 .game-card:hover {
-    transform: translateY(-5px);
+    transform: translateY(-10px);
 }
 
 .game-thumb {
     width: 100%;
-    height: 200px;
+    height: 180px;
     object-fit: cover;
 }
 
 .game-info {
-    padding: 25px;
-    color: #fff;
-}
-
-.game-info h3 {
-    margin: 0 0 10px 0;
-    font-size: 1.3rem;
-    color: #6eccee;
-}
-
-.game-info p {
-    font-size: 0.9rem;
-    line-height: 1.6;
-    margin: 0 0 20px 0;
-    color: #ddd;
+    padding: 20px;
 }
 
 .game-links {
-    text-align: right;
-}
-
-.play-btn {
-    padding: 8px 20px;
-    font-size: 0.9rem;
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
 }
 
 /* ==========================================================================
-   8. CONTACT ページ専用設定
+   Contact ページ
    ========================================================================== */
+
+/* --- CONTACT FORM STYLE --- */
 .contact-box {
     max-width: 600px;
+    width: 90%;
+    margin: 20px auto;
 }
 
 .contact-form {
@@ -509,182 +1358,151 @@ header {
 .form-group {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    text-align: left;
 }
 
 .form-group label {
     font-size: 0.9rem;
-    color: #6eccee;
+    margin-bottom: 8px;
     font-weight: bold;
-    letter-spacing: 1px;
+    color: #191970;
 }
 
 .form-group input,
 .form-group textarea {
     padding: 12px;
-    background: rgba(0, 0, 0, 0.4);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    border: 1px solid #ddd;
     border-radius: 8px;
-    color: #fff;
     font-size: 1rem;
-    transition: all 0.3s ease;
-}
-
-.form-group input:focus,
-.form-group textarea:focus {
-    outline: none;
-    border-color: #ff69b4;
-    box-shadow: 0 0 10px rgba(255, 105, 180, 0.3);
+    background: rgba(255, 255, 255, 0.9);
 }
 
 .submit-btn {
+    background-color: #191970;
+    color: white;
+    padding: 15px;
+    border: none;
+    border-radius: 30px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
     margin-top: 10px;
-    align-self: center;
-    background: transparent;
-    border-color: #ff69b4;
 }
 
 .submit-btn:hover {
-    background: #ff69b4;
-    color: #111;
-    box-shadow: 0 0 20px rgba(255, 105, 180, 0.6);
+    background-color: pink;
+    color: #191970;
+    transform: translateY(-2px);
 }
 
 /* ==========================================================================
-   9. フッター設定
+   フッター & SNS
    ========================================================================== */
 footer {
-    width: 100%;
-    padding: 40px 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 15px;
-    color: #fff;
-    margin-top: auto;
+    text-align: center;
+    padding: 40px 0 20px;
 }
 
-.sns-links {
-    display: flex;
-    gap: 25px;
+.page-title {
+    font-size: 4.0rem;
+    color: #191970;
+    text-shadow: 1px 1px 2px pink;
 }
 
 .sns-links a {
-    color: rgba(255, 255, 255, 0.7);
-    font-size: 1.8rem;
-    transition: color 0.3s ease, transform 0.3s ease;
-}
-
-.sns-links a:hover {
-    color: #6eccee;
-    transform: scale(1.1);
+    font-size: 24px;
+    color: #191970;
+    margin: 0 15px;
+    text-decoration: none;
+    text-shadow: 1px 1px 2px #fffafa;
 }
 
 .copyright {
-    font-size: 0.85rem;
-    color: rgba(255, 255, 255, 0.4);
-    letter-spacing: 1px;
+    margin-top: 20px;
+    font-size: 0.8rem;
+    color: #191970;
+    text-shadow: 1px 1px 2px #fffafa;
 }
 
 /* ==========================================================================
-   10. アニメーション用の @keyframes 定義
+   レスポンシブ (スマホ対応)
    ========================================================================== */
-
-/* ABOUTタイトル用：グラデーションを左から右へ流す */
-@keyframes flow-gradient {
-    0% { background-position: 0% center; }
-    100% { background-position: -200% center; }
-}
-
-/* ABOUTタイトル用：電子的バグ(グリッチ) */
-@keyframes kode-text {
-    0%, 48%, 53%, 100% {
-        transform: translateY(0) scaleY(1) skewX(0);
-        filter: brightness(100%);
-    }
-    50% {
-        transform: translateY(-2px) scaleY(0.1) skewX(20deg);
-        filter: brightness(180%);
-    }
-    51% {
-        transform: translateY(-2px) scaleY(1.2) skewY(-5deg);
-        filter: brightness(140%);
-    }
-}
-
-/* NEWSタイトル用：グリッチ加工 */
-@keyframes news-glitch-anim {
-    0%, 48%, 53%, 100% {
-        transform: translateY(0) scaleY(1) skewX(0);
-        filter: brightness(100%);
-    }
-    50% {
-        transform: translateY(-2px) scaleY(0.9) skewX(10deg);
-        filter: brightness(130%);
-    }
-    51% {
-        transform: translateY(-1px) scaleY(1.1) skewY(-3deg);
-        filter: brightness(110%);
-    }
-}
-
-/* ==========================================================================
-   11. レスポンシブ対応（メディアクエリ：タブレット・スマートフォン）
-   ========================================================================== */
-
-/* 画面幅 1024px 以下のタブレット環境 */
-@media (max-width: 1024px) {
-    .about-wrapper {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .about-image-container {
-        width: 100%;
-        max-width: 500px;
-    }
-}
-
-/* 画面幅 768px 以下のスマートフォン環境 */
 @media (max-width: 768px) {
-    /* スマホ時はメニューバーを画面いっぱいの幅に変更 */
-    #navMenu {
-        width: 100%;
-        right: -100%;
+
+    /* 1. コンテンツ領域の最小高さ制限を解除する */
+    main {
+        padding-top: 60px;
+        /* ヘッダーとの距離を少し詰める */
+        min-height: auto;
+        /* 画面いっぱいに広げる設定を解除 */
     }
 
-    #navMenu.open {
-        right: 0;
-    }
-
-    #navMenu a {
-        font-size: 1.8rem;
-        padding: 15px 0;
-    }
-
-    .page-title,
-    .about-page-title {
-        font-size: 2.8rem;
-    }
-
-    .content-box,
-    .about-content-box {
-        padding: 25px;
-    }
-
-    .banner-char {
-        transform: translateX(0%);
-    }
-
+    /* 2. フッターの余白を調整して上に引き上げる */
     footer {
-        padding: 20px 0;
+        padding: 20px 0 20px;
+        /* 上下の余白を少しタイトにする */
         text-align: center;
+        width: 100%;
     }
 
+    /* 3. コンテンツボックス下の余白も調整 */
     .content-box,
     .home-banner,
     .news-container,
     .about-wrapper {
         margin-bottom: 20px;
+        /* 下側の余白を少し小さくしてフッターを近づける */
+    }
+}
+
+@media (max-width: 768px) {
+    .video-item {
+        flex: 0 0 80%;
+        /* スマホでは画面の8割の幅にする */
+    }
+
+    .video-item img {
+        width: 100% !important;
+        height: auto !important;
+        aspect-ratio: 450 / 250;
+    }
+
+    .video-carousel {
+        padding: 20px 10%;
+        /* スマホでも左右を見切らせる */
+    }
+
+    .banner-char {
+        /* スマホではキャラが大きく見えがちなので、位置をさらに左へ逃がす */
+        transform: translateX(-30%);
+    }
+}
+
+@media (max-width: 768px) {
+
+    /* 1. キャラクターが表示される領域の高さをスマホ用に少し下げる */
+    .banner-wrapper {
+        height: 400px;
+    }
+
+    /* 2. キャラクター自体の最大サイズをスマホ用に調整 */
+    .banner-char {
+        max-height: 400px;
+        /* スマホで止まる位置を個別に設定（PCより控えめにする） */
+        animation: slideInLeftMobile 3s ease-out forwards, charFloatMobile 3s ease-in-out infinite 2s;
+    }
+
+    /* 3. スマホ専用のスライドアニメーション（止まる位置を調整） */
+    @keyframes slideInLeftMobile {
+        0% {
+            transform: translateX(-100%);
+            opacity: 0;
+        }
+
+        100% {
+            /* 75%だと突き抜けるので、10%〜20%くらいで調整してみてください */
+            transform: translateX(-10%);
+            opacity: 1;
+        }
     }
 }
