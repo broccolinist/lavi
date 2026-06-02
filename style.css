@@ -207,6 +207,7 @@ header {
     display: block;
     padding: 10px 0;
     transition: color 0.3s, transform 0.3s;
+    cursor: url('img/picture/carrot.png'), pointer;
 }
 
 #navMenu a:hover {
@@ -1286,38 +1287,95 @@ footer {
 /* ==========================================================================
    レスポンシブ (スマホ対応)
    ========================================================================== */
-@media (max-width: 768px) {
-
-    /* 1. コンテンツ領域の最小高さ制限を解除する */
-    main {
-        padding-top: 60px;
-        /* ヘッダーとの距離を少し詰める */
-        min-height: auto;
-        /* 画面いっぱいに広げる設定を解除 */
+/* 画面幅 1024px 以下のタブレット環境 */
+@media (max-width: 1024px) {
+    .about-wrapper {
+        flex-direction: column;
+        align-items: center;
     }
 
-    /* 2. フッターの余白を調整して上に引き上げる */
-    footer {
-        padding: 20px 0 20px;
-        /* 上下の余白を少しタイトにする */
-        text-align: center;
+    .about-image-container {
         width: 100%;
+        max-width: 500px;
+    }
+}
+
+/* 画面幅 768px 以下のスマートフォン環境 */
+@media (max-width: 768px) {
+    /* スマホ時はメニューバーを画面いっぱいの幅に変更 */
+    #navMenu {
+        width: 100%;
+        right: -100%;
     }
 
-    /* 3. コンテンツボックス下の余白も調整 */
+    #navMenu.open {
+        right: 0;
+    }
+
+    #navMenu a {
+        font-size: 1.8rem;
+        padding: 15px 0;
+    }
+
+    .page-title,
+    .about-page-title {
+        font-size: 2.8rem;
+    }
+
+    .content-box,
+    .about-content-box {
+        padding: 25px;
+    }
+
+    .banner-char {
+        transform: translateX(0%);
+    }
+
+    footer {
+        padding: 20px 0;
+        text-align: center;
+    }
+
     .content-box,
     .home-banner,
     .news-container,
     .about-wrapper {
         margin-bottom: 20px;
-        /* 下側の余白を少し小さくしてフッターを近づける */
+    }
+}
+
+   /* @media (max-width: 768px) {
+
+     1. コンテンツ領域の最小高さ制限を解除する 
+    main {
+        padding-top: 60px;
+         ヘッダーとの距離を少し詰める 
+        min-height: auto;
+         画面いっぱいに広げる設定を解除 
+    }
+
+     2. フッターの余白を調整して上に引き上げる 
+    footer {
+        padding: 20px 0 20px;
+         上下の余白を少しタイトにする 
+        text-align: center;
+        width: 100%;
+    }
+
+     3. コンテンツボックス下の余白も調整 
+    .content-box,
+    .home-banner,
+    .news-container,
+    .about-wrapper {
+        margin-bottom: 20px;
+         下側の余白を少し小さくしてフッターを近づける 
     }
 }
 
 @media (max-width: 768px) {
     .video-item {
         flex: 0 0 80%;
-        /* スマホでは画面の8割の幅にする */
+         スマホでは画面の8割の幅にする 
     }
 
     .video-item img {
@@ -1328,30 +1386,30 @@ footer {
 
     .video-carousel {
         padding: 20px 10%;
-        /* スマホでも左右を見切らせる */
+         スマホでも左右を見切らせる 
     }
 
     .banner-char {
-        /* スマホではキャラが大きく見えがちなので、位置をさらに左へ逃がす */
+         スマホではキャラが大きく見えがちなので、位置をさらに左へ逃がす 
         transform: translateX(-30%);
     }
 }
 
 @media (max-width: 768px) {
 
-    /* 1. キャラクターが表示される領域の高さをスマホ用に少し下げる */
+     1. キャラクターが表示される領域の高さをスマホ用に少し下げる 
     .banner-wrapper {
         height: 400px;
     }
 
-    /* 2. キャラクター自体の最大サイズをスマホ用に調整 */
+     2. キャラクター自体の最大サイズをスマホ用に調整 
     .banner-char {
         max-height: 400px;
-        /* スマホで止まる位置を個別に設定（PCより控えめにする） */
+         スマホで止まる位置を個別に設定（PCより控えめにする） 
         animation: slideInLeftMobile 3s ease-out forwards, charFloatMobile 3s ease-in-out infinite 2s;
     }
 
-    /* 3. スマホ専用のスライドアニメーション（止まる位置を調整） */
+     3. スマホ専用のスライドアニメーション（止まる位置を調整） 
     @keyframes slideInLeftMobile {
         0% {
             transform: translateX(-100%);
@@ -1359,9 +1417,9 @@ footer {
         }
 
         100% {
-            /* 75%だと突き抜けるので、10%〜20%くらいで調整してみてください */
+             75%だと突き抜けるので、10%〜20%くらいで調整してみてください 
             transform: translateX(-10%);
             opacity: 1;
         }
     }
-}
+} */
