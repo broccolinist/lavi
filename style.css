@@ -89,36 +89,43 @@ main {
 }
 
 /* ==========================================================================
-   2. ヘッダー & ナビゲーション
+   2. ヘッダー設定（ハンバーガーボタン制御含む）
    ========================================================================== */
 header {
-    padding: 20px;
-    text-align: right;
-    padding: 0;
-    /* 余計な余白を消す */
-}
-
-/* --- メニューボタン（左上・白地） --- */
-.menu-btn-container {
     position: fixed;
-    top: 20px;
-    left: 20px;
-    z-index: 1001;
-    /* メニューより上に配置 */
-    width: 45px;
-    height: 45px;
-    background: #fffafa;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    box-shadow: 0 2px 8px rgba(255, 255, 255, 0.039);
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 0; /* ヘッダー自体は高さをなくし、背後の要素のクリックを邪魔しない */
+    z-index: 100;
 }
 
+/* ボタンのコンテナ（右上に完全にピン留め固定） */
+.menu-btn-container {
+    position: fixed !important;
+    top: 20px !important;
+    right: 20px !important;
+    width: 50px !important;
+    height: 50px !important;
+    background-color: rgba(17, 17, 17, 0.6) !important; /* 背景に馴染みつつ見やすくなる黒ベース */
+    border-radius: 50%;
+    cursor: pointer !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    z-index: 101 !important; /* メニュー（99）より前面に固定、開閉を可能に */
+    transition: background-color 0.3s;
+}
+
+.menu-btn-container:hover {
+    background-color: rgba(255, 105, 180, 0.4) !important;
+}
+
+/* 三本線の線の形 */
 .menu-btn {
-    width: 20px;
-    height: 14px;
+    position: relative;
+    width: 25px;
+    height: 20px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -128,8 +135,9 @@ header {
     display: block;
     width: 100%;
     height: 2px;
-    background-color: #333;
-    transition: all 0.3s ease;
+    background-color: #fff !important; /* 線を白にする */
+    border-radius: 2px;
+    transition: transform 0.3s, opacity 0.3s;
 }
 
 /* ボタンが開いた時のアニメーション（X印） */
@@ -137,39 +145,6 @@ header {
 .menu-btn-container.open .menu-btn span:nth-child(1) {
     transform: translateY(6px) rotate(45deg);
 }
-
-/* 2番目の線：中央の横棒を利用して、左右の「点」を作る
-.menu-btn-container.open .menu-btn span:nth-child(2) {
-    opacity: 1;
-    消さずに表示する
-    transform: scaleX(1.2);
-    横に少し長くして「点」の存在感を出す
-    background-color: transparent;
-    真ん中部分は透明にする
-}
-
-2番目の線の両端を擬似要素で作る
-.menu-btn-container.open .menu-btn span:nth-child(2)::before,
-.menu-btn-container.open .menu-btn span:nth-child(2)::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    width: 10%;
-    線の長さを短くして「点」に見せる
-    height: 100%;
-    background-color: #333;
-    線の色
-}
-
-.menu-btn-container.open .menu-btn span:nth-child(2)::before {
-    left: -1.5px;
-    左側に配置
-}
-
-.menu-btn-container.open .menu-btn span:nth-child(2)::after {
-    right: -1.5px;
-    右側に配置
-} */
 
 .menu-btn-container.open .menu-btn span:nth-child(2) {
     opacity: 0;
@@ -181,177 +156,63 @@ header {
     transform: translateY(-6px) rotate(-45deg);
 }
 
-/* --- 左上から右へ伸びる細長いメニュー --- */
-nav {
-    position: fixed;
-    top: 20px;
-    /* ボタンと同じ高さ、同じ左端を起点にする */
-    left: 20px;
-    width: 45px;
-    /* 最初はボタンと同じ幅（または0） */
-    height: 45px;
-    /* ボタンと同じ高さ */
-    background: rgba(255, 192, 203, 0.9);
-    z-index: 1000;
-    transition: width 0.5s cubic-bezier(0.25, 1, 0.5, 1);
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    border-radius: 25px;
-    /* ボタンに合わせて丸める */
-    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.05);
-}
-
-/* メニューが開いた時（右端まで伸びる） */
-nav.open {
-    width: calc(100% - 40px);
-    /* 画面右端に少し余白を残して伸びる */
-}
-
-nav ul {
-    list-style: none;
-    /* ボタンと重ならないよう左側に余白（45px分+α）を空ける */
-    padding: 0 20px 0 60px;
-    margin: 0;
-    display: flex;
-    width: 100%;
-    justify-content: space-around;
-    white-space: nowrap;
-}
-
-nav ul li a {
-    text-decoration: none;
-    color: #333;
-    font-size: 0.9rem;
-    font-weight: 500;
-    letter-spacing: 0.1em;
-    text-transform: lowercase;
-    transition: color 0.3s;
-}
-
-
-nav ul li a:hover {
-    color: #888;
-}
-
-/* スマホ表示での微調整 */
-@media (max-width: 768px) {
-    nav ul {
-        display: flex;
-        overflow-x: auto;
-        /* 横スクロールを許可 */
-        white-space: nowrap;
-        /* 折り返しを禁止 */
-        -webkit-overflow-scrolling: touch;
-        /* iOSでのスクロールを滑らかに */
-        padding: 10px 20px;
-        gap: 20px;
-    }
-
-    /* 隠れた部分があることを示すグラデーション（マスク） */
-    nav {
-        position: fixed;
-        overflow: hidden;
-    }
-
-    /* 右端にうっすら影（フェード）をつけて、消えかかっている演出をする */
-    nav::after {
-        content: "";
-        position: absolute;
-        top: 0;
-        right: 0;
-        width: 40px;
-        height: 100%;
-        background: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.9));
-        pointer-events: none;
-        /* 影の上からでもクリックできるようにする */
-    }
-
-    nav ul li a {
-        font-size: 0.8rem;
-    }
-}
-
-/* スクロールバー自体のデザイン（Webkit系ブラウザ用） */
-nav ul::-webkit-scrollbar {
-    height: 3px;
-    /* バーの太さ */
-}
-
-nav ul::-webkit-scrollbar-track {
-    background: rgba(0, 0, 0, 0.05);
-    /* バーの背景色 */
-}
-
-nav ul::-webkit-scrollbar-thumb {
-    background: #191970;
-    /* バーの色（ネイビー） */
-    border-radius: 10px;
-}
-
-/* --- ナビゲーションメニュー --- */
+/* ==========================================================================
+   3. ナビゲーションメニューエリア（右からスライドイン・縦並び）
+   ========================================================================== */
 #navMenu {
     position: fixed;
-    /* 固定 */
-    top: 20px;
-    left: -100%;
-    /* 初期状態は画面の左外に隠す */
-    width: 90%;
-    height: 45px;
-    /* メニューの高さ */
-    background: rgba(255, 192, 203, 0.90);
+    top: 0;
+    right: -100%; /* 初期状態は右側に完全に隠す */
+    width: 300px; /* PCでのメニューバーの幅 */
+    height: 100dvh;
+    background: rgba(17, 17, 17, 0.95);
     backdrop-filter: blur(10px);
-    z-index: 1000;
-    transition: left 0.4s ease-in-out;
-    /* 左から右へのアニメーション */
+    -webkit-backdrop-filter: blur(10px);
     display: flex;
+    justify-content: center;
     align-items: center;
+    transition: right 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+    z-index: 99; /* ボタン(101)より下、メインコンテンツより上 */
 }
 
-/* メニューが開いた状態 */
+/* ナビゲーションメニューが開いた時 */
 #navMenu.open {
-    left: 20px;
-    /* 画面内にスライド */
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    right: 0;
 }
 
-/* リスト部分の余白調整 */
+/* リストアイテムの縦一列化 */
 #navMenu ul {
-    display: flex;
     list-style: none;
-    padding: 0 20px 0 80px;
-    /* 左側に80pxの余白を作り、右側からスタートさせる */
+    padding: 0;
     margin: 0;
-    width: 100%;
-    overflow-x: auto;
-    white-space: nowrap;
-    -webkit-overflow-scrolling: touch;
+    display: flex;
+    flex-direction: column;
     align-items: center;
+    gap: 25px; /* メニュー間の縦の隙間 */
+    width: 100%;
 }
 
-/* スクロールバーを非表示にする設定 */
-#navMenu ul::-webkit-scrollbar {
-    display: none;
+#navMenu ul li {
+    width: 100%;
+    text-align: center;
 }
 
-#navMenu ul {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-}
-
-/* ロゴ画像のサイズをメニューバーの高さ（45px）に合わせて調整 */
-.nav-logo {
-    height: 25px;
-    /* メニューバーの高さ45pxに対して、少し余裕を持たせる */
-    width: auto;
-    /* 横幅は比率を維持 */
+#navMenu a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 1.4rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 2px;
     display: block;
-    transition: transform 0.3s;
+    padding: 10px 0;
+    transition: color 0.3s, transform 0.3s;
 }
 
-/* ホバーした時に少し浮かせる演出 */
-.nav-logo:hover {
+#navMenu a:hover {
+    color: #ff69b4;
     transform: scale(1.1);
+    text-shadow: 0 0 10px rgba(255, 105, 180, 0.6);
 }
 
 /* ==========================================================================
