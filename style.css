@@ -100,11 +100,11 @@ header {
     z-index: 100;
 }
 
-/* ボタンのコンテナ（右上に完全にピン留め固定） */
+/* ボタンのコンテナ（左上に完全にピン留め固定） */
 .menu-btn-container {
     position: fixed !important;
     top: 20px !important;
-    right: 20px !important;
+    left: 20px !important;
     width: 50px !important;
     height: 50px !important;
     background-color: rgba(17, 17, 17, 0.6) !important; /* 背景に馴染みつつ見やすくなる黒ベース */
@@ -143,7 +143,7 @@ header {
 /* ボタンが開いた時のアニメーション（X印） */
 /* 1番上の線：＼ */
 .menu-btn-container.open .menu-btn span:nth-child(1) {
-    transform: translateY(6px) rotate(45deg);
+    transform: translateY(9px) rotate(45deg);
 }
 
 .menu-btn-container.open .menu-btn span:nth-child(2) {
@@ -153,16 +153,16 @@ header {
 
 /* 3番目の線：／ */
 .menu-btn-container.open .menu-btn span:nth-child(3) {
-    transform: translateY(-6px) rotate(-45deg);
+    transform: translateY(-9px) rotate(-45deg);
 }
 
 /* ==========================================================================
-   3. ナビゲーションメニューエリア（右からスライドイン・縦並び）
+   3. ナビゲーションメニューエリア（左からスライドイン・縦並び）
    ========================================================================== */
 #navMenu {
     position: fixed;
     top: 0;
-    right: -100%; /* 初期状態は右側に完全に隠す */
+    left: -100%; /* 初期状態は右側に完全に隠す */
     width: 300px; /* PCでのメニューバーの幅 */
     height: 100dvh;
     background: rgba(17, 17, 17, 0.95);
@@ -171,13 +171,13 @@ header {
     display: flex;
     justify-content: center;
     align-items: center;
-    transition: right 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+    transition: left 0.4s cubic-bezier(0.25, 1, 0.5, 1);
     z-index: 99; /* ボタン(101)より下、メインコンテンツより上 */
 }
 
 /* ナビゲーションメニューが開いた時 */
 #navMenu.open {
-    right: 0;
+    left: 0;
 }
 
 /* リストアイテムの縦一列化 */
@@ -218,9 +218,7 @@ header {
 /* ==========================================================================
    3. HOME専用要素 (バナー / スライド)
    ========================================================================== */
-/* --- トップページ専用のスタイル --- */
-
-/* --- index.html（トップページ）専用：画面を固定してスクロールを禁止 --- */
+    /* --- index.html（トップページ）専用：画面を固定してスクロールを禁止 --- */
 body:has(.top-page-main) {
     height: 100vh;
     height: 100dvh;
