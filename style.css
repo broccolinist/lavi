@@ -37,6 +37,20 @@ html {
     color: #333;
 }
 
+/* サイト内のすべての画像に対してダウンロード対策 */
+img {
+    /* マウス右クリックや長押しによるメニュー選択を禁止 */
+    pointer-events: none;
+    
+    /* 画像の選択・コピーを禁止 */
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none;   /* Safari */
+    -khtml-user-select: none;     /* Konqueror HTML */
+    -moz-user-select: none;      /* Firefox */
+    -ms-user-select: none;       /* Internet Explorer/Edge */
+    user-select: none;           /* 各種ブラウザ共通 */
+}
+
 .background-image {
     position: fixed;
     top: 0;
@@ -109,7 +123,8 @@ header {
     height: 50px !important;
     background-color: rgba(17, 17, 17, 0.6) !important; /* 背景に馴染みつつ見やすくなる黒ベース */
     border-radius: 50%;
-    cursor: pointer !important;
+    /*cursor: pointer !important;*/
+    cursor: url('img/picture/carrot.png'), pointer !important;
     display: flex !important;
     justify-content: center !important;
     align-items: center !important;
