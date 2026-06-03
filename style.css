@@ -1140,6 +1140,20 @@ body:has(.top-page-main) {
     animation: fadeIn 0.5s ease;
 }
 
+/* 楽曲詳細を包むボックス（HTML側のクラス名に合わせて調整してください） */
+.music-detail-box,
+.music-container {
+    background: rgba(17, 17, 17, 0.65) !important; /* 背景をすりガラス風の少し暗い黒にする */
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 16px;
+    padding: 30px;
+    color: #ffffff !important; /* 基本の文字色を完全な白にする */
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+    margin-bottom: 40px;
+}
+
 .streaming-links {
     display: flex;
     flex-wrap: wrap;
