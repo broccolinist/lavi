@@ -1120,10 +1120,48 @@ body:has(.top-page-main) footer {
     padding: 5px 15px;
 }
 
+/* 1. 【一覧画面（閉じている時）】のタイトル文字色 */
 .music-title {
     font-size: 1.2rem;
-    color: #191970;
+    color: #191970; /* 白背景で見やすい濃い紺色 */
     margin: 10px 0 5px;
+}
+
+/* 2. 【詳細画面（開いた時）】のポップアップ全体の背景と文字色 */
+.discography-item[open] {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90vw;
+    max-width: 600px;
+    height: auto;
+    max-height: 85vh;
+    z-index: 2000;
+    box-shadow: 0 0 100px rgba(0, 0, 0, 0.7);
+    overflow-y: auto;
+
+    /* ★ここを変更：詳細が開いたら、背景をすりガラス風の暗い黒にします */
+    background: rgba(17, 17, 17, 0.7) !important; 
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #ffffff !important; /* ベースの文字色を白に */
+}
+
+/* 3. 【詳細画面（開いた時）】のタイトル文字色 */
+.discography-item[open] .music-title {
+    color: #ff69b4 !important; 
+    font-size: 1.5rem;         /* 詳細画面なので少し大きく目立たせる */
+    font-weight: bold;
+    /* 文字をほんのりネオン風に光らせる */
+    text-shadow: 0 0 10px rgba(110, 204, 238, 0.6); 
+    margin: 15px 0 5px;
+}
+
+/* 4. 【詳細画面（開いた時）】のリリース日の文字色調整 */
+.discography-item[open] .release-date {
+    color: #ccc !important; /* 黒背景で見えなくなるのを防ぐため、明るいグレーに */
 }
 
 .release-date {
