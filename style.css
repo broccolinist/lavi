@@ -239,68 +239,66 @@ body:has(.top-page-main) {
     height: 100vh;
     height: 100dvh;
     width: 100%;
-    /* 縦横のスクロールと、スマホ特有の「引っ張り」を禁止 */
-    overflow: hidden;
-    position: fixed;
-    left: 0;
-    top: 0;
-    /* iOS Safariなどのバウンス対策 */
-    overscroll-behavior: none;
+    /* 縦も横も完全にスクロールを禁止 */
+    overflow: hidden !important;
+    position: relative;
 }
 
+/* トップページ専用のメインエリアレイアウト */
 .top-page-main {
     padding-top: 0;
     margin: 0;
     width: 100%;
-    height: 100vh;
-    height: 100dvh;
+    /* 画面全体の高さからフッターの高さ（約80px）を引いたサイズにする */
+    height: calc(100vh - 70px);
+    height: calc(100dvh - 70px);
+    min-height: auto; /* 先ほどの設定を打ち消し */
     display: flex;
     flex-direction: column;
-    justify-content: flex-end;
+    justify-content: flex-end; /* キャラクターを一番下に固定 */
     align-items: center;
-    /* ここにも念のためバウンス防止を追加 */
-    overscroll-behavior-y: none;
+    position: relative;
 }
 
-.top-page-main .home-banner {
+/* トップページのバナーコンテナ */
+.home-banner {
     width: 100%;
-    margin-bottom: 0;
-    /* 下の隙間をなくす */
-    max-width: none;
+    height: 100%; /* 親要素(top-page-main)の高さ一杯に広げる */
+    position: relative;
+    overflow: hidden;
 }
 
-/* キャラクターの配置を微調整（画面の本当の底に合わせる） */
-.top-page-main .banner-wrapper {
-    height: 100vh;
-    /* 画面いっぱいの高さを確保 */
-    height: 100dvh;
-    display: flex;
-    align-items: flex-end;
-    /* 底に接地 */
-    justify-content: flex-start;
-}
-
-.top-page-main .banner-char {
-    height: 90%;
-    /* 画面の高さに対してのサイズ */
-    max-height: 600px;
-    /* PCでの大きすぎるのを防ぐ */
+/* キャラクターイラストの高さ調整 */
+.banner-char {
+    position: absolute;
+    bottom: 0;
+    /* フッターに被らないよう、最大の高さを100%に制限 */
+    height: 100%;
+    max-height: 100%;
     width: auto;
     object-fit: contain;
-    animation: slideInLeft 4s ease-out forwards, charFloat 3s ease-in-out infinite 2s;
-    margin-bottom: -2px;
-    /* わずかにマイナスすることで、隙間なく底に接地させます */
+    z-index: 2;
+}
+
+/* トップページ専用：フッターを一番下に完全に固定する */
+body:has(.top-page-main) footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    box-sizing: border-box;
+    z-index: 10;
 }
 
 /* --- スマホ用の調整 --- */
 @media (max-width: 768px) {
     .top-page-main .banner-wrapper {
-        height: 70vh;
+        height: 90vh;
         /* スマホでは少し控えめな高さに */
     }
 
     .top-page-main .banner-char {
-        max-height: 400px;
+        max-height: 500px;
         /* スマホでのサイズ */
         animation: slideInLeftMobile 3s ease-out forwards, charFloatMobile 3s ease-in-out infinite 2s;
     }
@@ -1288,8 +1286,16 @@ body:has(.top-page-main) {
    フッター & SNS
    ========================================================================== */
 footer {
-    text-align: center;
-    padding: 40px 0 20px;
+    width: 100%;
+    padding: 15px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px; 
+    color: #fff;
+    margin-top: auto;
+    
+    background-color: #171717; 
 }
 
 .page-title {
@@ -1299,18 +1305,18 @@ footer {
 }
 
 .sns-links a {
-    font-size: 24px;
-    color: #191970;
-    margin: 0 15px;
+    font-size: 36px;
+    color: #f7f7f7;
+    margin: 0 10px;
     text-decoration: none;
-    text-shadow: 1px 1px 2px #fffafa;
+    /* text-shadow: 1px 1px 2px #fffafa; */
 }
 
 .copyright {
     margin-top: 20px;
     font-size: 0.8rem;
-    color: #191970;
-    text-shadow: 1px 1px 2px #fffafa;
+    color: #f7f7f7;
+    /* text-shadow: 1px 1px 2px #fffafa; */
 }
 
 /* ==========================================================================
@@ -1357,12 +1363,13 @@ footer {
     }
 
     .banner-char {
-        transform: translateX(0%);
+        transform: translateX(-15%);
     }
 
     footer {
-        padding: 20px 0;
+        padding: 5px 0;
         text-align: center;
+        width: 100%;
     }
 
     .content-box,

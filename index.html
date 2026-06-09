@@ -181,6 +181,11 @@
             const headerHtml = await headerRes.text();
             document.getElementById('common-header').innerHTML = headerHtml;
 
+            // フッターの読み込み
+            const footerRes = await fetch('footer.html');
+            const footerHtml = await footerRes.text();
+            document.getElementById('common-footer').innerHTML = footerHtml;
+
             // --- ヘッダー読み込み後にハンバーガーメニューのJSを起動させる ---
             setupMenu();
         }
