@@ -354,6 +354,10 @@ body:has(.top-page-main) footer {
         /* 既存のスマホ用位置制御：真ん中ではなく、左に少し寄せる指示を安全に継承 */
         left: 50% !important;
         transform: translateX(-40%) !important; /* ご希望の携帯表示の制御位置 */
+
+        pointer-events: none;         /* マウスやタッチの反応を完全に無視 */
+        user-select: none;            /* テキストや画像の選択を禁止 */
+        -webkit-user-drag: none;      /* iOS/Safari等でのドラッグを禁止 */
     }
 
     .top-page-main::after {
