@@ -234,151 +234,155 @@ header {
 /* ==========================================================================
    3. HOME専用要素 (バナー / スライド)
    ========================================================================== */
-    /* --- index.html（トップページ）専用：画面を固定してスクロールを禁止 --- */
+/* --- index.html（トップページ）専用：画面を固定してスクロールを禁止 --- */
 body:has(.top-page-main) {
-    height: 100vh;
-    height: 100dvh;
-    width: 100%;
+    height: 100vh !important;
+    height: 100dvh !important;
+    width: 100% !important;
     overflow: hidden !important;
     position: relative;
-}
-
-/* トップページ専用のメインエリアレイアウト */
-.top-page-main {
-    padding-top: 0;
     margin: 0;
-    width: 100%;
-    /* 画面全体の高さから「ヘッダー(60px) + フッター(約60px)」を引いた領域をメインにする */
-    height: calc(100vh - 60px);
-    height: calc(100dvh - 60px);
-    min-height: auto;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end; /* 常に一番下に引きつける */
-    align-items: center;
-    position: relative;
+    padding: 0;
+    display: block; /* 不安定なGrid設定を完全に打ち消し通常配置へ */
 }
 
-/* トップページのバナーコンテナ */
-.home-banner {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: flex-end; /* 中の要素を絶対に下基準にする */
-    position: relative;
+/* 2. トップページ専用のメインエリア（デベロッパーツール上のピンクの枠を100%に固定） */
+.top-page-main {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100% !important;
+    height: 100vh !important;
+    height: 100dvh !important;
+    min-height: auto !important;
+    margin: 0 !important;
+    padding: 0 !important;
     overflow: hidden;
+    z-index: 1;
 }
 
-/* どんな解像度でもキャラクターを美しくフッターに接地させる設定 */
-.banner-wrapper {
+/* 3. トップページのバナーコンテナ */
+.home-banner {
+    width: 100% !important;
+    height: 100% !important;
     position: relative;
-    height: 100%;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: flex-end; /* ここでも下揃えを徹底 */
 }
 
-/* キャラクターイラストのサイズと位置の最適化 */
+/* 4. キャラクターを包む枠（黄色の枠を画像サイズに潰させず、横幅100%に強制拡張！） */
+.banner-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100% !important;   /* これにより、画面の端（左外）がアニメーションの基準線になります */
+    height: 100% !important;  /* 高さを画面全体いっぱいに確保 */
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* 5. キャラクターイラスト（PCモニターのサイズを問わず、フッターの真上に完璧接地） */
 .banner-char {
     position: absolute;
-    bottom: 0; /* 絶対に下（フッターのすぐ上）に固定 */
+    /* PCのフッターの高さ（約82px）の分だけボトムから浮かせ、1ミリの隙間もなく接地させます */
+    bottom: 82px !important; 
+    left: 50% !important;
+    transform: translateX(-30%);
     
-    /* 【ここが重要！】高さを画面の縦幅いっぱいに引き伸ばしつつ、横幅もはみ出さないように制限 */
-    height: 100%;
-    max-height: 100%;
-    width: auto;
+    /* ヘッダー(10px) + フッター(82px) = 92px を画面全体から引いた領域をキャラクターの「最大高さ」にする */
+    height: calc(100vh - 92px) !important;
+    height: calc(100dvh - 92px) !important;
+    width: auto !important;
     
-    /* 縦横比を維持したまま、表示エリアに綺麗に収める（隙間を作らない） */
     object-fit: contain; 
-    object-position: bottom center; /* 画像自体の下部を基準点にする */
+    object-position: bottom center; /* 画像の足元を必ず基準点にする */
     z-index: 2;
+
+    /* 黄色の枠が100%に広がったことで、画面の左外から正しくスライドインします */
+    animation: slideInLeft 1.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
 }
 
-/* 画面が横に広すぎる大型モニター（PC）でキャラが小さくなりすぎるのを防ぐ */
-@media (min-width: 1200px) {
-    .banner-char {
-        /* 横幅の広い画面では、縦いっぱい（100%）だと小さく見える場合があるため、
-           少しゆとりを持たせたい場合はここで最小サイズを指定することも可能です。
-           現状は100%で綺麗に下接地します */
-        height: 120%; 
-    }
-}
-
-/* トップページ専用：フッターを一番下に完全に固定する */
-body:has(.top-page-main) footer {
-    position: fixed;
-    bottom: 0;
+/* 6. トップページ専用：ヘッダーとフッターを完全固定（非同期によるズレを強制排除） */
+body:has(.top-page-main) #common-header,
+body:has(.top-page-main) header {
+    position: fixed !important;
+    top: 0;
     left: 0;
     width: 100%;
-    box-sizing: border-box;
-    z-index: 10;
+    z-index: 100;
+}
+
+body:has(.top-page-main) #common-footer,
+body:has(.top-page-main) footer {
+    position: fixed !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    z-index: 100;
 }
 
 /* --- スマホ用の調整 --- */
 @media (max-width: 768px) {
-    .top-page-main .banner-wrapper {
-        height: 90vh;
-        /* スマホでは少し控えめな高さに */
-    }
+    /* ---（他の既存のスマホ用設定はすべてそのままで大丈夫です）--- */
 
-    .top-page-main .banner-char {
-        max-height: 500px;
-        /* スマホでのサイズ */
-        animation: slideInLeftMobile 3s ease-out forwards, charFloatMobile 3s ease-in-out infinite 2s;
+    /* スマホ表示の時だけ、キャラの高さ計算をスマホ用フッターの高さ(74px)に自動スイッチ */
+    body:has(.top-page-main) .banner-char {
+        bottom: 74px !important; /* スマホのフッター高さに合わせる */
+        height: calc(100vh - 134px) !important; /* ヘッダー60px + スマホフッター74px = 134px */
+        height: calc(100dvh - 134px) !important;
+        
+        /* 既存のスマホ用位置制御：真ん中ではなく、左に少し寄せる指示を安全に継承 */
+        left: 50% !important;
+        transform: translateX(-40%) !important; /* ご希望の携帯表示の制御位置 */
     }
 }
 
 /* --- HOMEバナー --- */
-/* --- バナー全体の器 --- */
-.home-banner {
+/* .home-banner {
     width: 100%;
-    max-width: 1200px;
+    max-width: 1200px; */
     /* キャラクターが動く範囲を広めに確保 */
-    margin-bottom: 30px;
-    overflow: hidden;
+    /* margin-bottom: 30px;
+    overflow: hidden; */
     /* 画面外から出てくる際のはみ出しを隠す */
-}
+/* } */
 
-.banner-wrapper {
+/* .banner-wrapper {
     position: relative;
     width: 100%;
-    height: 450px;
+    height: 450px; */
     /* キャラクターが表示される領域の高さ */
-    display: flex;
-    align-items: flex-end;
+    /* display: flex;
+    align-items: flex-end; */
     /* キャラクターを下に接地させる */
-}
+/* } */
 
 /* --- キャラクターの設定とアニメーション --- */
-.banner-char {
-    height: 100%;
+/* .banner-char {
+    height: 100%; */
     /* wrapperの高さに合わせる */
-    max-height: 450px;
+    /* max-height: 450px; */
     /* キャラクターのサイズ（高さ）を調整 */
-    width: auto;
+    /* width: auto;
     object-fit: contain;
-    z-index: 2;
+    z-index: 2; */
 
     /* アニメーションの適用 */
     /* 2秒かけてスライドし、その後ふわふわ浮遊をループさせる */
-    animation: slideInLeft 4s ease-out forwards, charFloat 3s ease-in-out infinite 2s;
-}
+    /* animation: slideInLeft 4s ease-out forwards, charFloat 3s ease-in-out infinite 2s;
+} */
 
 /* 左から右へスライドして登場するアニメーション */
-@keyframes slideInLeft {
+/* @keyframes slideInLeft {
     0% {
-        transform: translateX(100%);
+        transform: translateX(100%); */
         /* 画面の左外からスタート */
-        opacity: 0;
+        /* opacity: 0;
     }
 
     100% {
         transform: translateX(70%);
         opacity: 1;
     }
-}
+} */
 
 .section-title {
     font-size: 1.5rem;
@@ -1426,9 +1430,9 @@ footer {
         padding: 25px;
     }
 
-    .banner-char {
+    /* .banner-char {
         transform: translateX(-15%);
-    }
+    } */
 
     footer {
         padding: 5px 0;

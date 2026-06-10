@@ -174,20 +174,22 @@
         }
     </script> -->
 
-    <script>
+<script>
         async function loadCommonParts() {
-            // ヘッダーの読み込み
+            // 1. ヘッダーの読み込み
             const headerRes = await fetch('header.html');
             const headerHtml = await headerRes.text();
             document.getElementById('common-header').innerHTML = headerHtml;
 
-            // フッターの読み込み
+            // 2. フッターの読み込み
             const footerRes = await fetch('footer.html');
             const footerHtml = await footerRes.text();
             document.getElementById('common-footer').innerHTML = footerHtml;
 
             // --- ヘッダー読み込み後にハンバーガーメニューのJSを起動させる ---
             setupMenu();
+            
+            // ★以前ここに追加した「document.body.style.gridTemplateRows...」の行は完全に削除してください
         }
 
         function setupMenu() {
@@ -200,7 +202,6 @@
                     navMenu.classList.toggle('open');
                 });
 
-                // リンクをクリックしたらメニューを閉じる処理を追加
                 navMenu.querySelectorAll('a').forEach(link => {
                     link.addEventListener('click', () => {
                         menuBtn.classList.remove('open');
@@ -213,7 +214,6 @@
         // 実行
         loadCommonParts();
     </script>
-
 </body>
 
 </html>
