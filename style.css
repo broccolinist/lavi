@@ -356,6 +356,23 @@ body:has(.top-page-main) footer {
         transform: translateX(-40%) !important; /* ご希望の携帯表示の制御位置 */
     }
 
+    .top-page-main::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    
+        /* 完全に透明な壁を最前面に敷く */
+        background: transparent; 
+    
+        /* ヘッダー(z-index: 100)やフッター(z-index: 100)よりは下、
+           キャラクター(z-index: 2)よりは上に配置することで、
+        メニューやSNSリンクのクリックを邪魔せず、キャラだけをガードします */
+        z-index: 10; 
+    }
+
 }
 
 .section-title {
