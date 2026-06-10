@@ -244,6 +244,10 @@ body:has(.top-page-main) {
     margin: 0;
     padding: 0;
     display: block; /* 不安定なGrid設定を完全に打ち消し通常配置へ */
+
+    /* ★【追加】スマホでの画面全体の引っ張り・バウンド（オーバースクロール）を物理的に禁止 */
+    overscroll-behavior: none !important; 
+    touch-action: none !important; /* 指でのスクロール・拡大縮小操作自体を無効化 */
 }
 
 /* 2. トップページ専用のメインエリア（デベロッパーツール上のピンクの枠を100%に固定） */
@@ -277,6 +281,13 @@ body:has(.top-page-main) {
        キャラクター(z-index: 2)よりは上に配置することで、
        メニューやSNSリンクのクリックを邪魔せず、キャラだけをガードします */
     z-index: 10; 
+}
+
+/* トップページ表示時、最外枠のhtmlタグ自体のオーバースクロールも完全にロック */
+html:has(.top-page-main) {
+    overflow: hidden !important;
+    overscroll-behavior: none !important;
+    touch-action: none !important;
 }
 
 /* 3. トップページのバナーコンテナ */
@@ -354,10 +365,6 @@ body:has(.top-page-main) footer {
         /* 既存のスマホ用位置制御：真ん中ではなく、左に少し寄せる指示を安全に継承 */
         left: 50% !important;
         transform: translateX(-40%) !important; /* ご希望の携帯表示の制御位置 */
-
-        pointer-events: none;         /* マウスやタッチの反応を完全に無視 */
-        user-select: none;            /* テキストや画像の選択を禁止 */
-        -webkit-user-drag: none;      /* iOS/Safari等でのドラッグを禁止 */
     }
 
     .top-page-main::after {
@@ -367,15 +374,7 @@ body:has(.top-page-main) footer {
         left: 0;
         width: 100%;
         height: 100%;
-    
-        /* 完全に透明な壁を最前面に敷く */
-        background: transparent; 
-    
-        /* ヘッダー(z-index: 100)やフッター(z-index: 100)よりは下、
-           キャラクター(z-index: 2)よりは上に配置することで、
-        メニューやSNSリンクのクリックを邪魔せず、キャラだけをガードします */
-        z-index: 10; 
-    }
+        }
 
 }
 
