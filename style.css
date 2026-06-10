@@ -261,6 +261,24 @@ body:has(.top-page-main) {
     z-index: 1;
 }
 
+/* トップページ専用のメインエリアに、触らせないための透明な壁（シールド）を重ねる */
+.top-page-main::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    
+    /* 完全に透明な壁を最前面に敷く */
+    background: transparent; 
+    
+    /* ヘッダー(z-index: 100)やフッター(z-index: 100)よりは下、
+       キャラクター(z-index: 2)よりは上に配置することで、
+       メニューやSNSリンクのクリックを邪魔せず、キャラだけをガードします */
+    z-index: 10; 
+}
+
 /* 3. トップページのバナーコンテナ */
 .home-banner {
     width: 100% !important;
@@ -284,20 +302,23 @@ body:has(.top-page-main) {
     position: absolute;
     /* PCのフッターの高さ（約82px）の分だけボトムから浮かせ、1ミリの隙間もなく接地させます */
     bottom: 82px !important; 
-    left: 50% !important;
+    left: 80% !important;
     transform: translateX(-30%);
     
-    /* ヘッダー(10px) + フッター(82px) = 92px を画面全体から引いた領域をキャラクターの「最大高さ」にする */
-    height: calc(100vh - 92px) !important;
-    height: calc(100dvh - 92px) !important;
+    /* ヘッダー(20px) + フッター(82px) = 102px を画面全体から引いた領域をキャラクターの「最大高さ」にする */
+    height: calc(100vh - 102px) !important;
+    height: calc(100dvh - 102px) !important;
     width: auto !important;
     
     object-fit: contain; 
     object-position: bottom center; /* 画像の足元を必ず基準点にする */
     z-index: 2;
 
-    /* 黄色の枠が100%に広がったことで、画面の左外から正しくスライドインします */
-    animation: slideInLeft 1.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+    animation: slideInRight 2.0s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+
+    pointer-events: none;         /* マウスやタッチの反応を完全に無視 */
+    user-select: none;            /* テキストや画像の選択を禁止 */
+    -webkit-user-drag: none;      /* iOS/Safari等でのドラッグを禁止 */
 }
 
 /* 6. トップページ専用：ヘッダーとフッターを完全固定（非同期によるズレを強制排除） */
@@ -319,6 +340,7 @@ body:has(.top-page-main) footer {
     z-index: 100;
 }
 
+
 /* --- スマホ用の調整 --- */
 @media (max-width: 768px) {
     /* ---（他の既存のスマホ用設定はすべてそのままで大丈夫です）--- */
@@ -333,56 +355,8 @@ body:has(.top-page-main) footer {
         left: 50% !important;
         transform: translateX(-40%) !important; /* ご希望の携帯表示の制御位置 */
     }
+
 }
-
-/* --- HOMEバナー --- */
-/* .home-banner {
-    width: 100%;
-    max-width: 1200px; */
-    /* キャラクターが動く範囲を広めに確保 */
-    /* margin-bottom: 30px;
-    overflow: hidden; */
-    /* 画面外から出てくる際のはみ出しを隠す */
-/* } */
-
-/* .banner-wrapper {
-    position: relative;
-    width: 100%;
-    height: 450px; */
-    /* キャラクターが表示される領域の高さ */
-    /* display: flex;
-    align-items: flex-end; */
-    /* キャラクターを下に接地させる */
-/* } */
-
-/* --- キャラクターの設定とアニメーション --- */
-/* .banner-char {
-    height: 100%; */
-    /* wrapperの高さに合わせる */
-    /* max-height: 450px; */
-    /* キャラクターのサイズ（高さ）を調整 */
-    /* width: auto;
-    object-fit: contain;
-    z-index: 2; */
-
-    /* アニメーションの適用 */
-    /* 2秒かけてスライドし、その後ふわふわ浮遊をループさせる */
-    /* animation: slideInLeft 4s ease-out forwards, charFloat 3s ease-in-out infinite 2s;
-} */
-
-/* 左から右へスライドして登場するアニメーション */
-/* @keyframes slideInLeft {
-    0% {
-        transform: translateX(100%); */
-        /* 画面の左外からスタート */
-        /* opacity: 0;
-    }
-
-    100% {
-        transform: translateX(70%);
-        opacity: 1;
-    }
-} */
 
 .section-title {
     font-size: 1.5rem;
@@ -1105,8 +1079,6 @@ body:has(.top-page-main) footer {
     display: none;
 }
 
-/* デフォルトの矢印を消す */
-
 /* ジャケット画像の設定 */
 .jacket-wrapper {
     position: relative;
@@ -1430,10 +1402,6 @@ footer {
         padding: 25px;
     }
 
-    /* .banner-char {
-        transform: translateX(-15%);
-    } */
-
     footer {
         padding: 5px 0;
         text-align: center;
@@ -1448,82 +1416,18 @@ footer {
     }
 }
 
-   /* @media (max-width: 768px) {
-
-     1. コンテンツ領域の最小高さ制限を解除する 
-    main {
-        padding-top: 60px;
-         ヘッダーとの距離を少し詰める 
-        min-height: auto;
-         画面いっぱいに広げる設定を解除 
+/* ==========================================================================
+   12. トップページ専用：右からのスライドインアニメーション定義
+   ========================================================================== */
+@keyframes slideInRight {
+    0% {
+        /* 画面の右側（見えない場所）からスタート */
+        transform: translateX(150%);
+        opacity: 0;
     }
-
-     2. フッターの余白を調整して上に引き上げる 
-    footer {
-        padding: 20px 0 20px;
-         上下の余白を少しタイトにする 
-        text-align: center;
-        width: 100%;
-    }
-
-     3. コンテンツボックス下の余白も調整 
-    .content-box,
-    .home-banner,
-    .news-container,
-    .about-wrapper {
-        margin-bottom: 20px;
-         下側の余白を少し小さくしてフッターを近づける 
+    100% {
+        /* 現在の美しい定位置（中央）にぴったり止まる */
+        transform: translateX(-50%);
+        opacity: 1;
     }
 }
-
-@media (max-width: 768px) {
-    .video-item {
-        flex: 0 0 80%;
-         スマホでは画面の8割の幅にする 
-    }
-
-    .video-item img {
-        width: 100% !important;
-        height: auto !important;
-        aspect-ratio: 450 / 250;
-    }
-
-    .video-carousel {
-        padding: 20px 10%;
-         スマホでも左右を見切らせる 
-    }
-
-    .banner-char {
-         スマホではキャラが大きく見えがちなので、位置をさらに左へ逃がす 
-        transform: translateX(-30%);
-    }
-}
-
-@media (max-width: 768px) {
-
-     1. キャラクターが表示される領域の高さをスマホ用に少し下げる 
-    .banner-wrapper {
-        height: 400px;
-    }
-
-     2. キャラクター自体の最大サイズをスマホ用に調整 
-    .banner-char {
-        max-height: 400px;
-         スマホで止まる位置を個別に設定（PCより控えめにする） 
-        animation: slideInLeftMobile 3s ease-out forwards, charFloatMobile 3s ease-in-out infinite 2s;
-    }
-
-     3. スマホ専用のスライドアニメーション（止まる位置を調整） 
-    @keyframes slideInLeftMobile {
-        0% {
-            transform: translateX(-100%);
-            opacity: 0;
-        }
-
-        100% {
-             75%だと突き抜けるので、10%〜20%くらいで調整してみてください 
-            transform: translateX(-10%);
-            opacity: 1;
-        }
-    }
-} */
