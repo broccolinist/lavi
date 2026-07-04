@@ -33,7 +33,7 @@ html {
     padding: 0;
     width: 100%;
     overflow-x: hidden;
-    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-family: 'Noto Sans JP','Helvetica Neue', Arial, sans-serif;
     color: #333;
 }
 
@@ -197,6 +197,7 @@ header {
 
 /* リストアイテムの縦一列化 */
 #navMenu ul {
+    font-family: 'Orbitron', sans-serif;
     list-style: none;
     padding: 0;
     margin: 0;
@@ -463,89 +464,95 @@ body:has(.top-page-main) footer {
 }
 
 .news_glitch {
-    font-size: 130px;
+    font-size: 4.0rem; /* 他のページタイトルとサイズを統一（130pxから調整） */
     line-height: 1;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Orbitron', sans-serif;
     font-weight: 700;
-    transform: translate(0%, 0%);
     margin: 0;
     text-decoration: none;
     color: #fff;
     display: inline-block;
-    /* 自身の幅と高さを維持 */
     position: relative;
-    animation: news-glitch-anim 4s linear infinite;
-    /* アニメーションを適用 */
     z-index: 10;
     margin-bottom: 40px;
+    
+    /* 常時ブレるのではなく、4秒周期のメリハリのあるアニメーションに変更 */
+    animation: text-glow-pulse 2s infinite;
+}
 
-    /* 下のコンテンツ枠との距離を確保 */
-    &:before,
-    &:after {
-        display: block;
-        content: 'NEWS';
-        position: absolute;
-        top: 0;
-        left: 0;
-        height: 100%;
-        width: 100%;
-        opacity: .8;
+/* グリッチ用の疑似要素（本体の文字を絶対に揺らさないための工夫） */
+.news_glitch::before,
+.news_glitch::after {
+    display: block;
+    content: 'NEWS';
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    opacity: 0.7;
+    /* 通常時は完全に本体の真後ろに隠す（ブレを無くす） */
+    transform: translate(0, 0); 
+}
+
+.news_glitch::after {
+    color: #f0f;
+    z-index: -2;
+    /* 4秒周期のうち、一瞬だけズレるアニメーション */
+    animation: glitch-periodic-right 4s infinite;
+}
+
+.news_glitch::before {
+    color: #0ff;
+    z-index: -1;
+    /* 4秒周期のうち、一瞬だけ逆にズレるアニメーション */
+    animation: glitch-periodic-left 4s infinite;
+}
+
+/* --- 【新設計】周期的なグリッチアニメーション ---
+   0%〜85%（約3.4秒間）は完全に静止させ、残りの15%（約0.6秒）で激しくバグらせます。
+   これにより「普段は読めるのに、ときどきバグる」電脳世界らしさが演出できます。 */
+
+@keyframes glitch-periodic-left {
+    0%, 85%, 89%, 93%, 100% {
+        transform: translate(0, 0);
+        clip-path: inset(0 0 0 0);
     }
-
-    &:after {
-        color: #f0f;
-        z-index: -2;
+    86% {
+        transform: translate(-6px, -2px);
+        clip-path: inset(10% 0 80% 0); /* 文字を水平にスライスする効果 */
     }
-
-    &:before {
-        color: #0ff;
-        z-index: -1;
+    90% {
+        transform: translate(4px, 3px);
+        clip-path: inset(60% 0 10% 0);
     }
-
-        &:before {
-            animation: glitch-left .4s cubic-bezier(.25, .46, .45, .94) both infinite
-        }
-
-        &:after {
-            animation: glitch-left-2 .4s cubic-bezier(.25, .46, .45, .94) reverse both infinite
-        }
-    }
-
-@keyframes glitch-left {
-    0% {
-        transform: translate(0)
-    }
-
-    33% {
-        transform: translate(-5px, 3px)
-    }
-
-    66% {
-        transform: translate(5px, -3px)
-    }
-
-    to {
-        transform: translate(0)
+    92% {
+        transform: translate(-3px, 2px);
+        clip-path: inset(30% 0 40% 0);
     }
 }
 
-@keyframes glitch-left-2 {
-    0% {
-        transform: translate(0)
+@keyframes glitch-periodic-right {
+    0%, 85%, 89%, 93%, 100% {
+        transform: translate(0, 0);
+        clip-path: inset(0 0 0 0);
     }
-
-    33% {
-        transform: translate(-5px, -3px)
+    87% {
+        transform: translate(6px, 2px);
+        clip-path: inset(40% 0 30% 0);
     }
-
-    66% {
-        transform: translate(5px, 2px)
-    }
-
-    to {
-        transform: translate(0)
+    91% {
+        transform: translate(-4px, -2px);
+        clip-path: inset(10% 0 70% 0);
     }
 }
+
+/* タイトル全体が時折フワッと明滅する、可読性を損なわない緩やかな効果 */
+@keyframes text-glow-pulse {
+    0%, 85%, 100% { filter: brightness(100%); }
+    88%, 91% { filter: brightness(140%) contrast(120%); }
+}
+
 
 /* 日付とカテゴリ */
 .news-meta {
@@ -714,6 +721,96 @@ body:has(.top-page-main) footer {
     align-items: center;
 }
 
+.about_glitch {
+    font-size: 4.0rem; /* 他のページタイトルとサイズを統一（130pxから調整） */
+    line-height: 1;
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 700;
+    margin: 0;
+    text-decoration: none;
+    color: #fff;
+    display: inline-block;
+    position: relative;
+    z-index: 10;
+    margin-bottom: 40px;
+    
+    /* 常時ブレるのではなく、4秒周期のメリハリのあるアニメーションに変更 */
+    animation: text-glow-pulse 2s infinite;
+}
+
+/* グリッチ用の疑似要素（本体の文字を絶対に揺らさないための工夫） */
+.about_glitch::before,
+.about_glitch::after {
+    display: block;
+    content: 'ABOUT';
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    opacity: 0.7;
+    /* 通常時は完全に本体の真後ろに隠す（ブレを無くす） */
+    transform: translate(0, 0); 
+}
+
+.about_glitch::after {
+    color: #f0f;
+    z-index: -2;
+    /* 4秒周期のうち、一瞬だけズレるアニメーション */
+    animation: glitch-periodic-right 4s infinite;
+}
+
+.about_glitch::before {
+    color: #0ff;
+    z-index: -1;
+    /* 4秒周期のうち、一瞬だけ逆にズレるアニメーション */
+    animation: glitch-periodic-left 4s infinite;
+}
+
+/* --- 【新設計】周期的なグリッチアニメーション ---
+   0%〜85%（約3.4秒間）は完全に静止させ、残りの15%（約0.6秒）で激しくバグらせます。
+   これにより「普段は読めるのに、ときどきバグる」電脳世界らしさが演出できます。 */
+
+@keyframes glitch-periodic-left {
+    0%, 85%, 89%, 93%, 100% {
+        transform: translate(0, 0);
+        clip-path: inset(0 0 0 0);
+    }
+    86% {
+        transform: translate(-6px, -2px);
+        clip-path: inset(10% 0 80% 0); /* 文字を水平にスライスする効果 */
+    }
+    90% {
+        transform: translate(4px, 3px);
+        clip-path: inset(60% 0 10% 0);
+    }
+    92% {
+        transform: translate(-3px, 2px);
+        clip-path: inset(30% 0 40% 0);
+    }
+}
+
+@keyframes glitch-periodic-right {
+    0%, 85%, 89%, 93%, 100% {
+        transform: translate(0, 0);
+        clip-path: inset(0 0 0 0);
+    }
+    87% {
+        transform: translate(6px, 2px);
+        clip-path: inset(40% 0 30% 0);
+    }
+    91% {
+        transform: translate(-4px, -2px);
+        clip-path: inset(10% 0 70% 0);
+    }
+}
+
+/* タイトル全体が時折フワッと明滅する、可読性を損なわない緩やかな効果 */
+@keyframes text-glow-pulse {
+    0%, 85%, 100% { filter: brightness(100%); }
+    88%, 91% { filter: brightness(140%) contrast(120%); }
+}
+
 .about-image-container {
     width: 100%;
     max-width: 600px;
@@ -732,72 +829,6 @@ body:has(.top-page-main) footer {
     border-radius: 4px;
 }
 
-.about-page-title {
-    font-size: 4rem;
-    font-weight: 900;
-    text-transform: uppercase;
-    position: relative;
-    display: inline-block;
-
-    /* 1. 本体の文字設定（グラデーション） */
-    color: transparent !important;
-    -webkit-text-fill-color: transparent !important;
-    background: linear-gradient(to right,
-            #191970 0%,
-            #6eccee 25%,
-            #ff69b4 50%,
-            #6eccee 75%,
-            #191970 100%) !important;
-    background-size: 200% auto !important;
-    -webkit-background-clip: text !important;
-    background-clip: text !important;
-
-    /* アニメーション */
-    animation:
-        flow-gradient 5s linear infinite,
-        kode-text 4s linear infinite;
-
-    text-shadow: none !important;
-}
-
-/* --- アニメーション定義 --- */
-
-/* 形と明るさを変えて「バグ」を作る */
-@keyframes kode-text {
-    from {
-        --angle: 45deg;
-        transform: translateY(0vh);
-    }
-
-    49.5% {
-        --angle: 360deg;
-        transform: translateY(-1vh);
-        filter: brightness(100%);
-    }
-
-    50% {
-        --angle: 360deg;
-        transform: translateY(-1vh) scaleY(0.1) skewX(253deg);
-        filter: brightness(190%);
-    }
-
-    51% {
-        --angle: 360deg;
-        transform: translateY(-1vh) scaleY(0.5) skewY(37deg);
-        filter: brightness(190%);
-    }
-
-    52% {
-        --angle: 360deg;
-        filter: brightness(190%);
-        transform: translateY(0vh);
-    }
-
-    to {
-        --angle: 45deg;
-        transform: translateY(0vh);
-    }
-}
 
 .about-content-box {
     background: rgba(255, 255, 255, 0.9);
@@ -957,6 +988,96 @@ body:has(.top-page-main) footer {
 }
 
 /* --- ディスコグラフィーセクション --- */
+.music_glitch {
+    font-size: 4.0rem; /* 他のページタイトルとサイズを統一（130pxから調整） */
+    line-height: 1;
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 700;
+    margin: 0;
+    text-decoration: none;
+    color: #fff;
+    display: inline-block;
+    position: relative;
+    z-index: 10;
+    margin-bottom: 40px;
+    
+    /* 常時ブレるのではなく、4秒周期のメリハリのあるアニメーションに変更 */
+    animation: text-glow-pulse 2s infinite;
+}
+
+/* グリッチ用の疑似要素（本体の文字を絶対に揺らさないための工夫） */
+.music_glitch::before,
+.music_glitch::after {
+    display: block;
+    content: 'MUSIC';
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    opacity: 0.7;
+    /* 通常時は完全に本体の真後ろに隠す（ブレを無くす） */
+    transform: translate(0, 0); 
+}
+
+.music_glitch::after {
+    color: #f0f;
+    z-index: -2;
+    /* 4秒周期のうち、一瞬だけズレるアニメーション */
+    animation: glitch-periodic-right 4s infinite;
+}
+
+.music_glitch::before {
+    color: #0ff;
+    z-index: -1;
+    /* 4秒周期のうち、一瞬だけ逆にズレるアニメーション */
+    animation: glitch-periodic-left 4s infinite;
+}
+
+/* --- 【新設計】周期的なグリッチアニメーション ---
+   0%〜85%（約3.4秒間）は完全に静止させ、残りの15%（約0.6秒）で激しくバグらせます。
+   これにより「普段は読めるのに、ときどきバグる」電脳世界らしさが演出できます。 */
+
+@keyframes glitch-periodic-left {
+    0%, 85%, 89%, 93%, 100% {
+        transform: translate(0, 0);
+        clip-path: inset(0 0 0 0);
+    }
+    86% {
+        transform: translate(-6px, -2px);
+        clip-path: inset(10% 0 80% 0); /* 文字を水平にスライスする効果 */
+    }
+    90% {
+        transform: translate(4px, 3px);
+        clip-path: inset(60% 0 10% 0);
+    }
+    92% {
+        transform: translate(-3px, 2px);
+        clip-path: inset(30% 0 40% 0);
+    }
+}
+
+@keyframes glitch-periodic-right {
+    0%, 85%, 89%, 93%, 100% {
+        transform: translate(0, 0);
+        clip-path: inset(0 0 0 0);
+    }
+    87% {
+        transform: translate(6px, 2px);
+        clip-path: inset(40% 0 30% 0);
+    }
+    91% {
+        transform: translate(-4px, -2px);
+        clip-path: inset(10% 0 70% 0);
+    }
+}
+
+/* タイトル全体が時折フワッと明滅する、可読性を損なわない緩やかな効果 */
+@keyframes text-glow-pulse {
+    0%, 85%, 100% { filter: brightness(100%); }
+    88%, 91% { filter: brightness(140%) contrast(120%); }
+}
+
 .music-section {
     display: grid;
     /* 一覧時：PCでは4〜5列、スマホでも2列くらいに小さく並べる */
@@ -1248,6 +1369,96 @@ body:has(.top-page-main) footer {
 /* ==========================================================================
    Game ページ
    ========================================================================== */
+.game_glitch {
+    font-size: 4.0rem; /* 他のページタイトルとサイズを統一（130pxから調整） */
+    line-height: 1;
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 700;
+    margin: 0;
+    text-decoration: none;
+    color: #fff;
+    display: inline-block;
+    position: relative;
+    z-index: 10;
+    margin-bottom: 40px;
+    
+    /* 常時ブレるのではなく、4秒周期のメリハリのあるアニメーションに変更 */
+    animation: text-glow-pulse 2s infinite;
+}
+
+/* グリッチ用の疑似要素（本体の文字を絶対に揺らさないための工夫） */
+.game_glitch::before,
+.game_glitch::after {
+    display: block;
+    content: 'GAME';
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    opacity: 0.7;
+    /* 通常時は完全に本体の真後ろに隠す（ブレを無くす） */
+    transform: translate(0, 0); 
+}
+
+.game_glitch::after {
+    color: #f0f;
+    z-index: -2;
+    /* 4秒周期のうち、一瞬だけズレるアニメーション */
+    animation: glitch-periodic-right 4s infinite;
+}
+
+.game_glitch::before {
+    color: #0ff;
+    z-index: -1;
+    /* 4秒周期のうち、一瞬だけ逆にズレるアニメーション */
+    animation: glitch-periodic-left 4s infinite;
+}
+
+/* --- 【新設計】周期的なグリッチアニメーション ---
+   0%〜85%（約3.4秒間）は完全に静止させ、残りの15%（約0.6秒）で激しくバグらせます。
+   これにより「普段は読めるのに、ときどきバグる」電脳世界らしさが演出できます。 */
+
+@keyframes glitch-periodic-left {
+    0%, 85%, 89%, 93%, 100% {
+        transform: translate(0, 0);
+        clip-path: inset(0 0 0 0);
+    }
+    86% {
+        transform: translate(-6px, -2px);
+        clip-path: inset(10% 0 80% 0); /* 文字を水平にスライスする効果 */
+    }
+    90% {
+        transform: translate(4px, 3px);
+        clip-path: inset(60% 0 10% 0);
+    }
+    92% {
+        transform: translate(-3px, 2px);
+        clip-path: inset(30% 0 40% 0);
+    }
+}
+
+@keyframes glitch-periodic-right {
+    0%, 85%, 89%, 93%, 100% {
+        transform: translate(0, 0);
+        clip-path: inset(0 0 0 0);
+    }
+    87% {
+        transform: translate(6px, 2px);
+        clip-path: inset(40% 0 30% 0);
+    }
+    91% {
+        transform: translate(-4px, -2px);
+        clip-path: inset(10% 0 70% 0);
+    }
+}
+
+/* タイトル全体が時折フワッと明滅する、可読性を損なわない緩やかな効果 */
+@keyframes text-glow-pulse {
+    0%, 85%, 100% { filter: brightness(100%); }
+    88%, 91% { filter: brightness(140%) contrast(120%); }
+}
+
 .game-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -1288,6 +1499,95 @@ body:has(.top-page-main) footer {
 /* ==========================================================================
    Contact ページ
    ========================================================================== */
+.contact_glitch {
+    font-size: 4.0rem; /* 他のページタイトルとサイズを統一（130pxから調整） */
+    line-height: 1;
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 700;
+    margin: 0;
+    text-decoration: none;
+    color: #fff;
+    display: inline-block;
+    position: relative;
+    z-index: 10;
+    margin-bottom: 40px;
+    
+    /* 常時ブレるのではなく、4秒周期のメリハリのあるアニメーションに変更 */
+    animation: text-glow-pulse 2s infinite;
+}
+
+/* グリッチ用の疑似要素（本体の文字を絶対に揺らさないための工夫） */
+.contact_glitch::before,
+.contact_glitch::after {
+    display: block;
+    content: 'CONTACT';
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    opacity: 0.7;
+    /* 通常時は完全に本体の真後ろに隠す（ブレを無くす） */
+    transform: translate(0, 0); 
+}
+
+.contact_glitch::after {
+    color: #f0f;
+    z-index: -2;
+    /* 4秒周期のうち、一瞬だけズレるアニメーション */
+    animation: glitch-periodic-right 4s infinite;
+}
+
+.contact_glitch::before {
+    color: #0ff;
+    z-index: -1;
+    /* 4秒周期のうち、一瞬だけ逆にズレるアニメーション */
+    animation: glitch-periodic-left 4s infinite;
+}
+
+/* --- 【新設計】周期的なグリッチアニメーション ---
+   0%〜85%（約3.4秒間）は完全に静止させ、残りの15%（約0.6秒）で激しくバグらせます。
+   これにより「普段は読めるのに、ときどきバグる」電脳世界らしさが演出できます。 */
+
+@keyframes glitch-periodic-left {
+    0%, 85%, 89%, 93%, 100% {
+        transform: translate(0, 0);
+        clip-path: inset(0 0 0 0);
+    }
+    86% {
+        transform: translate(-6px, -2px);
+        clip-path: inset(10% 0 80% 0); /* 文字を水平にスライスする効果 */
+    }
+    90% {
+        transform: translate(4px, 3px);
+        clip-path: inset(60% 0 10% 0);
+    }
+    92% {
+        transform: translate(-3px, 2px);
+        clip-path: inset(30% 0 40% 0);
+    }
+}
+
+@keyframes glitch-periodic-right {
+    0%, 85%, 89%, 93%, 100% {
+        transform: translate(0, 0);
+        clip-path: inset(0 0 0 0);
+    }
+    87% {
+        transform: translate(6px, 2px);
+        clip-path: inset(40% 0 30% 0);
+    }
+    91% {
+        transform: translate(-4px, -2px);
+        clip-path: inset(10% 0 70% 0);
+    }
+}
+
+/* タイトル全体が時折フワッと明滅する、可読性を損なわない緩やかな効果 */
+@keyframes text-glow-pulse {
+    0%, 85%, 100% { filter: brightness(100%); }
+    88%, 91% { filter: brightness(140%) contrast(120%); }
+}
 
 /* --- CONTACT FORM STYLE --- */
 .contact-box {
@@ -1342,6 +1642,96 @@ body:has(.top-page-main) footer {
     transform: translateY(-2px);
 }
 
+.policy_glitch {
+    font-size: 4.0rem; /* 他のページタイトルとサイズを統一（130pxから調整） */
+    line-height: 1;
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 700;
+    margin: 0;
+    text-decoration: none;
+    color: #fff;
+    display: inline-block;
+    position: relative;
+    z-index: 10;
+    margin-bottom: 40px;
+    
+    /* 常時ブレるのではなく、4秒周期のメリハリのあるアニメーションに変更 */
+    animation: text-glow-pulse 2s infinite;
+}
+
+/* グリッチ用の疑似要素（本体の文字を絶対に揺らさないための工夫） */
+.policy_glitch::before,
+.policy_glitch::after {
+    display: block;
+    content: 'PRIVACY POLICY';
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    opacity: 0.7;
+    /* 通常時は完全に本体の真後ろに隠す（ブレを無くす） */
+    transform: translate(0, 0); 
+}
+
+.policy_glitch::after {
+    color: #f0f;
+    z-index: -2;
+    /* 4秒周期のうち、一瞬だけズレるアニメーション */
+    animation: glitch-periodic-right 4s infinite;
+}
+
+.policy_glitch::before {
+    color: #0ff;
+    z-index: -1;
+    /* 4秒周期のうち、一瞬だけ逆にズレるアニメーション */
+    animation: glitch-periodic-left 4s infinite;
+}
+
+/* --- 【新設計】周期的なグリッチアニメーション ---
+   0%〜85%（約3.4秒間）は完全に静止させ、残りの15%（約0.6秒）で激しくバグらせます。
+   これにより「普段は読めるのに、ときどきバグる」電脳世界らしさが演出できます。 */
+
+@keyframes glitch-periodic-left {
+    0%, 85%, 89%, 93%, 100% {
+        transform: translate(0, 0);
+        clip-path: inset(0 0 0 0);
+    }
+    86% {
+        transform: translate(-6px, -2px);
+        clip-path: inset(10% 0 80% 0); /* 文字を水平にスライスする効果 */
+    }
+    90% {
+        transform: translate(4px, 3px);
+        clip-path: inset(60% 0 10% 0);
+    }
+    92% {
+        transform: translate(-3px, 2px);
+        clip-path: inset(30% 0 40% 0);
+    }
+}
+
+@keyframes glitch-periodic-right {
+    0%, 85%, 89%, 93%, 100% {
+        transform: translate(0, 0);
+        clip-path: inset(0 0 0 0);
+    }
+    87% {
+        transform: translate(6px, 2px);
+        clip-path: inset(40% 0 30% 0);
+    }
+    91% {
+        transform: translate(-4px, -2px);
+        clip-path: inset(10% 0 70% 0);
+    }
+}
+
+/* タイトル全体が時折フワッと明滅する、可読性を損なわない緩やかな効果 */
+@keyframes text-glow-pulse {
+    0%, 85%, 100% { filter: brightness(100%); }
+    88%, 91% { filter: brightness(140%) contrast(120%); }
+}
+
 /* ==========================================================================
    フッター & SNS
    ========================================================================== */
@@ -1359,9 +1749,12 @@ footer {
 }
 
 .page-title {
+    font-family: 'Orbitron', sans-serif;
+    text-align: center;
     font-size: 4.0rem;
     color: #191970;
-    text-shadow: 1px 1px 2px pink;
+    /* 背景画像に紛れないよう、文字の背後に暗いブラーを薄く敷いて可読性を確保 */
+    text-shadow: 0 0 15px rgba(172, 161, 230, 0.6), 1px 1px 2px rgba(255,255,255) !important;
 }
 
 .sns-links a {
@@ -1461,8 +1854,7 @@ footer {
         padding: 15px 0;
     }
 
-    .page-title,
-    .about-page-title {
+    .page-title {
         font-size: 2.8rem;
     }
 
