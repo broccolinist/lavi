@@ -1,51 +1,51 @@
 <!DOCTYPE html>
 <html lang="ja">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>News | Bug&Lavi Project</title>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>News | Bug&Lavi Project</title>
 
-    <!-- SEO / favicon -->
-    <meta name="description" content="Bug&Lavi Projectの最新ニュース・お知らせ。新曲リリースや活動の最新情報をお届け。">
-    <link rel="canonical" href="https://bug-and-lavi-project.com/news.html">
-    <link rel="icon" href="img/picture/lavi_icon.png">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP&family=Orbitron:wght@400..900&display=swap" rel="stylesheet">
-    <!-- OGP -->
-    <meta property="og:type" content="website">
-    <meta property="og:site_name" content="Bug&Lavi Project">
-    <meta property="og:locale" content="ja_JP">
-    <meta property="og:title" content="News | Bug&Lavi Project">
-    <meta property="og:description" content="Bug&Lavi Projectの最新ニュース・お知らせ。新曲リリースや活動の最新情報をお届け。">
-    <meta property="og:url" content="https://bug-and-lavi-project.com/news.html">
-    <meta property="og:image" content="https://bug-and-lavi-project.com/img/picture/lavi_tati.png">
+        <!-- SEO / favicon -->
+        <meta name="description" content="Bug&Lavi Projectの最新ニュース・お知らせ。新曲リリースや活動の最新情報をお届け。">
+        <link rel="canonical" href="https://bug-and-lavi-project.com/news.html">
+        <link rel="icon" href="img/picture/lavi_icon.png">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP&family=Orbitron:wght@400..900&display=swap" rel="stylesheet">
+        <!-- OGP -->
+        <meta property="og:type" content="website">
+        <meta property="og:site_name" content="Bug&Lavi Project">
+        <meta property="og:locale" content="ja_JP">
+        <meta property="og:title" content="News | Bug&Lavi Project">
+        <meta property="og:description" content="Bug&Lavi Projectの最新ニュース・お知らせ。新曲リリースや活動の最新情報をお届け。">
+        <meta property="og:url" content="https://bug-and-lavi-project.com/news.html">
+        <meta property="og:image" content="https://bug-and-lavi-project.com/img/picture/lavi_tati.png">
 
-    <!-- Twitter -->
-    <meta name="twitter:card" content="summary_large_image">
+        <!-- Twitter -->
+        <meta name="twitter:card" content="summary_large_image">
 
-    <!-- Cloudflare Web Analytics -->
-    <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "5204ed30baa54e48af164bfa0e777612"}'></script>
-    <!-- End Cloudflare Web Analytics -->
+        <!-- Cloudflare Web Analytics -->
+        <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "5204ed30baa54e48af164bfa0e777612"}'></script>
+        <!-- End Cloudflare Web Analytics -->
 
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-</head>
+        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    </head>
 
-<body>
-    <div class="background-image"></div>
-    <header id="common-header"></header>
+    <body>
+        <div class="background-image"></div>
+        <header id="common-header"></header>
 
-    <main>
-        <h1 class="page-title news_glitch">NEWS</h1>
-        <div id="news-container" class="news-container">
-        </div>
-    </main>
+        <main>
+            <h1 class="page-title news_glitch">NEWS</h1>
+            <div id="news-container" class="news-container">
+            </div>
+        </main>
 
-    <footer id="common-footer"></footer>
+        <footer id="common-footer"></footer>
 
-    <script>
+        <script>
         // 1. 共通パーツを読み込む関数
         async function loadCommonParts() {
             try {
@@ -63,14 +63,25 @@
             }
         }
 
-        // 2. 記事ファイルを読み込む関数
+        // 日付が1ヶ月（30日）以内かを判定する関数
+        function isWithinOneMonth(dateString) {
+            // "yyyy.mm.dd" 形式を "yyyy-mm-dd" に変換して日付判定
+            const formattedDate = dateString.replace(/\./g, '-');
+            const newsDate = new Date(formattedDate);
+            const today = new Date();
+            const diffTime = today - newsDate;
+            const diffDays = diffTime / (1000 * 60 * 60 * 24);
+            return diffDays >= 0 && diffDays <= 30;
+        }
+
+        // 2. 記事ファイルを読み込んで整形・描画する関数
         async function loadNewsArticles() {
             const articleFiles = [
-                'news/2026_001.html',
+                // 'news/2026_002.html',
+                'news/2026_001.html'
             ];
 
             const container = document.getElementById('news-container');
-            // 一旦中身を空にする（二重読み込み防止）
             container.innerHTML = '';
 
             for (const file of articleFiles) {
@@ -78,19 +89,82 @@
                     const response = await fetch(file);
                     if (!response.ok) continue;
 
-                    const htmlContent = await response.text();
+                    const htmlText = await response.text();
+                
+                    // 取得したHTMLをDOM要素として一時変換
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(htmlText, 'text/html');
+                    const dataEl = doc.querySelector('.news-article-data');
 
-                    // 外枠（ぼかし加工の箱）を作成
+                    if (!dataEl) continue;
+
+                    // 属性データの取得
+                    const date = dataEl.dataset.date || '';
+                    const category = dataEl.dataset.category || '';
+                    const title = dataEl.dataset.title || '';
+                    const isImportant = dataEl.dataset.important === 'true';
+                    const imageSrc = dataEl.dataset.image || '';
+                    const type = dataEl.dataset.type || 'short';
+                    const bodyHtml = dataEl.innerHTML;
+
+                    // 1ヶ月以内NEW!判定
+                    const isNew = isWithinOneMonth(date);
+
+                    // 外枠カード作成
                     const articleBox = document.createElement('div');
-                    articleBox.className = 'news-content-box';
-                    articleBox.style.marginBottom = '30px'; // 記事同士の隙間
-                    articleBox.style.textAlign = 'left';    // 文字を左寄せに固定
+                    articleBox.className = `news-content-box ${isImportant ? 'is-important' : ''} ${type === 'long' ? 'is-long' : ''}`;
 
-                    articleBox.innerHTML = htmlContent;
+                    // 画像部分のHTML（画像パスが設定されている場合のみ）
+                    const imageHtml = imageSrc ? `
+                        <div class="news-image-wrap">
+                            <img src="${imageSrc}" alt="${title}">
+                        </div>
+                    ` : '';
+
+                    // 本文・開閉ボタンのHTML
+                    let contentHtml = '';
+                    if (type === 'short') {
+                        contentHtml = `<div class="news-item-body">${bodyHtml}</div>`;
+                    } else {
+                        contentHtml = `
+                            <button type="button" class="btn-toggle-news" onclick="toggleNews(this)">続きを読む ▼</button>
+                            <div class="news-item-body news-content-toggle">${bodyHtml}</div>
+                        `;
+                    }
+
+                    // 全体レイアウト生成
+                    articleBox.innerHTML = `
+                        <div class="news-inner-container">
+                            ${imageHtml}
+                            <div class="news-text-body">
+                                <div class="news-meta">
+                                    <span class="news-date">${date}</span> | <span class="news-category">${category}</span>
+                                    ${isNew ? '<span class="badge-new">NEW!</span>' : ''}
+                                </div>
+                                <h3 class="news-item-title">${title}</h3>
+                                ${contentHtml}
+                            </div>
+                        </div>
+                    `;
+
                     container.appendChild(articleBox);
                 } catch (error) {
                     console.error("記事の読み込みに失敗:", file, error);
                 }
+            }
+        }
+
+        // 長尺ニュースの開閉処理
+        function toggleNews(button) {
+            const toggleContent = button.nextElementSibling;
+            const isExpanded = toggleContent.style.display === 'block';
+
+            if (isExpanded) {
+                toggleContent.style.display = 'none';
+                button.innerText = '続きを読む ▼';
+            } else {
+                toggleContent.style.display = 'block';
+                button.innerText = '閉じる ▲';
             }
         }
 
@@ -113,7 +187,6 @@
         }
 
         init();
-    </script>
-</body>
-
+        </script>
+    </body>
 </html>
