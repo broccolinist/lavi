@@ -31,7 +31,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;500;600;700&family=DotGothic16&family=Zen+Maru+Gothic:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="preload" as="image" href="img/thumb/haikyo.jpg">
-    <link rel="stylesheet" href="style.css?v=20261001c">
+    <link rel="stylesheet" href="style.css?v=20261001g">
 </head>
 
 <body class="home" data-has-releases>
@@ -44,7 +44,7 @@
             <div class="hero-bg"></div>
             <canvas id="particles"></canvas>
             <!-- 立ち絵は仮置き（背景透過版に差し替え予定。差し替えたら is-temp を外す） -->
-            <img src="img/picture/lavi_tati.png" alt="ラヴィ" class="hero-chara is-temp" id="hero-chara" fetchpriority="high">
+            <div class="hero-chara is-temp" id="hero-chara" role="img" aria-label="ラヴィ"><img src="img/picture/lavi_tati.png" alt="" fetchpriority="high"></div>
 
             <div class="hero-inner">
                 <p class="hero-kicker fade-up">YOUR GATEWAY TO BUG&amp;LAVI WORLD</p>
@@ -150,8 +150,8 @@
 
     <footer id="site-footer" class="site-footer"></footer>
 
-    <script src="js/data.js?v=20261001c"></script>
-    <script src="js/site.js?v=20261001c"></script>
+    <script src="js/data.js?v=20261001g"></script>
+    <script src="js/site.js?v=20261001g"></script>
     <script>
         window.pageInit = async () => {
             const latest = RELEASES[0];

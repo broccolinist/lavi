@@ -40,19 +40,25 @@ function renderHeader() {
       </a>
       <nav class="gnav" aria-label="メインメニュー"><ul>${links}</ul></nav>
       <button class="menu-toggle" aria-label="メニューを開く" aria-expanded="false"><span></span><span></span></button>
-    </div>
-    <div class="drawer" aria-hidden="true">
-      <div class="drawer-bg"></div>
-      <ul>${links}</ul>
-      <div class="drawer-sns">${snsLinks()}</div>
     </div>`;
 
+  // メニュー一覧はヘッダーの外（body直下）に置く。
+  // ヘッダー内に置くと、すりガラス効果の影響でヘッダーの高さに閉じ込められてずれるため
+  const drawer = document.createElement('div');
+  drawer.className = 'drawer';
+  drawer.innerHTML = `<div class="drawer-bg"></div><ul>${links}</ul><div class="drawer-sns">${snsLinks()}</div>`;
+  el.after(drawer);
+
   const btn = el.querySelector('.menu-toggle');
-  btn.addEventListener('click', () => {
-    const open = document.body.classList.toggle('menu-open');
+  const setOpen = open => {
+    document.documentElement.classList.toggle('menu-open', open);
     btn.setAttribute('aria-expanded', open);
-  });
-  el.querySelectorAll('.drawer a').forEach(a => a.addEventListener('click', () => document.body.classList.remove('menu-open')));
+    btn.setAttribute('aria-label', open ? 'メニューを閉じる' : 'メニューを開く');
+  };
+  btn.addEventListener('click', () => setOpen(!document.documentElement.classList.contains('menu-open')));
+  drawer.querySelectorAll('a').forEach(a => a.addEventListener('click', () => setOpen(false)));
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') setOpen(false); });
+  matchMedia('(min-width: 961px)').addEventListener('change', e => { if (e.matches) setOpen(false); });
 
   const onScroll = () => el.classList.toggle('is-scrolled', window.scrollY > 40);
   window.addEventListener('scroll', onScroll, { passive: true });
@@ -294,12 +300,22 @@ function setupPresence() {
   if (!matchMedia('(prefers-reduced-motion: reduce)').matches) loop();
 }
 
+/* ---------- 画像の保存対策 ----------
+   右クリック／長押しのメニューとドラッグを、画像の上でだけ止める（クリックはそのまま使える）。
+   完全には防げない（開発者ツールやスクリーンショットでは取れる）ので、気軽な保存を防ぐためのもの */
+function setupImageGuard() {
+  const isImage = t => t instanceof Element && t.closest('img, .hero-chara, .modal-jacket, .yt-lite');
+  document.addEventListener('contextmenu', e => { if (isImage(e.target)) e.preventDefault(); });
+  document.addEventListener('dragstart', e => { if (isImage(e.target)) e.preventDefault(); });
+}
+
 /* ---------- 起動 ---------- */
 document.addEventListener('DOMContentLoaded', () => {
   renderHeader();
   renderFooter();
   setupParticles();
   setupTabWhisper();
+  setupImageGuard();
   if (document.querySelector('[data-release], [data-has-releases]')) setupReleaseModal();
   requestAnimationFrame(() => document.body.classList.add('is-loaded'));
   // ページごとの処理（各ページで window.pageInit を定義）

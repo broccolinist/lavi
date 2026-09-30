@@ -23,7 +23,7 @@
 }
 
 *, *::before, *::after { box-sizing: border-box; }
-html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; overflow-x: hidden; overflow-x: clip; scrollbar-gutter: stable; }
 body {
   margin: 0;
   background: var(--ink);
@@ -33,7 +33,7 @@ body {
   line-height: 1.9;
   letter-spacing: .04em;
   -webkit-font-smoothing: antialiased;
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 img { max-width: 100%; display: block; }
 a { color: inherit; text-decoration: none; }
@@ -111,8 +111,8 @@ body::after {
 .menu-open .menu-toggle span:nth-child(2) { top: 22px; transform: rotate(-35deg); }
 
 .drawer {
-  position: fixed; inset: 0; z-index: 1;
-  display: flex; flex-direction: column; justify-content: center; padding: 0 var(--pad);
+  position: fixed; inset: 0; z-index: 99;
+  display: flex; flex-direction: column; justify-content: center; padding: var(--header-h) var(--pad) 24px; overflow-y: auto;
   visibility: hidden; opacity: 0; transition: opacity .5s var(--ease), visibility .5s;
 }
 .drawer-bg { position: absolute; inset: 0; background: rgba(8, 11, 28, .96); backdrop-filter: blur(18px); z-index: -1; }
@@ -131,7 +131,8 @@ body::after {
 .menu-open .drawer li:nth-child(5) a { transition-delay: .16s; }
 .menu-open .drawer li:nth-child(6) a { transition-delay: .2s; }
 .menu-open .drawer li:nth-child(7) a { transition-delay: .24s; }
-.menu-open { overflow: hidden; }
+html.menu-open, .menu-open body { overflow: hidden; }
+.menu-open .site-header { background: transparent; backdrop-filter: none; -webkit-backdrop-filter: none; border-bottom-color: transparent; }
 
 @media (max-width: 960px) {
   :root { --header-h: 64px; }
@@ -773,3 +774,15 @@ body::after {
   .hero-chara.is-temp { right: -25vw; width: 110vw; }
   .is-loaded .hero-chara.is-temp { opacity: .55; }
 }
+
+/* ---- 画像の保存対策（クリックは受け付ける） ---- */
+img { -webkit-user-drag: none; user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; }
+/* 立ち絵：透明な膜を上にかぶせ、右クリック・長押しでは膜しか取れないようにする */
+.hero-chara img { display: block; width: 100%; height: 100%; object-fit: contain; object-position: right bottom; pointer-events: none; }
+.hero-chara::after { content: ""; position: absolute; inset: 0; }
+.hero-chara.is-temp img { height: auto; }
+/* 文字の列の見えない箱がラヴィを覆ってクリックを奪わないようにする */
+.hero-inner { pointer-events: none; }
+.hero-inner > * { pointer-events: auto; }
+.hero-lead, .hero-kicker, .hero-hint, .hero-logo { width: fit-content; }
+.hero::before, .hero::after { pointer-events: none; }
