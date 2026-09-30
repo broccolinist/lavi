@@ -273,7 +273,7 @@ function setupPresence() {
   const textEl = document.getElementById('whisper-text');
   const face = document.getElementById('whisper-face');
   if (!chara || !box) return;
-  document.body.appendChild(box); // 会話ウィンドウは画面に固定するので、ページの一番外側に置く
+  const slot = document.getElementById('whisper-slot');
   new Image().src = FACES.happy;
 
   // 吹き出しの位置：キービジュアルの中の、ラヴィの顔のすぐ右上（画像に対する割合）
@@ -281,34 +281,39 @@ function setupPresence() {
   const KV_SIZE = { w: 1731, h: 909 };
   const KV_POS = { x: 0.30, y: 0.35 }; // CSS の object-position と同じ値
   const kv = document.querySelector('.kv');
-  const wideEnough = matchMedia('(min-width: 901px)');
+  const wide = matchMedia('(min-width: 1100px)'); // CSS の会話欄の切り替え幅と同じ
 
-  // 顔の横に余白があって、バナーが見えているときだけ吹き出しにする
+  const reset = el => { el.classList.remove('is-bubble', 'is-slot'); el.style.left = el.style.top = el.style.translate = ''; };
+
+  // 広い画面：バナーが見えていれば、顔の横の吹き出し
   const placeBubble = () => {
-    if (!kv || !wideEnough.matches) return false;
     const r = kv.getBoundingClientRect();
     if (r.bottom < r.height * 0.6 || r.top > innerHeight * 0.5) return false;
     const scale = Math.max(r.width / KV_SIZE.w, r.height / KV_SIZE.h);
     const dw = KV_SIZE.w * scale, dh = KV_SIZE.h * scale;
     const x = (r.width - dw) * KV_POS.x + dw * KV_MOUTH.x;
     const y = (r.height - dh) * KV_POS.y + dh * KV_MOUTH.y;
-    if (r.width - x < 300) return false; // 右側に吹き出しの入る幅がない
-    kv.appendChild(box);
-    box.classList.add('is-bubble');
-    box.style.left = `${x + 18}px`;
-    box.style.top = `${y}px`;
-    box.style.translate = '0 -100%';
+    if (r.width - x < 300) return false;
+    reset(box); kv.appendChild(box); box.classList.add('is-bubble');
+    box.style.left = `${x + 18}px`; box.style.top = `${y}px`; box.style.translate = '0 -100%';
     return true;
   };
-  const placeWindow = () => {
-    document.body.appendChild(box);
-    box.classList.remove('is-bubble');
-    box.style.left = box.style.top = box.style.translate = '';
+  // 狭い画面：バナーのすぐ下の会話欄（常に表示）
+  const placeSlot = () => { reset(box); slot.appendChild(box); box.classList.add('is-slot', 'is-on'); };
+  // 広い画面でバナーが見えていないとき：画面下に一時的に出す
+  const placeFloat = () => { reset(box); document.body.appendChild(box); };
+
+  const rest = () => { face.src = FACES.normal; textEl.textContent = '……'; }; // 黙っているとき
+  const layout = () => {
+    if (wide.matches) { if (box.classList.contains('is-slot')) { reset(box); box.classList.remove('is-on'); document.body.appendChild(box); } }
+    else if (!box.classList.contains('is-slot')) { placeSlot(); rest(); }
   };
+  wide.addEventListener('change', layout);
+  layout();
 
   // mood: 'normal'（すまし顔）／'happy'（笑顔）
   const say = (text, mood = 'normal', ms = 4200) => {
-    if (!placeBubble()) placeWindow();
+    if (wide.matches) { if (!placeBubble()) placeFloat(); } else placeSlot();
     face.src = FACES[mood];
     textEl.textContent = '';
     box.classList.add('is-on');
@@ -316,7 +321,10 @@ function setupPresence() {
     clearInterval(say.t); clearTimeout(say.h);
     say.t = setInterval(() => {
       textEl.textContent = text.slice(0, ++i);
-      if (i >= text.length) { clearInterval(say.t); say.h = setTimeout(() => box.classList.remove('is-on'), ms); }
+      if (i >= text.length) {
+        clearInterval(say.t);
+        say.h = setTimeout(() => { if (box.classList.contains('is-slot')) rest(); else box.classList.remove('is-on'); }, ms);
+      }
     }, 70);
   };
   const flicker = () => {

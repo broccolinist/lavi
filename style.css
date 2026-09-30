@@ -903,3 +903,14 @@ img { -webkit-user-drag: none; user-select: none; -webkit-user-select: none; -we
   content: ""; position: absolute; left: -2px; bottom: -14px; width: 18px; height: 16px;
   background: rgba(238, 241, 255, .85); clip-path: polygon(0 0, 100% 0, 0 100%);
 }
+
+/* ---- 会話欄（狭い画面：バナーのすぐ下に常に表示） ---- */
+.whisper-slot { display: none; }
+@media (max-width: 1099px) {
+  .whisper-slot { display: block; margin: 0 0 22px; padding-top: 24px; }
+  .hero-whisper.is-slot {
+    position: relative; left: auto; bottom: auto; translate: none; width: 100%; z-index: 1;
+    opacity: 1; transform: none; pointer-events: auto;
+  }
+  .gatebar { margin-top: 0; }
+}

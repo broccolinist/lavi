@@ -32,7 +32,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800&family=DotGothic16&family=Zen+Maru+Gothic:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="style.css?v=20261001m">
+    <link rel="stylesheet" href="style.css?v=20261001n">
 </head>
 
 <body class="home" data-has-releases>
@@ -56,16 +56,17 @@
         <section class="gatebar">
             <div class="gatebar-inner">
                 <div class="gatebar-head fade-up">
+                    <!-- ラヴィの台詞：狭い画面ではここ（バナーのすぐ下）に会話ウィンドウとして常に表示。広い画面では顔の横の吹き出しになる -->
+                    <div class="whisper-slot" id="whisper-slot">
+                        <div class="hero-whisper" id="whisper">
+                            <img src="img/sprite/lavi_pixel_normal.png" alt="" class="whisper-face" id="whisper-face">
+                            <div class="whisper-body"><span class="whisper-name">LAVI</span><p class="whisper-text" id="whisper-text" aria-live="polite"></p></div>
+                        </div>
+                    </div>
                     <p class="hero-kicker">YOUR GATEWAY TO BUG&amp;LAVI WORLD</p>
                     <p class="hero-lead">不思議な<em>生い立ち</em>を持つうさぎの少女、<em>ラヴィ</em>を中心に紡がれる世界。</p>
                 </div>
                 <nav class="gate fade-up" id="gate" aria-label="入口"></nav>
-            </div>
-
-            <!-- ラヴィの台詞：画面下の会話ウィンドウ -->
-            <div class="hero-whisper" id="whisper">
-                <img src="img/sprite/lavi_pixel_normal.png" alt="" class="whisper-face" id="whisper-face">
-                <div class="whisper-body"><span class="whisper-name">LAVI</span><p class="whisper-text" id="whisper-text" aria-live="polite"></p></div>
             </div>
         </section>
 
@@ -158,8 +159,8 @@
 
     <footer id="site-footer" class="site-footer"></footer>
 
-    <script src="js/data.js?v=20261001m"></script>
-    <script src="js/site.js?v=20261001m"></script>
+    <script src="js/data.js?v=20261001n"></script>
+    <script src="js/site.js?v=20261001n"></script>
     <script>
         window.pageInit = async () => {
             const latest = RELEASES[0];
