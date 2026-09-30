@@ -72,7 +72,7 @@ function renderFooter() {
   if (!el) return;
   el.innerHTML = `
     <div class="footer-marquee" aria-hidden="true"><div>
-      ${'<span>BUG&amp;LAVI PROJECT</span><span class="dot">✦</span><span>LAVI AI SINGER-SONGWRITER</span><span class="dot">✦</span>'.repeat(6)}
+      ${'<span>BUG&amp;LAVI PROJECT</span><span class="dot">✦</span><span>YOUR GATEWAY TO BUG&amp;LAVI WORLD</span><span class="dot">✦</span>'.repeat(6)}
     </div></div>
     <div class="footer-inner">
       <div class="footer-brand">
@@ -228,11 +228,78 @@ function isNew(date) {
   return diff >= 0 && diff <= 30;
 }
 
+/* ---------- 気配（隠し要素） ---------- */
+// 全ページ：タブを離れると、タイトルがラヴィのひとことに変わる
+function setupTabWhisper() {
+  const original = document.title;
+  let timer;
+  document.addEventListener('visibilitychange', () => {
+    clearTimeout(timer);
+    if (document.hidden) {
+      document.title = '……まだ、ここにいるよ';
+    } else {
+      document.title = 'おかえり。';
+      timer = setTimeout(() => { document.title = original; }, 1800);
+    }
+  });
+}
+
+// トップ：ラヴィに触れる／しばらく放っておく／また来る と、小さく反応する
+function setupPresence() {
+  const chara = document.getElementById('hero-chara');
+  const box = document.getElementById('whisper');
+  if (!chara || !box) return;
+
+  const say = (text, ms = 4200) => {
+    box.textContent = '';
+    box.classList.add('is-on');
+    let i = 0;
+    clearInterval(say.t); clearTimeout(say.h);
+    say.t = setInterval(() => {
+      box.textContent = text.slice(0, ++i);
+      if (i >= text.length) { clearInterval(say.t); say.h = setTimeout(() => box.classList.remove('is-on'), ms); }
+    }, 70);
+  };
+  const flicker = () => {
+    chara.classList.remove('is-flicker');
+    void chara.offsetWidth;
+    chara.classList.add('is-flicker');
+  };
+
+  const lines = [
+    '……見つかっちゃった。',
+    'ここ、けっこう静かでしょ？',
+    'くすぐったいぴょん。',
+    'きみの声、ちゃんと届いてるよ。',
+    'データの海って、夜はきれいなんだ。',
+    '……もう少しだけ、いてくれる？'
+  ];
+  let n = 0;
+  chara.style.cursor = 'pointer';
+  chara.addEventListener('click', () => { flicker(); say(lines[n++ % lines.length]); });
+
+  // また来てくれた人へ
+  let visits = 0;
+  try { visits = +localStorage.getItem('lavi-visits') || 0; localStorage.setItem('lavi-visits', visits + 1); } catch { }
+  if (visits > 0) setTimeout(() => say(visits > 4 ? 'いつも来てくれて、ありがと。' : 'また来てくれたんだ。'), 3200);
+
+  // しばらく何もしないと
+  let idle;
+  const resetIdle = () => { clearTimeout(idle); idle = setTimeout(() => { flicker(); say('……まだ、いる？'); }, 30000); };
+  ['mousemove', 'scroll', 'keydown', 'touchstart'].forEach(ev => addEventListener(ev, resetIdle, { passive: true }));
+  resetIdle();
+
+  // ときどき、ほんの一瞬だけ乱れる
+  const loop = () => setTimeout(() => { if (!document.hidden && scrollY < innerHeight) flicker(); loop(); }, 9000 + Math.random() * 12000);
+  if (!matchMedia('(prefers-reduced-motion: reduce)').matches) loop();
+}
+
 /* ---------- 起動 ---------- */
 document.addEventListener('DOMContentLoaded', () => {
   renderHeader();
   renderFooter();
   setupParticles();
+  setupTabWhisper();
   if (document.querySelector('[data-release], [data-has-releases]')) setupReleaseModal();
   requestAnimationFrame(() => document.body.classList.add('is-loaded'));
   // ページごとの処理（各ページで window.pageInit を定義）

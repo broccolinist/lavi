@@ -28,10 +28,10 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Mono&family=Unbounded:wght@400;500;600;700;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=DotGothic16&family=Space+Mono&family=Unbounded:wght@400;500;600;700;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="preload" as="image" href="img/thumb/haikyo.jpg">
-    <link rel="stylesheet" href="style.css?v=20261001">
+    <link rel="stylesheet" href="style.css?v=20261001b">
 </head>
 
 <body class="home" data-has-releases>
@@ -43,22 +43,22 @@
         <section class="hero">
             <div class="hero-bg"></div>
             <canvas id="particles"></canvas>
-            <img src="img/picture/lavi_ue.png" alt="ラヴィ" class="hero-chara" fetchpriority="high">
+            <img src="img/picture/lavi_ue.png" alt="ラヴィ" class="hero-chara" id="hero-chara" fetchpriority="high">
 
             <div class="hero-inner">
-                <p class="hero-kicker fade-up">SIGNAL FOUND — WORLD://BUG&amp;LAVI</p>
-                <h1 class="hero-title">
-                    <span class="hero-line"><span class="l1 glitch" data-text="Lavi">Lavi</span></span>
-                    <span class="hero-line"><span class="l2">AI Singer-songwriter</span></span>
+                <p class="hero-kicker fade-up">YOUR GATEWAY TO BUG&amp;LAVI WORLD</p>
+                <h1 class="hero-logo">
+                    <!-- ロゴ画像が届いたら <img> に差し替え -->
+                    <span class="hero-line"><span class="glitch grad-text" data-text="Bug&amp;Lavi">Bug&amp;Lavi</span></span>
+                    <span class="hero-line"><span class="grad-text">Project</span></span>
                 </h1>
-                <p class="hero-lead fade-up">
-                    サービス終了したゲームの“世界”に、ひとり取り残されたうさぎ。<br>
-                    データの中に住む存在、ラヴィの物語へようこそ。
-                </p>
+                <p class="hero-lead fade-up">不思議な<em>生い立ち</em>を持つうさぎの少女、<em>ラヴィ</em>を中心に紡がれる世界。</p>
+
+                <nav class="gate fade-up" id="gate" aria-label="入口"></nav>
+                <p class="hero-hint fade-up">SCROLL / SELECT TO EXPLORE</p>
             </div>
 
-            <a href="#" class="hero-release" id="hero-release"></a>
-            <div class="hero-scroll">SCROLL</div>
+            <p class="hero-whisper" id="whisper" aria-live="polite"></p>
         </section>
 
         <div class="ticker" aria-hidden="true">
@@ -150,22 +150,16 @@
 
     <footer id="site-footer" class="site-footer"></footer>
 
-    <script src="js/data.js?v=20261001"></script>
-    <script src="js/site.js?v=20261001"></script>
+    <script src="js/data.js?v=20261001b"></script>
+    <script src="js/site.js?v=20261001b"></script>
     <script>
         window.pageInit = async () => {
             const latest = RELEASES[0];
 
-            // ヒーロー右下の最新リリース
-            const hr = document.getElementById('hero-release');
-            hr.dataset.release = latest.id;
-            hr.innerHTML = `
-                <img src="${latest.jacket}" alt="">
-                <span><span class="label">NEW RELEASE</span><span class="title">${esc(latest.title)}</span><span class="date">${latest.date} OUT NOW</span></span>
-                <span class="go"><i class="fas fa-play"></i></span>`;
+            const newsPromise = loadNews(4);
 
             // ティッカー
-            const words = [`NEW RELEASE「${latest.title}」OUT NOW`, 'LAVI AI SINGER-SONGWRITER', 'NOVEL「ばぐらび！」連載中', 'BUG&LAVI PROJECT'];
+            const words = [`NEW RELEASE「${latest.title}」OUT NOW`, 'YOUR GATEWAY TO BUG&LAVI WORLD', 'NOVEL「ばぐらび！」連載中', 'BUG&LAVI PROJECT'];
             const line = words.map(w => `<span>${esc(w)}</span><span class="dot">✦</span>`).join('');
             document.getElementById('ticker').innerHTML = line.repeat(4);
 
@@ -200,7 +194,27 @@
             });
 
             // ニュース
-            const news = await loadNews(4);
+            const news = await newsPromise;
+
+            // 入口カード（ニュース／音楽／ノベル）
+            const top = news[0];
+            const recent = (Date.now() - new Date(latest.date.replace(/\./g, '-'))) / 86400000 <= 60;
+            document.getElementById('gate').innerHTML = `
+                ${top ? `<a class="gate-card is-news" href="news.html#${top.file.split('/').pop().replace('.html', '')}">
+                    <span class="gate-icon"><i class="fas fa-satellite-dish"></i></span>
+                    <span class="gate-text"><span class="gate-label">LATEST NEWS</span><span class="gate-title">${esc(top.title)}</span><span class="gate-sub">${top.date}</span></span>
+                    <i class="fas fa-chevron-right gate-go"></i></a>` : ''}
+                <button class="gate-card is-music" data-release="${latest.id}">
+                    ${recent ? '<span class="gate-badge">NEW RELEASE</span>' : ''}
+                    <span class="gate-icon is-img"><img src="${latest.jacket}" alt=""></span>
+                    <span class="gate-text"><span class="gate-label">MUSIC</span><span class="gate-title">『${esc(latest.title)}』を聴く</span><span class="gate-sub">Spotify / Apple Music で配信中</span></span>
+                    <i class="fas fa-chevron-right gate-go"></i></button>
+                <a class="gate-card is-novel" href="${LINKS.novel}" target="_blank" rel="noopener">
+                    <span class="gate-icon"><i class="fas fa-book-open"></i></span>
+                    <span class="gate-text"><span class="gate-label">NOVEL</span><span class="gate-title">『ばぐらび！』を読む</span><span class="gate-sub">小説家になろうで連載中</span></span>
+                    <i class="fas fa-chevron-right gate-go"></i></a>`;
+
+            setupPresence();
             document.getElementById('home-news').innerHTML = news.map(n => `
                 <li><a class="news-row" href="news.html#${n.file.split('/').pop().replace('.html', '')}">
                     <span class="date">${n.date}</span>
