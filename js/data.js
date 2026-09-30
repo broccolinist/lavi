@@ -9,7 +9,7 @@ const RELEASES = [
   {
     id: 'mermaid', title: 'MERMAID', date: '2026.09.12', tracks: 1,
     jacket: 'img/thumb/j_mermaid.jpg',
-    spotify: '', // Spotify のリンクが分かったら入れる
+    spotify: 'https://open.spotify.com/intl-ja/track/6c14Z1xozvzb0MG7Gs5FUC',
     apple: 'https://music.apple.com/jp/album/mermaid-single/6804711983',
     youtube: 'OjMnD6K5v0Y'
   },
