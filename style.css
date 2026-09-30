@@ -755,11 +755,6 @@ body::after {
   *, *::before, *::after { animation: none !important; transition-duration: .01ms !important; }
 }
 
-/* トップだけ：メニューはボタンのみ、ロゴはスクロール後に表示 */
-.home .gnav { display: none; }
-.home .menu-toggle { display: block; }
-.home .logo { transition: opacity .5s var(--ease); }
-.home .site-header:not(.is-scrolled) .logo { opacity: 0; pointer-events: none; }
 
 /* ---- 仮置き素材（差し替えたら削除） ---- */
 /* 立ち絵：灰色背景つきなので、周囲をぼかして背景になじませる */
