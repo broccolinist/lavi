@@ -273,6 +273,7 @@ function setupPresence() {
   const textEl = document.getElementById('whisper-text');
   const face = document.getElementById('whisper-face');
   if (!chara || !box) return;
+  document.body.appendChild(box); // 会話ウィンドウは画面に固定するので、ページの一番外側に置く
   new Image().src = FACES.happy;
 
   // mood: 'normal'（すまし顔）／'happy'（笑顔）
