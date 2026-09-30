@@ -327,8 +327,11 @@ html.menu-open, .menu-open body { overflow: hidden; }
   padding: 10px 16px; background: rgba(8, 11, 28, .78); border: 1px solid rgba(255, 179, 212, .45); border-radius: 4px;
   opacity: 0; transform: translateY(6px); transition: opacity .5s, transform .5s var(--ease); pointer-events: none;
 }
-.hero-whisper::before { content: "> "; color: var(--pink); }
-.hero-whisper::after { content: "_"; animation: blink 1s steps(1) infinite; }
+.hero-whisper { display: flex; align-items: flex-end; gap: 10px; }
+.whisper-face { width: 56px; height: auto; margin: -34px 0 -4px -8px; filter: drop-shadow(0 0 10px rgba(255, 179, 212, .5)); }
+.whisper-text { margin: 0; }
+.whisper-text::before { content: "> "; color: var(--pink); }
+.whisper-text::after { content: "_"; animation: blink 1s steps(1) infinite; }
 .hero-whisper.is-on { opacity: 1; transform: none; }
 
 /* 控えめなグリッチ（ラヴィが一瞬ゆらぐ） */
@@ -786,3 +789,18 @@ img { -webkit-user-drag: none; user-select: none; -webkit-user-select: none; -we
 .hero-inner > * { pointer-events: auto; }
 .hero-lead, .hero-kicker, .hero-hint, .hero-logo { width: fit-content; }
 .hero::before, .hero::after { pointer-events: none; }
+
+/* ---- 隠し要素：フッターのふちからのぞく小さなラヴィ ---- */
+.site-footer { position: relative; }
+.peek { position: absolute; right: clamp(20px, 8vw, 120px); top: 0; width: 64px; height: 44px; overflow: hidden; translate: 0 -100%; z-index: 2; }
+.peek img { width: 64px; height: auto; transform: translateY(26px); transition: transform .5s var(--ease); }
+.peek:hover img, .peek:focus-visible img, .peek.is-talking img { transform: translateY(4px); }
+.peek:focus-visible { outline: none; }
+.peek-say {
+  position: absolute; right: 70px; bottom: 8px; white-space: nowrap;
+  font-family: var(--f-mono); font-size: 13px; letter-spacing: .06em; padding: 6px 12px;
+  background: rgba(8, 11, 28, .85); border: 1px solid rgba(255, 179, 212, .45); border-radius: 4px;
+  opacity: 0; transform: translateY(4px); transition: opacity .4s, transform .4s var(--ease); pointer-events: none;
+}
+.peek.is-talking { overflow: visible; }
+.peek.is-talking .peek-say { opacity: 1; transform: none; }

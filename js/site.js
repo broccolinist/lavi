@@ -77,6 +77,7 @@ function renderFooter() {
   const el = document.getElementById('site-footer');
   if (!el) return;
   el.innerHTML = `
+    <button class="peek" aria-label="ラヴィ"><span class="peek-say" aria-live="polite"></span><img src="img/sprite/lavi_pixel_normal.png" alt=""></button>
     <div class="footer-marquee" aria-hidden="true"><div>
       ${'<span>BUG&amp;LAVI PROJECT</span><span class="dot">✦</span><span>YOUR GATEWAY TO BUG&amp;LAVI WORLD</span><span class="dot">✦</span>'.repeat(6)}
     </div></div>
@@ -93,6 +94,18 @@ function renderFooter() {
       <div class="footer-sns">${snsLinks()}</div>
     </div>
     <p class="copyright">© Bug&amp;Lavi Project. All Rights Reserved.</p>`;
+
+  // 隠し要素：フッターのふちから、小さなラヴィがのぞいている
+  const peek = el.querySelector('.peek');
+  const peekLines = ['ここまで見てくれたんだ。', 'えへへ、見つかった。', 'またね。……ほんとに、またね？'];
+  let k = 0;
+  peek.addEventListener('click', () => {
+    peek.querySelector('img').src = FACES.happy;
+    peek.querySelector('.peek-say').textContent = peekLines[k++ % peekLines.length];
+    peek.classList.add('is-talking');
+    clearTimeout(peek.t);
+    peek.t = setTimeout(() => { peek.classList.remove('is-talking'); peek.querySelector('img').src = FACES.normal; }, 3500);
+  });
 }
 
 /* ---------- スクロールで表示 ---------- */
@@ -235,6 +248,9 @@ function isNew(date) {
 }
 
 /* ---------- 気配（隠し要素） ---------- */
+// ドット絵のラヴィの表情
+const FACES = { normal: 'img/sprite/lavi_pixel_normal.png', happy: 'img/sprite/lavi_pixel_happy.png' };
+
 // 全ページ：タブを離れると、タイトルがラヴィのひとことに変わる
 function setupTabWhisper() {
   const original = document.title;
@@ -254,15 +270,20 @@ function setupTabWhisper() {
 function setupPresence() {
   const chara = document.getElementById('hero-chara');
   const box = document.getElementById('whisper');
+  const textEl = document.getElementById('whisper-text');
+  const face = document.getElementById('whisper-face');
   if (!chara || !box) return;
+  new Image().src = FACES.happy;
 
-  const say = (text, ms = 4200) => {
-    box.textContent = '';
+  // mood: 'normal'（すまし顔）／'happy'（笑顔）
+  const say = (text, mood = 'normal', ms = 4200) => {
+    face.src = FACES[mood];
+    textEl.textContent = '';
     box.classList.add('is-on');
     let i = 0;
     clearInterval(say.t); clearTimeout(say.h);
     say.t = setInterval(() => {
-      box.textContent = text.slice(0, ++i);
+      textEl.textContent = text.slice(0, ++i);
       if (i >= text.length) { clearInterval(say.t); say.h = setTimeout(() => box.classList.remove('is-on'), ms); }
     }, 70);
   };
@@ -272,22 +293,23 @@ function setupPresence() {
     chara.classList.add('is-flicker');
   };
 
+  // [台詞, 表情]
   const lines = [
-    '……見つかっちゃった。',
-    'ここ、けっこう静かでしょ？',
-    'くすぐったいぴょん。',
-    'きみの声、ちゃんと届いてるよ。',
-    'データの海って、夜はきれいなんだ。',
-    '……もう少しだけ、いてくれる？'
+    ['……見つかっちゃった。', 'normal'],
+    ['ここ、けっこう静かでしょ？', 'normal'],
+    ['くすぐったいぴょん。', 'happy'],
+    ['きみの声、ちゃんと届いてるよ。', 'happy'],
+    ['データの海って、夜はきれいなんだ。', 'normal'],
+    ['……もう少しだけ、いてくれる？', 'normal']
   ];
   let n = 0;
   chara.style.cursor = 'pointer';
-  chara.addEventListener('click', () => { flicker(); say(lines[n++ % lines.length]); });
+  chara.addEventListener('click', () => { flicker(); say(...lines[n++ % lines.length]); });
 
   // また来てくれた人へ
   let visits = 0;
   try { visits = +localStorage.getItem('lavi-visits') || 0; localStorage.setItem('lavi-visits', visits + 1); } catch { }
-  if (visits > 0) setTimeout(() => say(visits > 4 ? 'いつも来てくれて、ありがと。' : 'また来てくれたんだ。'), 3200);
+  if (visits > 0) setTimeout(() => say(visits > 4 ? 'いつも来てくれて、ありがと。' : 'また来てくれたんだ。', 'happy'), 3200);
 
   // しばらく何もしないと
   let idle;
