@@ -34,7 +34,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800&family=DotGothic16&family=Zen+Maru+Gothic:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="style.css?v=20261001o">
+    <link rel="stylesheet" href="style.css?v=20261001q">
 </head>
 
 <body class="home" data-has-releases>
@@ -132,37 +132,12 @@
             </div>
         </section>
 
-        <!-- ===== CONTENTS ===== -->
-        <section class="section" style="padding-top:0">
-            <div class="wrap">
-                <div class="section-head reveal">
-                    <h2 class="section-title"><span class="num">05</span><span class="en">CONTENTS</span><span class="ja">コンテンツ</span></h2>
-                </div>
-                <div class="contents-grid">
-                    <a href="https://ncode.syosetu.com/n3901mo/" target="_blank" rel="noopener" class="content-card reveal" style="--img:url('img/thumb/novel_start.jpg')">
-                        <div class="bg"></div>
-                        <span class="en">NOVEL <i class="fas fa-arrow-up-right-from-square"></i></span>
-                        <span class="ja">ノベル『ばぐらび！ from Bug&amp;Lavi Project』<br>「小説家になろう」にて連載中</span>
-                    </a>
-                    <a href="https://bug-and-lavi.designstore.jp/" target="_blank" rel="noopener" class="content-card reveal" style="--d:.08s;--img:url('img/thumb/carrot.jpg')">
-                        <div class="bg"></div>
-                        <span class="en">SHOP <i class="fas fa-arrow-up-right-from-square"></i></span>
-                        <span class="ja">ラヴィのオリジナルグッズを販売中</span>
-                    </a>
-                    <a href="about.html" class="content-card reveal" style="--d:.16s;--img:url('img/thumb/haikyo.jpg')">
-                        <div class="bg"></div>
-                        <span class="en">ABOUT <i class="fas fa-arrow-right"></i></span>
-                        <span class="ja">プロジェクトとラヴィの紹介、<br>「おしえて！ラヴィさん！」Q&amp;A</span>
-                    </a>
-                </div>
-            </div>
-        </section>
     </main>
 
     <footer id="site-footer" class="site-footer"></footer>
 
-    <script src="js/data.js?v=20261001o"></script>
-    <script src="js/site.js?v=20261001o"></script>
+    <script src="js/data.js?v=20261001q"></script>
+    <script src="js/site.js?v=20261001q"></script>
     <script>
         window.pageInit = async () => {
             const latest = RELEASES[0];
@@ -191,11 +166,17 @@
             // 過去作
             document.getElementById('home-releases').innerHTML = RELEASES.slice(1, 9).map(releaseCard).join('');
 
-            // 動画
-            document.getElementById('home-videos').innerHTML = VIDEOS.map(v => `
+            // 動画：YouTube の最新の横動画3本（js/videos.json は GitHub Actions が毎日更新）。読めなければ data.js の VIDEOS を使う
+            let videos = VIDEOS;
+            try {
+                const res = await fetch(`js/videos.json?t=${Date.now()}`);
+                if (res.ok) videos = await res.json();
+            } catch { }
+            document.getElementById('home-videos').innerHTML = videos.map((v, i) => `
                 <a class="video-card" href="https://youtu.be/${v.id}" data-yt="${v.id}" target="_blank" rel="noopener">
-                    <img src="${v.thumb}" alt="${esc(v.title)}" loading="lazy">
-                    <span class="cap"><i class="fab fa-youtube"></i>${esc(v.title)}</span>
+                    <img src="https://i.ytimg.com/vi/${v.id}/${i === 0 ? 'maxresdefault' : 'hqdefault'}.jpg" alt="${esc(v.title)}" loading="lazy"
+                        onload="if (this.naturalWidth <= 120 && !this.dataset.fb) { this.dataset.fb = 1; this.src = 'https://i.ytimg.com/vi/${v.id}/hqdefault.jpg'; }">
+                    <span class="cap"><i class="fab fa-youtube"></i><span class="cap-text">${esc(v.title)}${v.published ? `<small>${v.published}</small>` : ''}</span></span>
                 </a>`).join('');
             document.getElementById('home-videos').addEventListener('click', e => {
                 const a = e.target.closest('.video-card');

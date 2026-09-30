@@ -107,11 +107,13 @@ const NEWS_FILES = [
   'news/2026_001.html'
 ];
 
-/* ---- トップページの動画 ---- */
+/* ---- トップページの動画 ----
+   ふだんは js/videos.json（GitHub Actions が毎日 YouTube から自動更新）を使う。
+   これはそのファイルが読めなかったときの予備 */
 const VIDEOS = [
-  { id: 'W0IrXi9CZCQ', title: 'MOVIE 01', thumb: 'img/thumb/m_video1.jpg' },
-  { id: '9qHI4nd3aiU', title: 'MOVIE 02', thumb: 'img/thumb/m_video2.jpg' },
-  { id: 'mprv86HCNMo', title: 'MOVIE 03', thumb: 'img/thumb/m_video3.jpg' }
+  { id: 'jkhCRr3sRT8', title: 'Toxic / Lavi AI singer-songwriter【オリジナルMV】' },
+  { id: '7JoiCClsIe4', title: 'Vivid Night Parade【オリジナルMV】' },
+  { id: 'Ndn-5ial_xE', title: '不完全生命体 Lyric Video' }
 ];
 
 const LINKS = {

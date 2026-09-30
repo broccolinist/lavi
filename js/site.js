@@ -76,14 +76,14 @@ function renderFooter() {
   const el = document.getElementById('site-footer');
   if (!el) return;
   el.innerHTML = `
-    <button class="peek" aria-label="ラヴィ"><span class="peek-say" aria-live="polite"></span><img src="img/sprite/lavi_pixel_normal.png" alt=""></button>
+    <button class="peek" aria-label="ラヴィ"><img src="img/sprite/lavi_pixel_normal.png" alt=""></button>
     <div class="footer-marquee" aria-hidden="true"><div>
       ${'<span>BUG&amp;LAVI PROJECT</span><span class="dot">✦</span><span>YOUR GATEWAY TO BUG&amp;LAVI WORLD</span><span class="dot">✦</span>'.repeat(6)}
     </div></div>
     <div class="footer-inner">
       <div class="footer-brand">
         <img src="img/logo/logo-horizontal-1200.png" alt="Bug&amp;Lavi Project" class="footer-logo" width="1200" height="400">
-        <p class="footer-copy">データの中に住む存在、ラヴィの世界へ。</p>
+        <p class="footer-copy" aria-live="polite">データの中に住む存在、ラヴィの世界へ。</p>
       </div>
       <ul class="footer-nav">
         ${NAV.map(n => `<li><a href="${n.href}" ${n.ext ? 'target="_blank" rel="noopener"' : ''}>${n.en}</a></li>`).join('')}
@@ -93,17 +93,58 @@ function renderFooter() {
     </div>
     <p class="copyright">© Bug&amp;Lavi Project. All Rights Reserved.</p>`;
 
-  // 隠し要素：フッターのふちから、小さなラヴィがのぞいている
+  // 隠し要素：フッターのふちから小さなラヴィがのぞいている。
+  // フッターにたどりついたとき／ラヴィを押したとき、キャッチコピーが一瞬乱れてラヴィの言葉に変わる
   const peek = el.querySelector('.peek');
-  const peekLines = ['ここまで見てくれたんだ。', 'えへへ、見つかった。', 'またね。……ほんとに、またね？'];
+  const copy = el.querySelector('.footer-copy');
+  const COPY = copy.textContent;
+  const peekLines = ['ここまで見てくれたんだ。', 'えへへ、見つかっちゃった。', 'またね。'];
+  const NOISE = 'アイウエオカキクケコサシスセソ01█▓▒░#@*';
   let k = 0;
-  peek.addEventListener('click', () => {
+
+  // 文字を左から順に、乱れた文字を経由して別の文に置き換える
+  const scramble = (to, done) => {
+    clearInterval(copy.t);
+    const from = copy.textContent;
+    const len = Math.max(from.length, to.length);
+    let frame = 0;
+    copy.t = setInterval(() => {
+      frame++;
+      let out = '';
+      for (let i = 0; i < len; i++) {
+        const settle = i * 1.2 + 6;
+        if (frame >= settle) out += to[i] || '';
+        else if (frame >= settle - 6) out += NOISE[Math.floor(Math.random() * NOISE.length)];
+        else out += from[i] || '';
+      }
+      copy.textContent = out;
+      if (frame >= len * 1.2 + 6) { clearInterval(copy.t); copy.textContent = to; done && done(); }
+    }, 40);
+  };
+
+  const talk = () => {
     peek.querySelector('img').src = FACES.happy;
-    peek.querySelector('.peek-say').textContent = peekLines[k++ % peekLines.length];
     peek.classList.add('is-talking');
+    copy.classList.add('is-lavi');
     clearTimeout(peek.t);
-    peek.t = setTimeout(() => { peek.classList.remove('is-talking'); peek.querySelector('img').src = FACES.normal; }, 3500);
-  });
+    // 言葉が出そろってから3秒見せて、元のキャッチコピーに戻す
+    scramble(peekLines[k++ % peekLines.length], () => {
+      peek.t = setTimeout(() => {
+        scramble(COPY, () => copy.classList.remove('is-lavi'));
+        peek.classList.remove('is-talking');
+        peek.querySelector('img').src = FACES.normal;
+      }, 3000);
+    });
+  };
+  peek.addEventListener('click', talk);
+
+  // フッターに最初にたどりついたとき、一度だけ
+  if ('IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const io = new IntersectionObserver(entries => {
+      if (entries[0].isIntersecting) { io.disconnect(); setTimeout(talk, 900); }
+    }, { threshold: 0.6 });
+    io.observe(copy);
+  }
 }
 
 /* ---------- スクロールで表示 ---------- */

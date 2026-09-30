@@ -531,23 +531,6 @@ html.menu-open, .menu-open body { overflow: hidden; }
   .video-card .cap i { font-size: 20px; }
 }
 
-/* ==========================================================
-   TOP：CONTENTS（ノベル・ショップ等）
-   ========================================================== */
-.contents-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-.content-card {
-  position: relative; display: flex; flex-direction: column; justify-content: flex-end;
-  min-height: 380px; padding: 28px; border-radius: 8px; overflow: hidden; isolation: isolate;
-  border: 1px solid var(--line);
-}
-.content-card .bg { position: absolute; inset: 0; z-index: -2; background: var(--img) center / cover; transition: transform 1.2s var(--ease); }
-.content-card::before { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(to top, rgba(8, 11, 28, .95) 10%, rgba(8, 11, 28, .2) 70%); }
-.content-card:hover .bg { transform: scale(1.06); }
-.content-card .en { font-family: var(--f-en); font-size: 30px; font-weight: 700; line-height: 1.1; display: flex; justify-content: space-between; align-items: center; }
-.content-card .en i { font-size: 14px; width: 40px; height: 40px; display: grid; place-items: center; border: 1px solid rgba(255, 255, 255, .3); border-radius: 50%; transition: background .4s, color .4s, border-color .4s; }
-.content-card:hover .en i { background: var(--text); color: var(--ink); border-color: var(--text); }
-.content-card .ja { font-size: 13px; color: var(--mute); margin-top: 10px; line-height: 1.8; }
-@media (max-width: 860px) { .contents-grid { grid-template-columns: 1fr; } .content-card { min-height: 260px; } }
 
 /* ==========================================================
    ABOUT
@@ -793,14 +776,6 @@ img { -webkit-user-drag: none; user-select: none; -webkit-user-select: none; -we
 .peek img { width: 64px; height: auto; transform: translateY(26px); transition: transform .5s var(--ease); }
 .peek:hover img, .peek:focus-visible img, .peek.is-talking img { transform: translateY(4px); }
 .peek:focus-visible { outline: none; }
-.peek-say {
-  position: absolute; right: 70px; bottom: 8px; white-space: nowrap;
-  font-family: var(--f-mono); font-size: 13px; letter-spacing: .06em; padding: 6px 12px;
-  background: rgba(8, 11, 28, .85); border: 1px solid rgba(255, 179, 212, .45); border-radius: 4px;
-  opacity: 0; transform: translateY(4px); transition: opacity .4s, transform .4s var(--ease); pointer-events: none;
-}
-.peek.is-talking { overflow: visible; }
-.peek.is-talking .peek-say { opacity: 1; transform: none; }
 
 /* ==========================================================
    狭い画面（タブレット・スマホ）：最初の画面はラヴィとタイトルだけ、
@@ -931,3 +906,14 @@ img { -webkit-user-drag: none; user-select: none; -webkit-user-select: none; -we
   .whisper-slot.is-open .hero-whisper.is-slot { opacity: 1; transform: none; }
   .gatebar-head { padding-top: 24px; }
 }
+
+/* ---- 動画のタイトルと公開日 ---- */
+.video-card .cap { right: 20px; align-items: flex-end; font-family: var(--f-ja); font-size: 14px; letter-spacing: .04em; font-weight: 700; }
+.video-card .cap-text { display: flex; flex-direction: column; min-width: 0; line-height: 1.5; }
+.video-card .cap-text { overflow: hidden; text-overflow: ellipsis; }
+.video-card .cap-text small { font-family: var(--f-mono); font-weight: 400; font-size: 11px; color: var(--mute); letter-spacing: .1em; }
+.video-grid > :not(:first-child) .cap { font-size: 12.5px; }
+
+/* ---- フッターのキャッチコピーがラヴィの言葉に変わるとき ---- */
+.footer-copy { min-height: 1.8em; transition: color .4s; }
+.footer-copy.is-lavi { font-family: "DotGothic16", var(--f-ja); color: var(--pink); letter-spacing: .06em; font-size: 13px; }
