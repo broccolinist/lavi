@@ -914,3 +914,20 @@ img { -webkit-user-drag: none; user-select: none; -webkit-user-select: none; -we
   }
   .gatebar { margin-top: 0; }
 }
+
+/* ---- ロゴ（Bug-and-Lavi-logo-kit の統一版・白文字） ---- */
+.logo .logo-img { width: auto; height: 46px; border: 0; border-radius: 0; background: none; }
+.footer-brand img.footer-logo { width: 230px; height: auto; border-radius: 0; background: none; margin: 0 0 4px -8px; }
+@media (max-width: 960px) { .logo .logo-img { height: 40px; } }
+
+/* ---- 会話欄：ふだんは閉じていて、ラヴィを押すとバナーの下に開く ---- */
+@media (max-width: 1099px) {
+  .whisper-slot {
+    display: block; max-height: 0; overflow: hidden; margin: 0; padding: 0 5px;
+    transition: max-height .5s var(--ease), margin .5s var(--ease), padding .5s var(--ease);
+  }
+  .whisper-slot.is-open { max-height: 220px; margin: 0 0 22px; padding: 34px 5px 5px; }
+  .hero-whisper.is-slot { opacity: 0; transform: translateY(-8px); transition: opacity .4s, transform .5s var(--ease); }
+  .whisper-slot.is-open .hero-whisper.is-slot { opacity: 1; transform: none; }
+  .gatebar-head { padding-top: 24px; }
+}

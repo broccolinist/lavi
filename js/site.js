@@ -35,8 +35,7 @@ function renderHeader() {
   el.innerHTML = `
     <div class="header-inner">
       <a href="index.html" class="logo" aria-label="Bug&amp;Lavi Project トップへ">
-        <img src="img/picture/lavi_icon.png" alt="">
-        <span class="logo-text">BUG<em>&amp;</em>LAVI<small>PROJECT</small></span>
+        <img src="img/logo/logo-horizontal-600.png" alt="Bug&amp;Lavi Project" class="logo-img" width="600" height="200">
       </a>
       <nav class="gnav" aria-label="メインメニュー"><ul>${links}</ul></nav>
       <button class="menu-toggle" aria-label="メニューを開く" aria-expanded="false"><span></span><span></span></button>
@@ -83,8 +82,7 @@ function renderFooter() {
     </div></div>
     <div class="footer-inner">
       <div class="footer-brand">
-        <img src="img/picture/lavi_icon.png" alt="">
-        <p class="logo-text">BUG<em>&amp;</em>LAVI<small>PROJECT</small></p>
+        <img src="img/logo/logo-horizontal-1200.png" alt="Bug&amp;Lavi Project" class="footer-logo" width="1200" height="400">
         <p class="footer-copy">データの中に住む存在、ラヴィの世界へ。</p>
       </div>
       <ul class="footer-nav">
@@ -276,8 +274,8 @@ function setupPresence() {
   const slot = document.getElementById('whisper-slot');
   new Image().src = FACES.happy;
 
-  // 吹き出しの位置：キービジュアルの中の、ラヴィの顔のすぐ右上（画像に対する割合）
-  const KV_MOUTH = { x: 0.685, y: 0.36 };
+  // 吹き出しの位置：キービジュアルの中の、ラヴィの肩の少し上（画像に対する割合）
+  const KV_MOUTH = { x: 0.715, y: 0.58 }; // 肩の少し上
   const KV_SIZE = { w: 1731, h: 909 };
   const KV_POS = { x: 0.30, y: 0.35 }; // CSS の object-position と同じ値
   const kv = document.querySelector('.kv');
@@ -298,22 +296,24 @@ function setupPresence() {
     box.style.left = `${x + 18}px`; box.style.top = `${y}px`; box.style.translate = '0 -100%';
     return true;
   };
-  // 狭い画面：バナーのすぐ下の会話欄（常に表示）
-  const placeSlot = () => { reset(box); slot.appendChild(box); box.classList.add('is-slot', 'is-on'); };
+  // 狭い画面：バナーのすぐ下の会話欄（ラヴィを押したときだけ開く）
+  const placeSlot = () => { if (box.parentElement !== slot) { reset(box); slot.appendChild(box); } box.classList.add('is-slot'); };
   // 広い画面でバナーが見えていないとき：画面下に一時的に出す
   const placeFloat = () => { reset(box); document.body.appendChild(box); };
 
-  const rest = () => { face.src = FACES.normal; textEl.textContent = '……'; }; // 黙っているとき
   const layout = () => {
-    if (wide.matches) { if (box.classList.contains('is-slot')) { reset(box); box.classList.remove('is-on'); document.body.appendChild(box); } }
-    else if (!box.classList.contains('is-slot')) { placeSlot(); rest(); }
+    slot.classList.remove('is-open'); box.classList.remove('is-on');
+    if (wide.matches) placeFloat();
+    else placeSlot();
   };
   wide.addEventListener('change', layout);
   layout();
 
   // mood: 'normal'（すまし顔）／'happy'（笑顔）
-  const say = (text, mood = 'normal', ms = 4200) => {
-    if (wide.matches) { if (!placeBubble()) placeFloat(); } else placeSlot();
+  // auto: 押されていないのに話す台詞。狭い画面では会話欄を勝手に開かないよう、出さない
+  const say = (text, mood = 'normal', { auto = false, ms = 4200 } = {}) => {
+    if (auto && !wide.matches) return;
+    if (wide.matches) { if (!placeBubble()) placeFloat(); } else { placeSlot(); slot.classList.add('is-open'); }
     face.src = FACES[mood];
     textEl.textContent = '';
     box.classList.add('is-on');
@@ -323,7 +323,7 @@ function setupPresence() {
       textEl.textContent = text.slice(0, ++i);
       if (i >= text.length) {
         clearInterval(say.t);
-        say.h = setTimeout(() => { if (box.classList.contains('is-slot')) rest(); else box.classList.remove('is-on'); }, ms);
+        say.h = setTimeout(() => { box.classList.remove('is-on'); slot.classList.remove('is-open'); }, ms);
       }
     }, 70);
   };
@@ -349,11 +349,11 @@ function setupPresence() {
   // また来てくれた人へ
   let visits = 0;
   try { visits = +localStorage.getItem('lavi-visits') || 0; localStorage.setItem('lavi-visits', visits + 1); } catch { }
-  if (visits > 0) setTimeout(() => say(visits > 4 ? 'いつも来てくれて、ありがと。' : 'また来てくれたんだ。', 'happy'), 3200);
+  if (visits > 0) setTimeout(() => say(visits > 4 ? 'いつも来てくれて、ありがと。' : 'また来てくれたんだ。', 'happy', { auto: true }), 3200);
 
   // しばらく何もしないと
   let idle;
-  const resetIdle = () => { clearTimeout(idle); idle = setTimeout(() => { flicker(); say('……まだ、いる？'); }, 30000); };
+  const resetIdle = () => { clearTimeout(idle); idle = setTimeout(() => { flicker(); say('……まだ、いる？', 'normal', { auto: true }); }, 30000); };
   ['mousemove', 'scroll', 'keydown', 'touchstart'].forEach(ev => addEventListener(ev, resetIdle, { passive: true }));
   resetIdle();
 
