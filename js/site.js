@@ -200,7 +200,7 @@ function releaseCard(r, i = 0) {
         <span class="release-play"><i class="fas fa-play"></i></span>
       </div>
       <div class="release-meta">
-        <span class="release-type">${r.type}</span>
+        <span class="release-type">${r.tracks} TRACK${r.tracks > 1 ? 'S' : ''}</span>
         <span class="release-date">${r.date}</span>
       </div>
       <h3 class="release-title">${esc(r.title)}</h3>
@@ -210,8 +210,8 @@ function releaseCard(r, i = 0) {
 
 function streamButtons(r) {
   return `
-    <a class="stream-btn is-spotify" href="${r.spotify}" target="_blank" rel="noopener">${ICON.spotify}<span>Spotify</span></a>
-    <a class="stream-btn is-apple" href="${r.apple}" target="_blank" rel="noopener">${ICON.apple}<span>Apple Music</span></a>
+    ${r.spotify ? `<a class="stream-btn is-spotify" href="${r.spotify}" target="_blank" rel="noopener">${ICON.spotify}<span>Spotify</span></a>` : ''}
+    ${r.apple ? `<a class="stream-btn is-apple" href="${r.apple}" target="_blank" rel="noopener">${ICON.apple}<span>Apple Music</span></a>` : ''}
     ${r.youtube ? `<a class="stream-btn is-youtube" href="https://youtu.be/${r.youtube}" target="_blank" rel="noopener">${ICON.youtube}<span>YouTube</span></a>` : ''}`;
 }
 
@@ -231,7 +231,7 @@ function setupReleaseModal() {
     body.innerHTML = `
       <div class="modal-jacket" style="--bg:url('${r.jacket}')"><img src="${r.jacket}" alt="${esc(r.title)}"></div>
       <div class="modal-info">
-        <p class="modal-label">${r.type} ／ ${r.date} Release</p>
+        <p class="modal-label">${r.date} Release ／ ${r.tracks}曲</p>
         <h2 class="modal-title">${esc(r.title)}</h2>
         ${r.sub ? `<p class="modal-sub">${esc(r.sub)}</p>` : ''}
         <p class="modal-artist">Lavi AI Singer-songwriter</p>
