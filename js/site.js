@@ -276,8 +276,39 @@ function setupPresence() {
   document.body.appendChild(box); // 会話ウィンドウは画面に固定するので、ページの一番外側に置く
   new Image().src = FACES.happy;
 
+  // 吹き出しの位置：キービジュアルの中の、ラヴィの顔のすぐ右上（画像に対する割合）
+  const KV_MOUTH = { x: 0.685, y: 0.36 };
+  const KV_SIZE = { w: 1731, h: 909 };
+  const KV_POS = { x: 0.30, y: 0.35 }; // CSS の object-position と同じ値
+  const kv = document.querySelector('.kv');
+  const wideEnough = matchMedia('(min-width: 901px)');
+
+  // 顔の横に余白があって、バナーが見えているときだけ吹き出しにする
+  const placeBubble = () => {
+    if (!kv || !wideEnough.matches) return false;
+    const r = kv.getBoundingClientRect();
+    if (r.bottom < r.height * 0.6 || r.top > innerHeight * 0.5) return false;
+    const scale = Math.max(r.width / KV_SIZE.w, r.height / KV_SIZE.h);
+    const dw = KV_SIZE.w * scale, dh = KV_SIZE.h * scale;
+    const x = (r.width - dw) * KV_POS.x + dw * KV_MOUTH.x;
+    const y = (r.height - dh) * KV_POS.y + dh * KV_MOUTH.y;
+    if (r.width - x < 300) return false; // 右側に吹き出しの入る幅がない
+    kv.appendChild(box);
+    box.classList.add('is-bubble');
+    box.style.left = `${x + 18}px`;
+    box.style.top = `${y}px`;
+    box.style.translate = '0 -100%';
+    return true;
+  };
+  const placeWindow = () => {
+    document.body.appendChild(box);
+    box.classList.remove('is-bubble');
+    box.style.left = box.style.top = box.style.translate = '';
+  };
+
   // mood: 'normal'（すまし顔）／'happy'（笑顔）
   const say = (text, mood = 'normal', ms = 4200) => {
+    if (!placeBubble()) placeWindow();
     face.src = FACES[mood];
     textEl.textContent = '';
     box.classList.add('is-on');

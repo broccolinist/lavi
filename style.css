@@ -880,3 +880,26 @@ img { -webkit-user-drag: none; user-select: none; -webkit-user-select: none; -we
   .gatebar .gate { grid-template-columns: 1fr; }
   .gatebar .hero-kicker { font-size: 10.5px; letter-spacing: .16em; }
 }
+
+/* ---- バナーを夜っぽく：彩度と明るさを落とし、紺色を重ねる ---- */
+.kv-visual img { filter: saturate(.72) brightness(.78) contrast(1.05); }
+.kv-visual::before {
+  content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none; mix-blend-mode: multiply;
+  background:
+    radial-gradient(ellipse 38% 55% at 62% 40%, rgba(120, 130, 200, .15), transparent 70%),
+    linear-gradient(180deg, rgba(40, 46, 120, .55), rgba(20, 24, 70, .6));
+}
+
+/* ---- 台詞の吹き出しモード（顔の横にスペースがあるとき） ---- */
+.hero-whisper.is-bubble {
+  position: absolute; left: 0; top: 0; bottom: auto; translate: none; width: auto; max-width: 360px;
+  display: block; padding: 14px 20px;
+  border-radius: 18px 18px 18px 4px;
+  box-shadow: 0 0 0 4px rgba(8, 11, 28, .85), 0 0 0 5px rgba(255, 179, 212, .5), 0 16px 40px -10px rgba(0, 0, 0, .6);
+  z-index: 5;
+}
+.hero-whisper.is-bubble .whisper-face, .hero-whisper.is-bubble .whisper-name { display: none; }
+.hero-whisper.is-bubble::after {
+  content: ""; position: absolute; left: -2px; bottom: -14px; width: 18px; height: 16px;
+  background: rgba(238, 241, 255, .85); clip-path: polygon(0 0, 100% 0, 0 100%);
+}
