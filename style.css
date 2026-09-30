@@ -1076,6 +1076,19 @@ body:has(.top-page-main) footer {
     clear: both;
 }
 
+.about-creator {
+    padding: 15px 20px;
+    color: white;
+    cursor: pointer;
+    list-style: none;
+    /* デフォルトの矢印を消す（Chrome/Safari） */
+    position: relative;
+    display: block;
+    font-size: 0.9rem;
+    background: rgba(0, 0, 0, 0.3);
+}
+
+
 /* --- ディスコグラフィーセクション --- */
 .music_glitch {
     font-size: 4.0rem; /* 他のページタイトルとサイズを統一（130pxから調整） */
