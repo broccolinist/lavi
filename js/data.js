@@ -27,7 +27,7 @@ const RELEASES = [
     youtube: 'QrAAkCeQSu8'
   },
   {
-    id: 'revolution', title: 'REVOLUTION', date: '2026.05.02', type: 'Single',
+    id: 'revolution', title: 'REVOLUTION', date: '2026.05.02', type: 'Album',
     jacket: 'img/thumb/j_revolution.jpg',
     spotify: 'https://open.spotify.com/intl-ja/album/65n4Rz93Juk52w0uX9e5Ui',
     apple: 'https://music.apple.com/jp/album/revolution/1892123353',
@@ -55,7 +55,7 @@ const RELEASES = [
     youtube: 'yQU50KMDMes'
   },
   {
-    id: 'jackpot', title: 'JACKPOT！', date: '2025.12.27', type: 'Single',
+    id: 'jackpot', title: 'JACKPOT！', date: '2025.12.27', type: 'Album',
     jacket: 'img/thumb/j_jackpot.jpg',
     spotify: 'https://open.spotify.com/intl-ja/album/3CuxzuKY9LlDlviUo5TUEY',
     apple: 'https://music.apple.com/jp/album/jackpot/1857450991',
@@ -69,7 +69,7 @@ const RELEASES = [
     youtube: 'dy8UENm43Ko'
   },
   {
-    id: 'dattomild', title: '脱兎マイルド', date: '2025.12.13', type: 'Single',
+    id: 'dattomild', title: '脱兎マイルド', date: '2025.12.13', type: 'Album',
     jacket: 'img/thumb/j_dattomild.jpg',
     spotify: 'https://open.spotify.com/intl-ja/album/6EETEg9wILPwewpQmmuVDT',
     apple: 'https://music.apple.com/jp/album/脱兎マイルド/1853264563',
