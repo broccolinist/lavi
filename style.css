@@ -13,7 +13,7 @@
   --pink: #ffb3d4;
   --carrot: #ff8a3d;
   --grad: linear-gradient(100deg, #9fd8ff 0%, #c9b8ff 45%, #ffb3d4 100%);
-  --f-en: "Comfortaa", "Zen Maru Gothic", sans-serif;
+  --f-en: "Orbitron", "Zen Maru Gothic", sans-serif;
   --f-mono: "DotGothic16", ui-monospace, monospace;
   --f-ja: "Zen Maru Gothic", "Hiragino Maru Gothic ProN", "Hiragino Sans", sans-serif;
   --ease: cubic-bezier(.22, 1, .36, 1);
@@ -150,7 +150,7 @@ html.menu-open, .menu-open body { overflow: hidden; }
 .section-title { margin: 0; line-height: 1; }
 .section-title .en {
   display: block; font-family: var(--f-en); font-weight: 700;
-  font-size: clamp(40px, 7.4vw, 96px); letter-spacing: 0;
+  font-size: clamp(32px, 6.4vw, 84px); letter-spacing: 0;
 }
 .section-title .ja {
   display: flex; align-items: center; gap: 12px; margin-top: 14px;
@@ -205,7 +205,7 @@ html.menu-open, .menu-open body { overflow: hidden; }
 .page-hero h1 { margin: 0; line-height: .95; }
 .page-hero h1 .en {
   display: block; font-family: var(--f-en); font-weight: 700;
-  font-size: clamp(56px, 13vw, 180px); letter-spacing: 0;
+  font-size: clamp(38px, 11vw, 150px); letter-spacing: 0;
 }
 .page-hero h1 .ja { display: block; margin-top: 18px; font-size: 14px; color: var(--mute); letter-spacing: .3em; font-weight: 500; }
 .page-hero .crumb { font-family: var(--f-mono); font-size: 11px; color: var(--mute); letter-spacing: .15em; margin-bottom: 20px; }
