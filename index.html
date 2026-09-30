@@ -32,8 +32,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800&family=DotGothic16&family=Zen+Maru+Gothic:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="preload" as="image" href="img/thumb/haikyo.jpg">
-    <link rel="stylesheet" href="style.css?v=20261001j">
+    <link rel="stylesheet" href="style.css?v=20261001k">
 </head>
 
 <body class="home" data-has-releases>
@@ -41,26 +40,26 @@
     <header id="site-header" class="site-header"></header>
 
     <main>
-        <!-- ===== HERO ===== -->
-        <section class="hero">
-            <div class="hero-bg"></div>
+        <!-- ===== KEY VISUAL（バナー1。ロゴは絵の中に入っている） ===== -->
+        <section class="kv">
+            <h1 class="sr-only">Bug&amp;Lavi Project</h1>
+            <div class="kv-visual" id="hero-chara" role="img" aria-label="Bug&amp;Lavi Project のキービジュアル（ラヴィ）">
+                <picture>
+                    <source media="(max-width: 900px)" srcset="img/thumb/key_900.jpg">
+                    <img src="img/thumb/key_1731.jpg" alt="" fetchpriority="high">
+                </picture>
+            </div>
             <canvas id="particles"></canvas>
-            <!-- 立ち絵は仮置き（背景透過版に差し替え予定。差し替えたら is-temp を外す） -->
-            <div class="hero-chara is-temp" id="hero-chara" role="img" aria-label="ラヴィ"><img src="img/picture/lavi_tati.png" alt="" fetchpriority="high"></div>
+        </section>
 
-            <div class="hero-inner">
-                <div class="hero-head">
-                    <p class="hero-kicker fade-up">YOUR GATEWAY TO BUG&amp;LAVI WORLD</p>
-                    <h1 class="hero-logo">
-                        <!-- ロゴは仮置き（ロゴ画像が届いたら src を差し替え、is-temp を外す） -->
-                        <span class="hero-line"><img src="img/picture/lavi_icon.png" alt="Bug&amp;Lavi Project" class="is-temp"></span>
-                    </h1>
-                    <p class="hero-lead fade-up">不思議な<em>生い立ち</em>を持つうさぎの少女、<em>ラヴィ</em>を中心に紡がれる世界。</p>
-                    <p class="hero-down fade-up" aria-hidden="true">EXPLORE <i class="fas fa-chevron-down"></i></p>
+        <!-- ===== 入口 ===== -->
+        <section class="gatebar">
+            <div class="gatebar-inner">
+                <div class="gatebar-head fade-up">
+                    <p class="hero-kicker">YOUR GATEWAY TO BUG&amp;LAVI WORLD</p>
+                    <p class="hero-lead">不思議な<em>生い立ち</em>を持つうさぎの少女、<em>ラヴィ</em>を中心に紡がれる世界。</p>
                 </div>
-
                 <nav class="gate fade-up" id="gate" aria-label="入口"></nav>
-                <p class="hero-hint fade-up">SCROLL / SELECT TO EXPLORE</p>
             </div>
 
             <!-- ラヴィの台詞：画面下の会話ウィンドウ -->
@@ -159,8 +158,8 @@
 
     <footer id="site-footer" class="site-footer"></footer>
 
-    <script src="js/data.js?v=20261001j"></script>
-    <script src="js/site.js?v=20261001j"></script>
+    <script src="js/data.js?v=20261001k"></script>
+    <script src="js/site.js?v=20261001k"></script>
     <script>
         window.pageInit = async () => {
             const latest = RELEASES[0];
