@@ -4,45 +4,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>プライバシーポリシー | Bug&Lavi Project</title>
-
-    <!-- SEO / favicon -->
-    <meta name="description" content="Bug&Lavi Project のプライバシーポリシー（個人情報の取り扱い）と運営者情報。">
+    <title>PRIVACY POLICY | Bug&amp;Lavi Project</title>
+    <meta name="description" content="Bug&Lavi Projectのプライバシーポリシー。">
+    <meta name="theme-color" content="#080b1c">
     <link rel="canonical" href="https://bug-and-lavi-project.com/privacy.html">
     <link rel="icon" href="img/picture/lavi_icon.png">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP&family=Orbitron:wght@400..900&display=swap" rel="stylesheet">
-
-    <!-- OGP -->
-    <meta property="og:type" content="website">
+    <meta property="og:type" content="article">
     <meta property="og:site_name" content="Bug&Lavi Project">
-    <meta property="og:locale" content="ja_JP">
-    <meta property="og:title" content="プライバシーポリシー | Bug&Lavi Project">
-    <meta property="og:description" content="Bug&Lavi Project のプライバシーポリシー（個人情報の取り扱い）と運営者情報。">
+    <meta property="og:title" content="PRIVACY POLICY | Bug&Lavi Project">
     <meta property="og:url" content="https://bug-and-lavi-project.com/privacy.html">
     <meta property="og:image" content="https://bug-and-lavi-project.com/img/picture/lavi_tati.png">
-
-    <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
-
-    <!-- Cloudflare Web Analytics -->
     <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "5204ed30baa54e48af164bfa0e777612"}'></script>
-    <!-- End Cloudflare Web Analytics -->
-
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono&family=Unbounded:wght@400;500;600;700;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="style.css?v=20261001">
 </head>
 
 <body>
-    <div class="background-image"></div>
-
-    <header id="common-header"></header>
+    <header id="site-header" class="site-header"></header>
 
     <main>
-        <h1 class="page-title policy_glitch">PRIVACY POLICY</h1>
+        <section class="page-hero" data-bg="POLICY">
+            <div class="wrap">
+                <p class="crumb"><a href="index.html">HOME</a> / PRIVACY POLICY</p>
+                <h1><span class="en glitch" data-text="PRIVACY">PRIVACY</span><span class="ja">プライバシーポリシー</span></h1>
+            </div>
+        </section>
 
-        <div class="content-box legal-box" style="text-align:left;">
+        <section class="section" style="padding-top:clamp(20px,4vw,40px)">
+            <div class="wrap narrow legal reveal">
             <p>
                 Bug&Lavi Project（以下「当プロジェクト」）は、当ウェブサイト（https://bug-and-lavi-project.com/、以下「当サイト」）における
                 利用者の個人情報の取り扱いについて、以下のとおりプライバシーポリシー（以下「本ポリシー」）を定めます。
@@ -114,47 +107,18 @@
                 当プロジェクトは、必要に応じて本ポリシーを変更することがあります。変更後の内容は、当サイトに掲載した時点から効力を生じるものとします。
             </p>
 
-            <p class="policy-date" style="margin-top:2em;">
+            <p class="policy-date">
                 制定日：2026年6月20日<br>
                 最終改定日：2026年6月20日
             </p>
-        </div>
+            </div>
+        </section>
     </main>
 
-    <footer id="common-footer"></footer>
+    <footer id="site-footer" class="site-footer"></footer>
 
-    <script>
-        async function loadCommonParts() {
-            const headerRes = await fetch('header.html');
-            const headerHtml = await headerRes.text();
-            document.getElementById('common-header').innerHTML = headerHtml;
-
-            const footerRes = await fetch('footer.html');
-            const footerHtml = await footerRes.text();
-            document.getElementById('common-footer').innerHTML = footerHtml;
-
-            setupMenu();
-        }
-
-        function setupMenu() {
-            const menuBtn = document.getElementById('menuBtn');
-            const navMenu = document.getElementById('navMenu');
-            if (menuBtn && navMenu) {
-                menuBtn.addEventListener('click', () => {
-                    menuBtn.classList.toggle('open');
-                    navMenu.classList.toggle('open');
-                });
-                navMenu.querySelectorAll('a').forEach(link => {
-                    link.addEventListener('click', () => {
-                        menuBtn.classList.remove('open');
-                        navMenu.classList.remove('open');
-                    });
-                });
-            }
-        }
-
-        loadCommonParts();
-    </script>
+    <script src="js/data.js?v=20261001"></script>
+    <script src="js/site.js?v=20261001"></script>
 </body>
 
 </html>

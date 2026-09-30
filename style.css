@@ -1,1996 +1,717 @@
-/* 1. カスタムプロパティ（変数）の定義 */
-@property --angle {
-    syntax: "<angle>";
-    inherits: true;
-    initial-value: 0deg;
-}
+/* ==========================================================
+   Bug&Lavi Project — style
+   ========================================================== */
 
 :root {
-    --labs-sys-color-background: #111;
-    --labs-sys-color-on-background: white;
-    --base-speed: 4s;
-    --labs-sys-color-grid: #fac4ff;
-    --labs-sys-color-grid-glow: #df7373;
-    --labs-sys-color-sun-1: #fdb428;
-    --labs-sys-color-sun-2: #f672ca;
-    --labs-sys-color-sun-glow: #b9f;
-    --labs-sys-color-star: #f6c0c0;
-    --color-palm-trunk: #333;
-    --color-palm-leaf: #333;
-    --color-palm-leaf-2: #b9f;
-    --labs-sys-color-triangle: #6eccee;
-    --labs-sys-color-volume: var(--labs-sys-color-triangle);
-    /* --labs-sys-color-sun-2: #ff69b4;
-    --labs-sys-color-triangle: #6eccee; */
-}
-
-/* ==========================================================================
-   1. 基本レイアウト & 共通設定
-   ========================================================================== */
-body,
-html {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    overflow-x: hidden;
-    font-family: 'Noto Sans JP','Helvetica Neue', Arial, sans-serif;
-    color: #333;
-}
-
-/* サイト内のすべての画像に対してダウンロード対策 */
-img {
-    /* マウス右クリックや長押しによるメニュー選択を禁止 */
-    pointer-events: none;
-    
-    /* 画像の選択・コピーを禁止 */
-    -webkit-touch-callout: none; /* iOS Safari */
-    -webkit-user-select: none;   /* Safari */
-    -khtml-user-select: none;     /* Konqueror HTML */
-    -moz-user-select: none;      /* Firefox */
-    -ms-user-select: none;       /* Internet Explorer/Edge */
-    user-select: none;           /* 各種ブラウザ共通 */
-}
-
-.background-image {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100dvh;
-    background: url('img/picture/haikyo.png') no-repeat center center/cover;
-    z-index: -1;
-}
-
-main {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding-top: 80px;
-    min-height: calc(100dvh - 80px);
-    box-sizing: border-box;
-}
-
-/* --- コンテンツボックス --- */
-.content-box {
-    background: rgba(255, 255, 255, 0.85);
-    padding: 20px;
-    width: 90%;
-    max-width: 500px;
-    border-radius: 15px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-    margin-bottom: 30px;
-}
-
-/* 共通ボタン */
-.btn {
-    display: inline-block;
-    text-decoration: none;
-    padding: 8px 15px;
-    border-radius: 5px;
-    font-size: 0.9rem;
-    color: #333;
-    border: 1px solid #333;
-    transition: 0.3s;
-}
-
-.btn:hover {
-    opacity: 0.7;
-}
-
-.play-btn {
-    background: #333;
-    color: #fff;
-}
-
-/* ==========================================================================
-   2. ヘッダー設定（ハンバーガーボタン制御含む）
-   ========================================================================== */
-header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 0; /* ヘッダー自体は高さをなくし、背後の要素のクリックを邪魔しない */
-    z-index: 100;
-}
-
-/* ボタンのコンテナ（左上に完全にピン留め固定） */
-.menu-btn-container {
-    position: fixed !important;
-    top: 20px !important;
-    left: 20px !important;
-    width: 50px !important;
-    height: 50px !important;
-    background-color: rgba(17, 17, 17, 0.6) !important; /* 背景に馴染みつつ見やすくなる黒ベース */
-    border-radius: 50%;
-    /*cursor: pointer !important;*/
-    cursor: url('img/picture/carrot.png'), pointer !important;
-    display: flex !important;
-    justify-content: center !important;
-    align-items: center !important;
-    z-index: 101 !important; /* メニュー（99）より前面に固定、開閉を可能に */
-    transition: background-color 0.3s;
-}
-
-.menu-btn-container:hover {
-    background-color: rgba(255, 105, 180, 0.4) !important;
-}
-
-/* 三本線の線の形 */
-.menu-btn {
-    position: relative;
-    width: 25px;
-    height: 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
-
-.menu-btn span {
-    display: block;
-    width: 100%;
-    height: 2px;
-    background-color: #fff !important; /* 線を白にする */
-    border-radius: 2px;
-    transition: transform 0.3s, opacity 0.3s;
-}
-
-/* ボタンが開いた時のアニメーション（X印） */
-/* 1番上の線：＼ */
-.menu-btn-container.open .menu-btn span:nth-child(1) {
-    transform: translateY(9px) rotate(45deg);
-}
-
-.menu-btn-container.open .menu-btn span:nth-child(2) {
-    opacity: 0;
-    transform: translateX(-10px);
-}
-
-/* 3番目の線：／ */
-.menu-btn-container.open .menu-btn span:nth-child(3) {
-    transform: translateY(-9px) rotate(-45deg);
-}
-
-/* ==========================================================================
-   3. ナビゲーションメニューエリア（左からスライドイン・縦並び）
-   ========================================================================== */
-#navMenu {
-    position: fixed;
-    top: 0;
-    left: -100%; /* 初期状態は右側に完全に隠す */
-    width: 300px; /* PCでのメニューバーの幅 */
-    height: 100dvh;
-    background: rgba(17, 17, 17, 0.95);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: left 0.4s cubic-bezier(0.25, 1, 0.5, 1);
-    z-index: 99; /* ボタン(101)より下、メインコンテンツより上 */
-}
-
-/* ナビゲーションメニューが開いた時 */
-#navMenu.open {
-    left: 0;
-}
-
-/* リストアイテムの縦一列化 */
-#navMenu ul {
-    font-family: 'Orbitron', sans-serif;
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 25px; /* メニュー間の縦の隙間 */
-    width: 100%;
-}
-
-#navMenu ul li {
-    width: 100%;
-    text-align: center;
-}
-
-#navMenu a {
-    color: #fff;
-    text-decoration: none;
-    font-size: 1.4rem;
-    font-weight: bold;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    display: block;
-    padding: 10px 0;
-    transition: color 0.3s, transform 0.3s;
-    cursor: url('img/picture/carrot.png'), pointer;
-}
-
-#navMenu a:hover {
-    color: #ff69b4;
-    transform: scale(1.1);
-    text-shadow: 0 0 10px rgba(255, 105, 180, 0.6);
-}
-
-/* ==========================================================================
-   3. HOME専用要素 (バナー / スライド)
-   ========================================================================== */
-/* --- index.html（トップページ）専用：画面を固定してスクロールを禁止 --- */
-body:has(.top-page-main) {
-    height: 100vh !important;
-    height: 100dvh !important;
-    width: 100% !important;
-    overflow: hidden !important;
-    position: relative;
-    margin: 0;
-    padding: 0;
-    display: block; /* 不安定なGrid設定を完全に打ち消し通常配置へ */
-
-    /* ★【追加】スマホでの画面全体の引っ張り・バウンド（オーバースクロール）を物理的に禁止 */
-    overscroll-behavior: none !important; 
-    touch-action: none !important; /* 指でのスクロール・拡大縮小操作自体を無効化 */
-}
-
-/* 2. トップページ専用のメインエリア（デベロッパーツール上のピンクの枠を100%に固定） */
-.top-page-main {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100% !important;
-    height: 100vh !important;
-    height: 100dvh !important;
-    min-height: auto !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    overflow: hidden;
-    z-index: 1;
-}
-
-/* トップページ専用のメインエリアに、触らせないための透明な壁（シールド）を重ねる */
-.top-page-main::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    
-    /* 完全に透明な壁を最前面に敷く */
-    background: transparent; 
-    
-    /* ヘッダー(z-index: 100)やフッター(z-index: 100)よりは下、
-       キャラクター(z-index: 2)よりは上に配置することで、
-       メニューやSNSリンクのクリックを邪魔せず、キャラだけをガードします */
-    z-index: 10; 
-}
-
-/* トップページ表示時、最外枠のhtmlタグ自体のオーバースクロールも完全にロック */
-html:has(.top-page-main) {
-    overflow: hidden !important;
-    overscroll-behavior: none !important;
-    touch-action: none !important;
-}
-
-/* 3. トップページのバナーコンテナ */
-.home-banner {
-    width: 100% !important;
-    height: 100% !important;
-    position: relative;
-}
-
-/* 4. キャラクターを包む枠（黄色の枠を画像サイズに潰させず、横幅100%に強制拡張！） */
-.banner-wrapper {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100% !important;   /* これにより、画面の端（左外）がアニメーションの基準線になります */
-    height: 100% !important;  /* 高さを画面全体いっぱいに確保 */
-    margin: 0 !important;
-    padding: 0 !important;
-}
-
-/* 5. キャラクターイラスト（PCモニターのサイズを問わず、フッターの真上に完璧接地） */
-.banner-char {
-    position: absolute;
-    /* PCのフッターの高さ（約82px）の分だけボトムから浮かせ、1ミリの隙間もなく接地させます */
-    bottom: 82px !important; 
-    left: 80% !important;
-    transform: translateX(-30%);
-    
-    /* ヘッダー(20px) + フッター(82px) = 102px を画面全体から引いた領域をキャラクターの「最大高さ」にする */
-    height: calc(100vh - 102px) !important;
-    height: calc(100dvh - 102px) !important;
-    width: auto !important;
-    
-    object-fit: contain; 
-    object-position: bottom center; /* 画像の足元を必ず基準点にする */
-    z-index: 2;
-
-    animation: slideInRight 2.0s cubic-bezier(0.25, 1, 0.5, 1) forwards;
-
-    pointer-events: none;         /* マウスやタッチの反応を完全に無視 */
-    user-select: none;            /* テキストや画像の選択を禁止 */
-    -webkit-user-drag: none;      /* iOS/Safari等でのドラッグを禁止 */
-}
-
-/* 6. トップページ専用：ヘッダーとフッターを完全固定（非同期によるズレを強制排除） */
-body:has(.top-page-main) #common-header,
-body:has(.top-page-main) header {
-    position: fixed !important;
-    top: 0;
-    left: 0;
-    width: 100%;
-    z-index: 100;
-}
-
-body:has(.top-page-main) #common-footer,
-body:has(.top-page-main) footer {
-    position: fixed !important;
-    bottom: 0 !important;
-    left: 0 !important;
-    width: 100% !important;
-    z-index: 98;
-}
-
-
-/* --- スマホ用の調整 --- */
-@media (max-width: 768px) {
-    /* ---（他の既存のスマホ用設定はすべてそのままで大丈夫です）--- */
-
-    /* スマホ表示の時だけ、キャラの高さ計算をスマホ用フッターの高さ(74px)に自動スイッチ */
-    body:has(.top-page-main) .banner-char {
-        bottom: 74px !important; /* スマホのフッター高さに合わせる */
-        height: calc(100vh - 134px) !important; /* ヘッダー60px + スマホフッター74px = 134px */
-        height: calc(100dvh - 134px) !important;
-        
-        /* 既存のスマホ用位置制御：真ん中ではなく、左に少し寄せる指示を安全に継承 */
-        left: 50% !important;
-        transform: translateX(-40%) !important; /* ご希望の携帯表示の制御位置 */
-    }
-
-    .top-page-main::after {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        }
-
-}
-
-.section-title {
-    font-size: 1.5rem;
-    letter-spacing: 0.1em;
-    text-align: center;
-    margin-bottom: 25px;
-    border-bottom: 1px solid #ddd;
-    padding-bottom: 10px;
-    color: #191970;
-    text-shadow: 1px 1px 2px pink;
-}
-
-/* --- VIDEOSスライド --- */
-.video-slide-section {
-    width: 100%;
-    margin: 50px 0 80px;
-    overflow: hidden;
-}
-
-.video-carousel {
-    display: flex;
-    overflow-x: auto;
-    gap: 30px;
-    padding: 20px 0;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-    /* スクリプト制御のため snap は使用しない */
-    scroll-snap-type: none;
-}
-
-/* スクロールバーを隠す (Chrome/Safari) */
-.video-carousel::-webkit-scrollbar {
-    display: none;
-}
-
-.video-item {
-    flex: 0 0 450px;
-    /* サイズ固定 */
-    position: relative;
-    border-radius: 12px;
-    overflow: hidden;
-    background: #000;
-    transition: opacity 0.4s ease, transform 0.4s ease;
-    opacity: 0.2;
-    /* 左右はかなり薄く */
-}
-
-/* 中央の強調 */
-.video-item.is-active {
-    opacity: 1;
-    transform: scale(1.05);
-    z-index: 10;
-}
-
-.video-item img {
-    width: 450px !important;
-    height: 250px !important;
-    object-fit: cover;
-    display: block;
-}
-
-.play-icon {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 50px !important;
-    color: #fff;
-    pointer-events: none;
-    filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.5));
-}
-
-/* ==========================================================================
-   4. News ページ & 共通リスト設定
-   ========================================================================== */
-
-/* 記事内のニュースタイトル */
-.news-item-title {
-    font-size: 1.1rem;
-    color: #191970;
-    margin: 10px 0;
-    border-bottom: 1px dotted rgba(25, 25, 112, 0.2);
-    padding-bottom: 5px;
-}
-
-.news_glitch {
-    font-size: 4.0rem; /* 他のページタイトルとサイズを統一（130pxから調整） */
-    line-height: 1;
-    font-family: 'Orbitron', sans-serif;
-    font-weight: 700;
-    margin: 0;
-    text-decoration: none;
-    color: #fff;
-    display: inline-block;
-    position: relative;
-    z-index: 10;
-    margin-bottom: 40px;
-    
-    /* 常時ブレるのではなく、4秒周期のメリハリのあるアニメーションに変更 */
-    animation: text-glow-pulse 2s infinite;
-}
-
-/* グリッチ用の疑似要素（本体の文字を絶対に揺らさないための工夫） */
-.news_glitch::before,
-.news_glitch::after {
-    display: block;
-    content: 'NEWS';
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
-    opacity: 0.7;
-    /* 通常時は完全に本体の真後ろに隠す（ブレを無くす） */
-    transform: translate(0, 0); 
-}
-
-.news_glitch::after {
-    color: #f0f;
-    z-index: -2;
-    /* 4秒周期のうち、一瞬だけズレるアニメーション */
-    animation: glitch-periodic-right 4s infinite;
-}
-
-.news_glitch::before {
-    color: #0ff;
-    z-index: -1;
-    /* 4秒周期のうち、一瞬だけ逆にズレるアニメーション */
-    animation: glitch-periodic-left 4s infinite;
-}
-
-/* --- 【新設計】周期的なグリッチアニメーション ---
-   0%〜85%（約3.4秒間）は完全に静止させ、残りの15%（約0.6秒）で激しくバグらせます。
-   これにより「普段は読めるのに、ときどきバグる」電脳世界らしさが演出できます。 */
-
-@keyframes glitch-periodic-left {
-    0%, 85%, 89%, 93%, 100% {
-        transform: translate(0, 0);
-        clip-path: inset(0 0 0 0);
-    }
-    86% {
-        transform: translate(-6px, -2px);
-        clip-path: inset(10% 0 80% 0); /* 文字を水平にスライスする効果 */
-    }
-    90% {
-        transform: translate(4px, 3px);
-        clip-path: inset(60% 0 10% 0);
-    }
-    92% {
-        transform: translate(-3px, 2px);
-        clip-path: inset(30% 0 40% 0);
-    }
-}
-
-@keyframes glitch-periodic-right {
-    0%, 85%, 89%, 93%, 100% {
-        transform: translate(0, 0);
-        clip-path: inset(0 0 0 0);
-    }
-    87% {
-        transform: translate(6px, 2px);
-        clip-path: inset(40% 0 30% 0);
-    }
-    91% {
-        transform: translate(-4px, -2px);
-        clip-path: inset(10% 0 70% 0);
-    }
-}
-
-/* タイトル全体が時折フワッと明滅する、可読性を損なわない緩やかな効果 */
-@keyframes text-glow-pulse {
-    0%, 85%, 100% { filter: brightness(100%); }
-    88%, 91% { filter: brightness(140%) contrast(120%); }
-}
-
-
-/* 日付とカテゴリ */
-.news-meta {
-    font-size: 0.8rem;
-    display: flex;
-    gap: 10px;
-    color: #666;
-}
-
-.news-category {
-    color: #ff69b4;
-    /* ラヴィさんのピンク */
-    font-weight: bold;
-}
-
-.news-item-body {
-    font-size: 0.9rem;
-    line-height: 1.6;
-}
-
-/* HOMEの最新ニュース枠 */
-.home-news {
-    width: 90%;
-    max-width: 600px;
-    background: rgba(255, 255, 255, 0.8);
-    padding: 20px;
-    border-radius: 15px;
-    margin-bottom: 40px;
-}
-
-.home-news-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.home-news-list li {
-    border-bottom: 1px solid #eee;
-}
-
-.home-news-list li a,
-.home-news-list li .no-link-item {
-    display: flex;
-    align-items: center;
-    padding: 15px 10px;
-    text-decoration: none;
-    color: #333;
-    box-sizing: border-box;
-}
-
-.home-news-list .date {
-    width: 100px;
-    flex-shrink: 0;
-    font-size: 0.85rem;
-    color: #888;
-}
-
-/* ニュース一覧ページ(news.html)側のリンクなし項目も調整 */
-.news-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-}
-
-/* ニュースカード全体の枠組み */
-.news-content-box {
-    padding: 20px;
-    width: 90%;
-    max-width: 650px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-    margin-bottom: 30px;
-    background: rgba(253, 255, 255, 0.7);
-    margin-bottom: 20px;
-    border-radius: 8px;
-    overflow: hidden;
-    text-align: left;
-    transition: all 0.3s ease;
-    box-sizing: border-box;
-    backdrop-filter: blur(12px);
-    border-radius: 15px;
-
-    /* ぼかしエフェクトを追加 */
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    /* Safari対応 */
-
-    /* 縁を白く光らせてガラス感を出す */
-    border: 1px solid rgba(255, 255, 255, 0.4);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-}
-
-/* 重要ニュース*/
-.news-content-box.is-important {
-    border: 1px solid rgba(255, 80, 100, 0.7) !important;
-    box-shadow: 0 0 15px rgba(255, 50, 80, 0.3);
-}
-
-/* カード内部レイアウト（画像ありは2列 / なしは1列） */
-.news-inner-container {
-    display: flex;
-    gap: 20px;
-    align-items: flex-start;
-}
-
-/* 画像配置（左側 約1/3） */
-.news-image-wrap {
-    flex: 0 0 30%;
-    max-width: 180px;
-    border-radius: 6px;
-    overflow: hidden;
-}
-
-.news-image-wrap img {
-    width: 100%;
-    height: auto;
-    display: block;
-    object-fit: cover;
-    margin-top: 0 !important; /* 既存のnews-content-box imgの上書き */
-}
-
-.news-text-body {
-    flex: 1;
-}
-
-/* ★ NEWバッジ */
-.badge-new {
-    background: #ff0055;
-    color: #fff;
-    font-size: 0.7rem;
-    font-weight: bold;
-    padding: 2px 6px;
-    border-radius: 4px;
-    margin-left: 8px;
-    display: inline-block;
-    animation: pulse-glow 2s infinite;
-}
-
-@keyframes pulse-glow {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.5; }
-}
-
-/* ★ 長尺ニュース（アコーディオン）制御 */
-.news-content-toggle {
-    display: none; /* 初期非表示 */
-    margin-top: 10px;
-    padding-top: 10px;
-    border-top: 1px dashed rgba(255, 255, 255, 0.2);
-}
-
-.btn-toggle-news {
-    background: transparent;
-    border: 1px solid rgb(50, 50, 50);
-    color: rgb(50, 50, 50);
-    padding: 5px 12px;
-    font-size: 0.8rem;
-    border-radius: 4px;
-    cursor: pointer;
-    margin-top: 10px;
-    transition: all 0.2s;
-}
-
-.btn-toggle-news:hover {
-    background: pink;
-    color: #000;
-}
-
-/* スマホ表示時は画像を上、テキストを下に縦並びへ自動切り替え */
-@media (max-width: 600px) {
-    .news-inner-container {
-        flex-direction: column;
-    }
-    .news-image-wrap {
-        flex: none;
-        width: 100%;
-        max-width: 100%;
-    }
-}
-
-/* 記事内の画像がはみ出さないようにする設定 */
-.news-content-box img {
-    max-width: 100%;
-    height: auto;
-    border-radius: 8px;
-    margin-top: 10px;
-}
-
-/* リンク要素とリンクなし要素の余白と位置を完全に統一 */
-.news-link,
-.no-link-item {
-    display: flex;
-    align-items: center;
-    width: 100%;
-    padding: 20px;
-    /* ニュース詳細(news.html)の基本余白 */
-    text-decoration: none;
-    color: inherit;
-    box-sizing: border-box;
-    cursor: default;
-    /* 基本は矢印 */
-}
-
-/* リンクがある場合のみ指マークとホバー効果を適用 */
-.news-link {
-    cursor: pointer;
-}
-
-.news-item:has(.news-link):hover {
-    background: rgba(255, 255, 255, 1.0);
-    transform: translateY(-3px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-}
-
-/* 画像とテキストのレイアウト (news.html用) */
-.news-thumb {
-    width: 120px;
-    height: 80px;
-    object-fit: cover;
-    margin-right: 20px;
-    border-radius: 4px;
-    flex-shrink: 0;
-}
-
-.news-text {
-    flex: 1;
-}
-
-.news-text h3 {
-    margin: 0 0 5px 0;
-    font-size: 1.1rem;
-    color: #333;
-}
-
-.news-text p {
-    margin: 0;
-    font-size: 0.9rem;
-    color: #666;
-}
-
-.news-text .date {
-    font-size: 0.8rem;
-    color: #888;
-}
-
-/* ==========================================================================
-   5. About ページ
-   ========================================================================== */
-.about-wrapper {
-    width: 90%;
-    max-width: 800px;
-    margin: 0 auto 100px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.about_glitch {
-    font-size: 4.0rem; /* 他のページタイトルとサイズを統一（130pxから調整） */
-    line-height: 1;
-    font-family: 'Orbitron', sans-serif;
-    font-weight: 700;
-    margin: 0;
-    text-decoration: none;
-    color: #fff;
-    display: inline-block;
-    position: relative;
-    z-index: 10;
-    margin-bottom: 40px;
-    
-    /* 常時ブレるのではなく、4秒周期のメリハリのあるアニメーションに変更 */
-    animation: text-glow-pulse 2s infinite;
-}
-
-/* グリッチ用の疑似要素（本体の文字を絶対に揺らさないための工夫） */
-.about_glitch::before,
-.about_glitch::after {
-    display: block;
-    content: 'ABOUT';
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
-    opacity: 0.7;
-    /* 通常時は完全に本体の真後ろに隠す（ブレを無くす） */
-    transform: translate(0, 0); 
-}
-
-.about_glitch::after {
-    color: #f0f;
-    z-index: -2;
-    /* 4秒周期のうち、一瞬だけズレるアニメーション */
-    animation: glitch-periodic-right 4s infinite;
-}
-
-.about_glitch::before {
-    color: #0ff;
-    z-index: -1;
-    /* 4秒周期のうち、一瞬だけ逆にズレるアニメーション */
-    animation: glitch-periodic-left 4s infinite;
-}
-
-/* --- 【新設計】周期的なグリッチアニメーション ---
-   0%〜85%（約3.4秒間）は完全に静止させ、残りの15%（約0.6秒）で激しくバグらせます。
-   これにより「普段は読めるのに、ときどきバグる」電脳世界らしさが演出できます。 */
-
-@keyframes glitch-periodic-left {
-    0%, 85%, 89%, 93%, 100% {
-        transform: translate(0, 0);
-        clip-path: inset(0 0 0 0);
-    }
-    86% {
-        transform: translate(-6px, -2px);
-        clip-path: inset(10% 0 80% 0); /* 文字を水平にスライスする効果 */
-    }
-    90% {
-        transform: translate(4px, 3px);
-        clip-path: inset(60% 0 10% 0);
-    }
-    92% {
-        transform: translate(-3px, 2px);
-        clip-path: inset(30% 0 40% 0);
-    }
-}
-
-@keyframes glitch-periodic-right {
-    0%, 85%, 89%, 93%, 100% {
-        transform: translate(0, 0);
-        clip-path: inset(0 0 0 0);
-    }
-    87% {
-        transform: translate(6px, 2px);
-        clip-path: inset(40% 0 30% 0);
-    }
-    91% {
-        transform: translate(-4px, -2px);
-        clip-path: inset(10% 0 70% 0);
-    }
-}
-
-/* タイトル全体が時折フワッと明滅する、可読性を損なわない緩やかな効果 */
-@keyframes text-glow-pulse {
-    0%, 85%, 100% { filter: brightness(100%); }
-    88%, 91% { filter: brightness(140%) contrast(120%); }
-}
-
-.about-image-container {
-    width: 100%;
-    max-width: 600px;
-    margin-bottom: 0;
-    /* margin-bottom: 40px; */
-    box-shadow: none;
-    background: transparent;
-    position: relative;
-    z-index: 1;
-}
-
-.about-main-img {
-    width: 100%;
-    height: auto;
-    display: block;
-    border-radius: 4px;
-}
-
-
-.about-content-box {
-    background: rgba(255, 255, 255, 0.9);
-    padding: 40px;
-    border-radius: 10px;
-    width: 100%;
-    box-sizing: border-box;
-    /* ピンクとブルーの2色の光を重ねることで、サイバーな奥行きを出します */
-    box-shadow:
-        0 0 10px rgba(255, 105, 180, 0.6),
-        /* 内側の淡いピンク */
-        0 0 25px rgba(0, 242, 255, 0.5);
-    /* 外側の淡いシアン */
-
-    border: 1px solid rgba(255, 255, 255, 0.7);
-    /* 右上と左下を少しだけ斜めにカット */
-    /* clip-path: polygon(0% 0%,
-            95% 0%,
-            100% 5%,
-            100% 100%,
-            5% 100%,
-            0% 95%); */
-}
-
-.about-history h3 {
-    border-bottom: 1px solid #ddd;
-    padding-bottom: 10px;
-    margin-top: 40px;
-}
-
-.about-history ul {
-    list-style: none;
-    padding: 0;
-}
-
-.about-history li {
-    margin-bottom: 10px;
-    font-size: 0.9rem;
-    display: flex;
-}
-
-.about-history li span {
-    font-weight: bold;
-    margin-right: 20px;
-    color: #666;
-    min-width: 80px;
-}
-
-/* --- 対談セクション --- */
-.interview-section {
-    width: 90%;
-    max-width: 600px;
-    margin: 40px auto;
-}
-
-.qa-item {
-    background: rgba(255, 255, 255, 0.8);
-    margin-bottom: 15px;
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-    transition: all 0.3s;
-}
-
-/* 質問部分（常に表示） */
-.qa-question {
-    padding: 15px 20px;
-    font-weight: bold;
-    color: #191970;
-    cursor: pointer;
-    list-style: none;
-    /* デフォルトの矢印を消す（Chrome/Safari） */
-    position: relative;
-    display: block;
-    font-size: 0.9rem;
-}
-
-/* 矢印を自作する場合 */
-.qa-question::after {
-    content: '▼';
-    position: absolute;
-    right: 20px;
-    font-size: 0.8rem;
-    transition: transform 0.3s;
-}
-
-.qa-item[open] .qa-question::after {
-    transform: rotate(180deg);
-    /* 開いたときに矢印を上に向ける */
-}
-
-/* 回答部分（クリックで表示） */
-.qa-answer {
-    padding: 0 25px 25px;
-    background: rgba(255, 192, 203, 0.1);
-    /* ほんのりピンク */
-    display: block;
-    gap: 15px;
-    align-items: flex-start;
-    border-top: 1px solid rgba(25, 25, 112, 0.1);
-    animation: fadeIn 0.4s ease;
-}
-
-/* --- キャラクターアイコンの設定 --- */
-.char-icon {
-    float: left;
-    margin: 5px;
-    /* 左に浮かせる */
-    margin-right: 15px;
-    /* 文字との間に隙間を作る */
-    margin-bottom: 5px;
-    /* 下に回り込む文字との隙間 */
-}
-
-.char-icon img {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 2px solid white;
-    display: block;
-    /* 余計な隙間を防止 */
-}
-
-/* --- 回答テキストの設定 --- */
-.answer-content {
-    line-height: 1.6;
-    /* margin-leftなどは不要になります */
-}
-
-.q-icon {
-    color: #ff69b4;
-    margin-right: 5px;
-}
-
-.a-icon {
-    font-weight: bold;
-    color: #191970;
-    font-size: 1rem;
-    margin-right: 5px;
-    float: left;
-}
-
-.answer-text {
-    margin: 5px;
-    line-height: 1.6;
-    color: #444;
-    font-size: 0.85rem;
-    display: block;
-}
-
-/* 回答が終わった後にレイアウトが崩れないように（おまじない） */
-.qa-answer::after {
-    content: "";
-    display: block;
-    clear: both;
-}
-
-.about-creator {
-    padding: 15px 20px;
-    color: white;
-    cursor: pointer;
-    list-style: none;
-    /* デフォルトの矢印を消す（Chrome/Safari） */
-    position: relative;
-    display: block;
-    font-size: 0.9rem;
-    background: rgba(0, 0, 0, 0.3);
-}
-
-
-/* --- ディスコグラフィーセクション --- */
-.music_glitch {
-    font-size: 4.0rem; /* 他のページタイトルとサイズを統一（130pxから調整） */
-    line-height: 1;
-    font-family: 'Orbitron', sans-serif;
-    font-weight: 700;
-    margin: 0;
-    text-decoration: none;
-    color: #fff;
-    display: inline-block;
-    position: relative;
-    z-index: 10;
-    margin-bottom: 40px;
-    
-    /* 常時ブレるのではなく、4秒周期のメリハリのあるアニメーションに変更 */
-    animation: text-glow-pulse 2s infinite;
-}
-
-/* グリッチ用の疑似要素（本体の文字を絶対に揺らさないための工夫） */
-.music_glitch::before,
-.music_glitch::after {
-    display: block;
-    content: 'MUSIC';
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
-    opacity: 0.7;
-    /* 通常時は完全に本体の真後ろに隠す（ブレを無くす） */
-    transform: translate(0, 0); 
-}
-
-.music_glitch::after {
-    color: #f0f;
-    z-index: -2;
-    /* 4秒周期のうち、一瞬だけズレるアニメーション */
-    animation: glitch-periodic-right 4s infinite;
-}
-
-.music_glitch::before {
-    color: #0ff;
-    z-index: -1;
-    /* 4秒周期のうち、一瞬だけ逆にズレるアニメーション */
-    animation: glitch-periodic-left 4s infinite;
-}
-
-/* --- 【新設計】周期的なグリッチアニメーション ---
-   0%〜85%（約3.4秒間）は完全に静止させ、残りの15%（約0.6秒）で激しくバグらせます。
-   これにより「普段は読めるのに、ときどきバグる」電脳世界らしさが演出できます。 */
-
-@keyframes glitch-periodic-left {
-    0%, 85%, 89%, 93%, 100% {
-        transform: translate(0, 0);
-        clip-path: inset(0 0 0 0);
-    }
-    86% {
-        transform: translate(-6px, -2px);
-        clip-path: inset(10% 0 80% 0); /* 文字を水平にスライスする効果 */
-    }
-    90% {
-        transform: translate(4px, 3px);
-        clip-path: inset(60% 0 10% 0);
-    }
-    92% {
-        transform: translate(-3px, 2px);
-        clip-path: inset(30% 0 40% 0);
-    }
-}
-
-@keyframes glitch-periodic-right {
-    0%, 85%, 89%, 93%, 100% {
-        transform: translate(0, 0);
-        clip-path: inset(0 0 0 0);
-    }
-    87% {
-        transform: translate(6px, 2px);
-        clip-path: inset(40% 0 30% 0);
-    }
-    91% {
-        transform: translate(-4px, -2px);
-        clip-path: inset(10% 0 70% 0);
-    }
-}
-
-/* タイトル全体が時折フワッと明滅する、可読性を損なわない緩やかな効果 */
-@keyframes text-glow-pulse {
-    0%, 85%, 100% { filter: brightness(100%); }
-    88%, 91% { filter: brightness(140%) contrast(120%); }
-}
-
-.music-section {
-    display: grid;
-    /* 一覧時：PCでは4〜5列、スマホでも2列くらいに小さく並べる */
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 20px;
-    width: 95%;
-    max-width: 1100px;
-    margin: 40px auto;
-}
-
-/* 各アイテム */
-.discography-item {
-    background: rgba(255, 255, 255, 0.9);
-    border-radius: 12px;
-    overflow: hidden;
-    list-style: none;
-    transition: all 0.3s ease;
-}
-
-/* 通常時（閉じている時） */
-.status-btn::before {
-    content: "VIEW DETAIL";
-}
-
-/* 楽曲（details）が開いている時のボタン表示 */
-.discography-item[open] .status-btn::before {
-    content: "CLOSE";
-}
-
-/* ボタン自体のスタイル調整（前回までの view-detail を継承） */
-.status-btn {
-    color: white;
-    font-weight: bold;
-    border: 1px solid white;
-    padding: 8px 15px;
-    background: rgba(0, 0, 0, 0.3);
-    /* 少し背景を付けて視認性を上げる */
-    transition: all 0.3s;
-}
-
-/* 詳細が開いている時は、ボタンを中央上部などに固定して押しやすくするのもアリです */
-.discography-item[open] .jacket-overlay {
-    opacity: 1;
-    /* 詳細表示中はずっとボタンを見せておく */
-    height: auto;
-    padding: 20px 0;
-    background: none;
-    /* オーバーレイの背景を消す */
-    pointer-events: none;
-    /* 背後の詳細コンテンツを触れるように */
-}
-
-.discography-item[open] .status-btn {
-    pointer-events: auto;
-    /* ボタンだけは触れるように */
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    background: #191970;
-    z-index: 2001;
-}
-
-/* ★詳細が開いた時の設定（1画面に抑える） */
-.discography-item[open] {
-    position: fixed;
-    /* 画面に対して固定 */
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    /* 画面中央に配置 */
-    width: 90vw;
-    max-width: 600px;
-    height: auto;
-    max-height: 85vh;
-    /* 画面高の85%以内に収める */
-    z-index: 2000;
-    /* メニューより上にくるように */
-    box-shadow: 0 0 100px rgba(0, 0, 0, 0.5);
-    overflow-y: auto;
-    /* 内容が多い場合は中でスクロール */
-}
-
-/* 詳細が開いている時の背景を暗く見せる（擬似要素） */
-.discography-item[open]::before {
-    content: "";
-    position: fixed;
-    top: -100vh;
-    left: -100vw;
-    width: 300vw;
-    height: 300vh;
-    background: rgba(0, 0, 0, 0.6);
-    z-index: -1;
-    pointer-events: none;
-}
-
-/* 一覧時の画像サイズ調整 */
-.jacket-wrapper {
-    aspect-ratio: 1 / 1;
-    overflow: hidden;
-}
-
-/* 閉じボタンのデザイン */
-.close-btn-text {
-    display: none;
-    /* 通常時は非表示 */
-}
-
-.discography-item[open] .close-btn-text {
-    display: inline-block;
-    margin-top: 20px;
-    padding: 8px 20px;
-    background: #191970;
-    color: white;
-    border-radius: 20px;
-    font-size: 0.9rem;
-    cursor: pointer;
-}
-
-/* スマホ用の微調整 */
-@media (max-width: 768px) {
-    .music-section {
-        grid-template-columns: repeat(2, 1fr);
-        /* スマホは2列 */
-        gap: 10px;
-    }
-
-    .music-title {
-        font-size: 0.9rem;
-    }
-}
-
-.discography-summary {
-    cursor: pointer;
-    list-style: none;
-    text-align: center;
-    padding: 20px;
-}
-
-.discography-summary::-webkit-details-marker {
-    display: none;
-}
-
-/* ジャケット画像の設定 */
-.jacket-wrapper {
-    position: relative;
-    width: 100%;
-    aspect-ratio: 1 / 1;
-    /* 正方形を維持 */
-    margin-bottom: 15px;
-    border-radius: 8px;
-    overflow: hidden;
-}
-
-.jacket-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-/* マウスホバー時の演出 */
-.jacket-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(25, 25, 112, 0.6);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    opacity: 0;
-    transition: opacity 0.3s;
-}
-
-.jacket-wrapper:hover .jacket-overlay {
-    opacity: 1;
-}
-
-.view-detail {
-    color: white;
-    font-weight: bold;
-    border: 1px solid white;
-    padding: 5px 15px;
-}
-
-/* 1. 【一覧画面（閉じている時）】のタイトル文字色 */
-.music-title {
-    font-size: 1.2rem;
-    color: #191970; /* 白背景で見やすい濃い紺色 */
-    margin: 10px 0 5px;
-}
-
-/* 2. 【詳細画面（開いた時）】のポップアップ全体の背景と文字色 */
-.discography-item[open] {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 90vw;
-    max-width: 600px;
-    height: auto;
-    max-height: 85vh;
-    z-index: 2000;
-    box-shadow: 0 0 100px rgba(0, 0, 0, 0.7);
-    overflow-y: auto;
-
-    /* ★ここを変更：詳細が開いたら、背景をすりガラス風の暗い黒にします */
-    background: rgba(17, 17, 17, 0.7) !important; 
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    color: #ffffff !important; /* ベースの文字色を白に */
-}
-
-/* 3. 【詳細画面（開いた時）】のタイトル文字色 */
-.discography-item[open] .music-title {
-    color: #ff69b4 !important; 
-    font-size: 1.5rem;         /* 詳細画面なので少し大きく目立たせる */
-    font-weight: bold;
-    /* 文字をほんのりネオン風に光らせる */
-    text-shadow: 0 0 10px rgba(110, 204, 238, 0.6); 
-    margin: 15px 0 5px;
-}
-
-/* 4. 【詳細画面（開いた時）】のリリース日の文字色調整 */
-.discography-item[open] .release-date {
-    color: #ccc !important; /* 黒背景で見えなくなるのを防ぐため、明るいグレーに */
-}
-
-.release-date {
-    font-size: 0.8rem;
-    color: #666;
-}
-
-/* 詳細部分のデザイン */
-.music-detail-content {
-    padding: 0 30px 30px;
-    text-align: center;
-    animation: fadeIn 0.5s ease;
-}
-
-/* 楽曲詳細を包むボックス（HTML側のクラス名に合わせて調整してください） */
-.music-detail-box,
-.music-container {
-    background: rgba(17, 17, 17, 0.65) !important; /* 背景をすりガラス風の少し暗い黒にする */
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    border-radius: 16px;
-    padding: 30px;
-    color: #ffffff !important; /* 基本の文字色を完全な白にする */
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
-    margin-bottom: 40px;
-}
-
-.streaming-links {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 10px;
-    margin-top: 20px;
-}
-
+  --ink: #080b1c;
+  --ink-2: #0f1430;
+  --ink-3: #171d42;
+  --line: rgba(190, 205, 255, 0.14);
+  --text: #eef1ff;
+  --mute: #9aa4cc;
+  --sky: #9fd8ff;
+  --pink: #ffb3d4;
+  --carrot: #ff8a3d;
+  --grad: linear-gradient(100deg, #9fd8ff 0%, #c9b8ff 45%, #ffb3d4 100%);
+  --f-en: "Unbounded", "Zen Kaku Gothic New", sans-serif;
+  --f-mono: "Space Mono", ui-monospace, monospace;
+  --f-ja: "Zen Kaku Gothic New", "Hiragino Sans", "Noto Sans JP", sans-serif;
+  --ease: cubic-bezier(.22, 1, .36, 1);
+  --pad: clamp(16px, 5vw, 64px);
+  --max: 1240px;
+  --header-h: 76px;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--ink);
+  color: var(--text);
+  font-family: var(--f-ja);
+  font-size: 15px;
+  line-height: 1.9;
+  letter-spacing: .04em;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+img { max-width: 100%; display: block; }
+a { color: inherit; text-decoration: none; }
+button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; }
+::selection { background: var(--pink); color: var(--ink); }
+
+/* 背景：ノイズ＋グリッド */
+body::before {
+  content: "";
+  position: fixed; inset: 0; z-index: -2;
+  background:
+    radial-gradient(1200px 700px at 85% -10%, rgba(120, 140, 255, .18), transparent 60%),
+    radial-gradient(900px 600px at -10% 110%, rgba(255, 150, 200, .10), transparent 60%),
+    var(--ink);
+}
+body::after {
+  content: "";
+  position: fixed; inset: 0; z-index: -1; pointer-events: none;
+  background-image:
+    linear-gradient(rgba(160, 190, 255, .035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(160, 190, 255, .035) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: linear-gradient(to bottom, #000, transparent 90%);
+}
+
+.wrap { width: 100%; max-width: var(--max); margin: 0 auto; padding: 0 var(--pad); }
+
+/* ==========================================================
+   ヘッダー
+   ========================================================== */
+.site-header {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  height: var(--header-h);
+  transition: background .4s var(--ease), backdrop-filter .4s, border-color .4s;
+  border-bottom: 1px solid transparent;
+}
+.site-header.is-scrolled, body:not(.home) .site-header {
+  background: rgba(8, 11, 28, .72);
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  border-bottom-color: var(--line);
+}
+.header-inner {
+  height: 100%; max-width: 1480px; margin: 0 auto; padding: 0 var(--pad);
+  display: flex; align-items: center; justify-content: space-between; gap: 24px;
+}
+.logo { display: flex; align-items: center; gap: 12px; position: relative; z-index: 2; }
+.logo img { width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--line); background: #fff; }
+.logo-text {
+  font-family: var(--f-en); font-weight: 700; font-size: 17px; letter-spacing: .08em; line-height: 1;
+  display: block; margin: 0; white-space: nowrap;
+}
+.logo-text em { font-style: normal; color: var(--pink); }
+.logo-text small { display: block; font-family: var(--f-mono); font-size: 9.5px; letter-spacing: .42em; color: var(--mute); margin-top: 5px; font-weight: 400; }
+
+.gnav ul { display: flex; gap: clamp(14px, 2.2vw, 34px); list-style: none; margin: 0; padding: 0; }
+.gnav a { display: flex; flex-direction: column; align-items: center; position: relative; padding: 6px 0; }
+.gnav .en { font-family: var(--f-en); font-size: 12.5px; font-weight: 500; letter-spacing: .14em; }
+.gnav .en i { font-size: 8px; opacity: .6; vertical-align: 2px; }
+.gnav .ja { font-size: 9.5px; color: var(--mute); letter-spacing: .1em; line-height: 1.4; }
+.gnav a::after {
+  content: ""; position: absolute; bottom: -2px; left: 50%; width: 0; height: 1px;
+  background: var(--grad); transition: width .4s var(--ease), left .4s var(--ease);
+}
+.gnav a:hover::after, .gnav a.is-current::after { width: 100%; left: 0; }
+
+.menu-toggle { display: none; width: 44px; height: 44px; position: relative; z-index: 2; }
+.menu-toggle span {
+  position: absolute; left: 10px; right: 10px; height: 1.5px; background: var(--text);
+  transition: transform .5s var(--ease), top .5s var(--ease);
+}
+.menu-toggle span:nth-child(1) { top: 18px; }
+.menu-toggle span:nth-child(2) { top: 26px; }
+.menu-open .menu-toggle span:nth-child(1) { top: 22px; transform: rotate(35deg); }
+.menu-open .menu-toggle span:nth-child(2) { top: 22px; transform: rotate(-35deg); }
+
+.drawer {
+  position: fixed; inset: 0; z-index: 1;
+  display: flex; flex-direction: column; justify-content: center; padding: 0 var(--pad);
+  visibility: hidden; opacity: 0; transition: opacity .5s var(--ease), visibility .5s;
+}
+.drawer-bg { position: absolute; inset: 0; background: rgba(8, 11, 28, .96); backdrop-filter: blur(18px); z-index: -1; }
+.drawer ul { list-style: none; margin: 0; padding: 0; }
+.drawer li { overflow: hidden; border-bottom: 1px solid var(--line); }
+.drawer a { display: flex; align-items: baseline; justify-content: space-between; padding: 16px 0; transform: translateY(100%); transition: transform .7s var(--ease); }
+.drawer .en { font-family: var(--f-en); font-size: clamp(24px, 7vw, 34px); font-weight: 600; letter-spacing: .06em; }
+.drawer .en i { font-size: .4em; vertical-align: .6em; opacity: .6; }
+.drawer .ja { font-size: 12px; color: var(--mute); }
+.drawer-sns { display: flex; gap: 22px; margin-top: 32px; font-size: 22px; }
+.menu-open .drawer { visibility: visible; opacity: 1; }
+.menu-open .drawer a { transform: none; }
+.menu-open .drawer li:nth-child(2) a { transition-delay: .04s; }
+.menu-open .drawer li:nth-child(3) a { transition-delay: .08s; }
+.menu-open .drawer li:nth-child(4) a { transition-delay: .12s; }
+.menu-open .drawer li:nth-child(5) a { transition-delay: .16s; }
+.menu-open .drawer li:nth-child(6) a { transition-delay: .2s; }
+.menu-open .drawer li:nth-child(7) a { transition-delay: .24s; }
+.menu-open { overflow: hidden; }
+
+@media (max-width: 960px) {
+  :root { --header-h: 64px; }
+  .gnav { display: none; }
+  .menu-toggle { display: block; }
+  .logo img { width: 34px; height: 34px; }
+  .logo-text { font-size: 15px; }
+}
+
+/* ==========================================================
+   共通パーツ
+   ========================================================== */
+.section { padding: clamp(80px, 12vw, 160px) 0; position: relative; }
+.section-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; margin-bottom: clamp(36px, 5vw, 64px); flex-wrap: wrap; }
+.section-title { margin: 0; line-height: 1; }
+.section-title .en {
+  display: block; font-family: var(--f-en); font-weight: 700;
+  font-size: clamp(40px, 7.4vw, 96px); letter-spacing: -.01em;
+}
+.section-title .ja {
+  display: flex; align-items: center; gap: 12px; margin-top: 14px;
+  font-size: 13px; font-weight: 500; color: var(--mute); letter-spacing: .2em;
+}
+.section-title .ja::before { content: ""; width: 28px; height: 1px; background: var(--grad); }
+.num { font-family: var(--f-mono); font-size: 12px; color: var(--sky); letter-spacing: .2em; display: block; margin-bottom: 14px; }
+
+.more-link {
+  display: inline-flex; align-items: center; gap: 14px;
+  font-family: var(--f-en); font-size: 12px; font-weight: 500; letter-spacing: .18em;
+  padding: 16px 26px; border: 1px solid var(--line); border-radius: 999px;
+  position: relative; overflow: hidden; transition: color .4s var(--ease), border-color .4s;
+}
+.more-link::before {
+  content: ""; position: absolute; inset: 0; background: var(--grad); z-index: -1;
+  transform: translateX(-101%); transition: transform .5s var(--ease);
+}
+.more-link i { transition: transform .4s var(--ease); }
+.more-link:hover { color: var(--ink); border-color: transparent; }
+.more-link:hover::before { transform: none; }
+.more-link:hover i { transform: translateX(4px); }
+
+.grad-text { background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+
+/* スクロール表示 */
+.reveal { opacity: 0; transform: translateY(32px); transition: opacity 1s var(--ease) var(--d, 0s), transform 1s var(--ease) var(--d, 0s); }
+.reveal.is-in { opacity: 1; transform: none; }
+
+/* ストリーミングボタン */
+.stream-list { display: flex; flex-wrap: wrap; gap: 10px; }
 .stream-btn {
-    text-decoration: none;
-    padding: 10px 20px;
-    border-radius: 25px;
-    font-size: 0.9rem;
-    color: white;
-    transition: opacity 0.3s;
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 11px 20px; border-radius: 999px; font-size: 13px; font-weight: 700; letter-spacing: .06em;
+  background: rgba(255, 255, 255, .06); border: 1px solid var(--line);
+  transition: background .3s, border-color .3s, transform .3s var(--ease);
+}
+.stream-btn i { font-size: 17px; }
+.stream-btn:hover { transform: translateY(-2px); }
+.stream-btn.is-spotify:hover { background: #1db954; border-color: #1db954; color: #000; }
+.stream-btn.is-apple:hover { background: #fa2d48; border-color: #fa2d48; }
+.stream-btn.is-youtube:hover { background: #ff0000; border-color: #ff0000; }
+
+/* ==========================================================
+   ページヘッダー（下層）
+   ========================================================== */
+.page-hero {
+  position: relative; padding: calc(var(--header-h) + clamp(60px, 10vw, 130px)) 0 clamp(40px, 6vw, 80px);
+  overflow: hidden;
+}
+.page-hero .wrap { position: relative; }
+.page-hero h1 { margin: 0; line-height: .95; }
+.page-hero h1 .en {
+  display: block; font-family: var(--f-en); font-weight: 800;
+  font-size: clamp(56px, 13vw, 180px); letter-spacing: -.02em;
+}
+.page-hero h1 .ja { display: block; margin-top: 18px; font-size: 14px; color: var(--mute); letter-spacing: .3em; font-weight: 500; }
+.page-hero .crumb { font-family: var(--f-mono); font-size: 11px; color: var(--mute); letter-spacing: .15em; margin-bottom: 20px; }
+.page-hero .crumb a:hover { color: var(--sky); }
+.page-hero::after {
+  content: attr(data-bg); position: absolute; right: -2vw; bottom: -3vw; z-index: -1;
+  font-family: var(--f-en); font-weight: 800; font-size: 28vw; line-height: 1; letter-spacing: -.04em;
+  color: transparent; -webkit-text-stroke: 1px rgba(160, 190, 255, .07); white-space: nowrap; pointer-events: none;
 }
 
-.spotify {
-    background: #1DB954;
+/* グリッチ演出（見出し） */
+.glitch { position: relative; display: inline-block; }
+.glitch::before, .glitch::after {
+  content: attr(data-text); position: absolute; inset: 0; pointer-events: none; opacity: 0;
+}
+.glitch::before { color: var(--sky); animation: glitch-a 5s infinite steps(1); }
+.glitch::after { color: var(--pink); animation: glitch-b 5s infinite steps(1); }
+@keyframes glitch-a {
+  0%, 92%, 100% { opacity: 0; transform: none; clip-path: none; }
+  93% { opacity: .9; transform: translate(-4px, 1px); clip-path: inset(10% 0 60% 0); }
+  95% { opacity: .9; transform: translate(3px, -1px); clip-path: inset(55% 0 20% 0); }
+  97% { opacity: .9; transform: translate(-2px, 0); clip-path: inset(30% 0 45% 0); }
+}
+@keyframes glitch-b {
+  0%, 92%, 100% { opacity: 0; transform: none; clip-path: none; }
+  93% { opacity: .9; transform: translate(4px, -1px); clip-path: inset(62% 0 8% 0); }
+  96% { opacity: .9; transform: translate(-3px, 1px); clip-path: inset(5% 0 75% 0); }
 }
 
-.apple {
-    background: #000000;
+/* ==========================================================
+   TOP：ヒーロー
+   ========================================================== */
+.hero {
+  position: relative; height: 100vh; height: 100svh; min-height: 620px;
+  overflow: hidden; isolation: isolate;
+}
+.hero-bg {
+  position: absolute; inset: -4%; z-index: -3;
+  background: url("img/thumb/haikyo.jpg") center / cover no-repeat;
+  animation: kenburns 30s ease-in-out infinite alternate;
+  filter: saturate(.85) brightness(.75);
+}
+@keyframes kenburns { from { transform: scale(1); } to { transform: scale(1.08) translate(-1%, -1%); } }
+.hero::before {
+  content: ""; position: absolute; inset: 0; z-index: -2;
+  background:
+    linear-gradient(90deg, rgba(8, 11, 28, .88) 0%, rgba(8, 11, 28, .35) 45%, rgba(8, 11, 28, .1) 70%),
+    linear-gradient(to top, var(--ink) 0%, rgba(8, 11, 28, 0) 35%);
+}
+#particles { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
+.hero-chara {
+  position: absolute; right: -6vw; bottom: 0; z-index: -1;
+  height: 100%; width: auto; max-width: none;
+  object-fit: contain; object-position: right bottom;
+  filter: drop-shadow(0 0 40px rgba(159, 216, 255, .35));
+  -webkit-mask-image: linear-gradient(to top, transparent 0, #000 22%); mask-image: linear-gradient(to top, transparent 0, #000 22%);
+  opacity: 0; transform: translateX(40px);
+  transition: opacity 1.8s var(--ease) .3s, transform 2.2s var(--ease) .3s;
+  animation: float 8s ease-in-out 2.5s infinite;
+}
+.is-loaded .hero-chara { opacity: 1; transform: none; }
+@keyframes float { 50% { translate: 0 -12px; } }
+
+.hero-inner {
+  height: 100%; max-width: 1480px; margin: 0 auto; padding: calc(var(--header-h) + 20px) var(--pad) 40px;
+  display: flex; flex-direction: column; justify-content: center;
+}
+.hero-kicker {
+  font-family: var(--f-mono); font-size: 12px; letter-spacing: .3em; color: var(--sky);
+  display: flex; align-items: center; gap: 12px; margin: 0 0 28px;
+}
+.hero-kicker::before { content: ""; width: 8px; height: 8px; background: var(--sky); box-shadow: 0 0 12px var(--sky); animation: blink 1.4s steps(1) infinite; }
+@keyframes blink { 50% { opacity: 0; } }
+.hero-title { margin: 0; font-family: var(--f-en); font-weight: 800; line-height: .88; letter-spacing: -.03em; }
+.hero-title .l1 { display: block; font-size: clamp(64px, 13vw, 210px); }
+.hero-title .l2 {
+  display: block; font-size: clamp(22px, 3.4vw, 50px); font-weight: 400; letter-spacing: .02em; margin-top: 18px;
+  color: transparent; -webkit-text-stroke: 1px rgba(238, 241, 255, .75);
+}
+.hero-lead { margin: 36px 0 0; font-size: clamp(14px, 1.4vw, 17px); line-height: 2.2; max-width: 36em; text-shadow: 0 2px 20px rgba(0, 0, 0, .6); }
+
+.hero-line { display: block; overflow: hidden; }
+.hero-line > span { display: block; transform: translateY(110%); transition: transform 1.3s var(--ease); }
+.is-loaded .hero-line > span { transform: none; }
+.is-loaded .hero-line:nth-child(2) > span { transition-delay: .12s; }
+.fade-up { opacity: 0; transform: translateY(20px); transition: opacity 1.2s var(--ease) .7s, transform 1.2s var(--ease) .7s; }
+.is-loaded .fade-up { opacity: 1; transform: none; }
+
+.hero-release {
+  position: absolute; left: var(--pad); bottom: clamp(28px, 5vh, 56px); z-index: 2;
+  display: flex; align-items: center; gap: 18px; padding: 12px 22px 12px 12px;
+  background: rgba(15, 20, 48, .55); border: 1px solid var(--line); border-radius: 16px;
+  backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  transition: transform .4s var(--ease), border-color .4s;
+  opacity: 0; transition-delay: 1s;
+}
+.is-loaded .hero-release { opacity: 1; transition: opacity 1.2s var(--ease) 1.1s, transform .4s var(--ease), border-color .4s; }
+.hero-release:hover { transform: translateY(-3px); border-color: rgba(159, 216, 255, .5); }
+.hero-release img { width: 72px; height: 72px; border-radius: 10px; object-fit: cover; }
+.hero-release .label { font-family: var(--f-mono); font-size: 10.5px; letter-spacing: .25em; color: var(--pink); display: block; line-height: 1.4; }
+.hero-release .title { font-family: var(--f-en); font-weight: 600; font-size: 18px; display: block; line-height: 1.4; }
+.hero-release .date { font-size: 11.5px; color: var(--mute); display: block; line-height: 1.4; }
+.hero-release .go { width: 38px; height: 38px; border-radius: 50%; display: grid; place-items: center; background: var(--grad); color: var(--ink); margin-left: 8px; font-size: 12px; }
+
+.hero-scroll {
+  position: absolute; right: var(--pad); bottom: 40px; z-index: 2;
+  font-family: var(--f-mono); font-size: 10px; letter-spacing: .3em; writing-mode: vertical-rl;
+  display: flex; align-items: center; gap: 14px; color: var(--mute);
+}
+.hero-scroll::after { content: ""; width: 1px; height: 70px; background: linear-gradient(var(--sky), transparent); animation: scrollline 2s var(--ease) infinite; transform-origin: top; }
+@keyframes scrollline { 0% { transform: scaleY(0); } 50% { transform: scaleY(1); transform-origin: top; } 51% { transform-origin: bottom; } 100% { transform: scaleY(0); transform-origin: bottom; } }
+
+@media (max-width: 760px) {
+  .hero-chara { right: -55vw; bottom: auto; top: 6%; height: 62%; }
+  .is-loaded .hero-chara { opacity: .85; }
+  .hero::before { background: linear-gradient(to top, var(--ink) 18%, rgba(8, 11, 28, .75) 45%, rgba(8, 11, 28, .2) 75%, rgba(8, 11, 28, .5) 100%); }
+  .hero-chara { z-index: -2; }
+  .hero::before { z-index: -1; }
+  .hero-inner { justify-content: flex-end; padding-bottom: 150px; }
+  .hero-scroll { display: none; }
+  .hero-release { right: var(--pad); }
+  .hero-release img { width: 56px; height: 56px; }
+  .hero-release .title { font-size: 15px; }
+  .hero-release .go { margin-left: auto; }
 }
 
-.youtube {
-    background: #FF0000;
+/* ティッカー */
+.ticker { border-block: 1px solid var(--line); overflow: hidden; background: rgba(15, 20, 48, .5); }
+.ticker-track { display: flex; width: max-content; animation: marquee 40s linear infinite; }
+.ticker-track span { font-family: var(--f-en); font-size: 13px; letter-spacing: .2em; padding: 16px 28px; white-space: nowrap; }
+.ticker-track .dot { color: var(--pink); padding: 16px 0; }
+@keyframes marquee { to { transform: translateX(-50%); } }
+
+/* ==========================================================
+   TOP：NEWS
+   ========================================================== */
+.news-layout { display: grid; grid-template-columns: 320px 1fr; gap: clamp(32px, 6vw, 96px); }
+.news-layout .section-head { flex-direction: column; align-items: flex-start; margin: 0; }
+.news-list { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
+.news-list li { border-bottom: 1px solid var(--line); }
+.news-row {
+  display: grid; grid-template-columns: 110px 90px 1fr 24px; align-items: center; gap: 20px;
+  padding: 26px 8px; position: relative; transition: padding .4s var(--ease), background .4s;
+}
+.news-row:hover { padding-left: 20px; background: linear-gradient(90deg, rgba(159, 216, 255, .07), transparent); }
+.news-row .date { font-family: var(--f-mono); font-size: 13px; color: var(--mute); }
+.news-row .title { font-weight: 500; }
+.news-row i { color: var(--mute); transition: transform .4s var(--ease), color .3s; }
+.news-row:hover i { transform: translateX(4px); color: var(--sky); }
+.cat {
+  font-family: var(--f-mono); font-size: 10.5px; letter-spacing: .12em; text-align: center;
+  padding: 3px 10px; border-radius: 999px; border: 1px solid currentColor; justify-self: start; line-height: 1.6;
+}
+.cat-MUSIC { color: var(--sky); }
+.cat-NOVEL { color: var(--pink); }
+.cat-INFO { color: #c9b8ff; }
+.cat-GOODS, .cat-SHOP { color: var(--carrot); }
+.badge-new { font-family: var(--f-mono); font-size: 10px; color: var(--ink); background: var(--pink); padding: 1px 7px; border-radius: 4px; margin-left: 10px; vertical-align: 2px; letter-spacing: .1em; }
+@media (max-width: 860px) {
+  .news-layout { grid-template-columns: 1fr; }
+  .news-layout .section-head { flex-direction: row; align-items: flex-end; }
+  .news-row { grid-template-columns: auto auto 1fr; gap: 6px 14px; padding: 20px 4px; }
+  .news-row .title { grid-column: 1 / -1; }
+  .news-row i { display: none; }
 }
 
-.stream-btn:hover {
-    opacity: 0.8;
+/* ==========================================================
+   TOP：MUSIC
+   ========================================================== */
+.music-feature {
+  display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: clamp(32px, 6vw, 88px); align-items: center;
+  margin-bottom: clamp(56px, 8vw, 100px);
+}
+.feature-jacket { position: relative; aspect-ratio: 1; }
+.feature-jacket::before {
+  content: ""; position: absolute; inset: 8% -6% -6% 8%; z-index: -1;
+  background: var(--bg) center / cover; filter: blur(50px) saturate(1.4); opacity: .6;
+}
+.feature-jacket img { width: 100%; height: 100%; object-fit: cover; border-radius: 6px; box-shadow: 0 40px 80px -20px rgba(0, 0, 0, .7); }
+.feature-jacket .vinyl {
+  position: absolute; top: 4%; right: -12%; width: 92%; aspect-ratio: 1; border-radius: 50%; z-index: -1;
+  background: radial-gradient(circle, #111 0 16%, #1b1b22 16.5% 17%, #0c0c10 17.5% 100%);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .06);
+  transition: transform 1.2s var(--ease);
+}
+.feature-jacket .vinyl::after {
+  content: ""; position: absolute; inset: 0; border-radius: 50%;
+  background: repeating-radial-gradient(circle, rgba(255, 255, 255, .03) 0 1px, transparent 1px 4px);
+}
+.music-feature:hover .vinyl { transform: translateX(10%) rotate(40deg); }
+.feature-info .label { font-family: var(--f-mono); color: var(--pink); font-size: 12px; letter-spacing: .3em; }
+.feature-info h3 { font-family: var(--f-en); font-weight: 700; font-size: clamp(34px, 5vw, 64px); line-height: 1.1; margin: 14px 0 12px; letter-spacing: -.01em; word-break: break-word; }
+.feature-info .meta { color: var(--mute); font-size: 13px; margin: 0 0 32px; }
+.feature-info .stream-list { margin-bottom: 28px; }
+@media (max-width: 760px) {
+  .music-feature { grid-template-columns: 1fr; }
+  .feature-jacket { width: 82%; }
 }
 
-/* ==========================================================================
-   Game ページ
-   ========================================================================== */
-.game_glitch {
-    font-size: 4.0rem; /* 他のページタイトルとサイズを統一（130pxから調整） */
-    line-height: 1;
-    font-family: 'Orbitron', sans-serif;
-    font-weight: 700;
-    margin: 0;
-    text-decoration: none;
-    color: #fff;
-    display: inline-block;
-    position: relative;
-    z-index: 10;
-    margin-bottom: 40px;
-    
-    /* 常時ブレるのではなく、4秒周期のメリハリのあるアニメーションに変更 */
-    animation: text-glow-pulse 2s infinite;
+.release-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: clamp(20px, 3vw, 40px) clamp(16px, 2.4vw, 32px); }
+.release-scroller {
+  display: grid; grid-auto-flow: column; grid-auto-columns: clamp(180px, 22vw, 260px); gap: clamp(16px, 2.4vw, 32px);
+  overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 24px;
+  scrollbar-width: thin; scrollbar-color: var(--ink-3) transparent;
+}
+.release-scroller > * { scroll-snap-align: start; }
+.release-card { text-align: left; display: block; width: 100%; }
+.release-jacket { position: relative; aspect-ratio: 1; overflow: hidden; border-radius: 4px; background: var(--ink-2); }
+.release-jacket img { width: 100%; height: 100%; object-fit: cover; transition: transform 1s var(--ease), filter .6s; }
+.release-jacket::after { content: ""; position: absolute; inset: 0; box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .08); border-radius: inherit; }
+.release-play {
+  position: absolute; right: 12px; bottom: 12px; width: 46px; height: 46px; border-radius: 50%;
+  display: grid; place-items: center; background: var(--grad); color: var(--ink); font-size: 14px;
+  opacity: 0; transform: translateY(10px) scale(.9); transition: all .5s var(--ease);
+}
+.release-play i { margin-left: 3px; }
+.release-card:hover .release-jacket img, .release-card:focus-visible .release-jacket img { transform: scale(1.06); filter: brightness(.8); }
+.release-card:hover .release-play, .release-card:focus-visible .release-play { opacity: 1; transform: none; }
+.release-meta { display: flex; justify-content: space-between; margin-top: 16px; font-family: var(--f-mono); font-size: 11px; color: var(--mute); letter-spacing: .1em; }
+.release-type { color: var(--sky); }
+.release-title { margin: 6px 0 0; font-size: 16px; font-weight: 700; line-height: 1.5; letter-spacing: .03em; }
+.release-sub { margin: 2px 0 0; font-size: 12px; color: var(--mute); line-height: 1.5; }
+.release-card:focus-visible { outline: 2px solid var(--sky); outline-offset: 6px; border-radius: 4px; }
+
+/* ==========================================================
+   TOP：STORY
+   ========================================================== */
+.story {
+  position: relative; overflow: hidden; isolation: isolate;
+  padding: clamp(100px, 16vw, 220px) 0;
+}
+.story-bg { position: absolute; inset: -10% 0; z-index: -2; background: url("img/thumb/haikyo.jpg") center / cover; filter: saturate(.7) brightness(.45); }
+.story::before { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(var(--ink), rgba(8, 11, 28, .4) 25%, rgba(8, 11, 28, .4) 75%, var(--ink)); }
+.story-grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(32px, 6vw, 80px); align-items: center; }
+.story-text p { font-size: clamp(15px, 1.5vw, 18px); line-height: 2.4; margin: 0 0 1.4em; text-shadow: 0 2px 16px rgba(0, 0, 0, .7); }
+.story-text .quote { font-size: clamp(20px, 2.4vw, 30px); font-weight: 700; line-height: 1.8; margin-bottom: 1.2em; }
+.story-visual { position: relative; }
+.story-visual img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; object-position: 50% 20%; box-shadow: 0 40px 80px -20px rgba(0, 0, 0, .8); }
+.story-visual .frame {
+  position: absolute; inset: 6% 6% 0; border: 1px solid rgba(159, 216, 255, .3); z-index: -1;
+}
+.story-visual .frame::before, .story-visual .frame::after {
+  content: ""; position: absolute; width: 14px; height: 14px; border: 2px solid var(--sky);
+}
+.story-visual .frame::before { top: -7px; left: -7px; border-right: 0; border-bottom: 0; }
+.story-visual .frame::after { bottom: -7px; right: -7px; border-left: 0; border-top: 0; }
+.story-visual .tag {
+  position: absolute; left: 0; bottom: 12%; font-family: var(--f-mono); font-size: 11px; letter-spacing: .15em;
+  background: rgba(8, 11, 28, .8); border: 1px solid var(--line); padding: 10px 14px; line-height: 1.8;
+}
+.story-visual .tag b { color: var(--pink); font-weight: 400; }
+@media (max-width: 860px) {
+  .story-grid { grid-template-columns: 1fr; }
+  .story-visual { max-width: 460px; margin: 0 auto; }
 }
 
-/* グリッチ用の疑似要素（本体の文字を絶対に揺らさないための工夫） */
-.game_glitch::before,
-.game_glitch::after {
-    display: block;
-    content: 'GAME';
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
-    opacity: 0.7;
-    /* 通常時は完全に本体の真後ろに隠す（ブレを無くす） */
-    transform: translate(0, 0); 
+/* ==========================================================
+   TOP：VIDEO
+   ========================================================== */
+.video-grid { display: grid; grid-template-columns: 2fr 1fr; grid-template-rows: 1fr 1fr; gap: 20px; }
+.video-grid > :first-child { grid-row: 1 / 3; }
+.video-card { position: relative; display: block; overflow: hidden; border-radius: 6px; aspect-ratio: 16 / 9; background: var(--ink-2); }
+.video-grid > :not(:first-child) { aspect-ratio: auto; }
+.video-card img { width: 100%; height: 100%; object-fit: cover; transition: transform 1s var(--ease); }
+.video-card::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to top, rgba(8, 11, 28, .85), transparent 55%); }
+.video-card:hover img { transform: scale(1.05); }
+.video-card .cap { position: absolute; left: 20px; bottom: 16px; z-index: 1; font-family: var(--f-en); font-size: 13px; letter-spacing: .15em; display: flex; align-items: center; gap: 12px; }
+.video-card .cap i { font-size: 26px; color: #fff; transition: color .3s; }
+.video-card:hover .cap i { color: #ff0000; }
+.video-card iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; z-index: 2; }
+@media (max-width: 760px) {
+  .video-grid { grid-template-columns: 1fr 1fr; grid-template-rows: auto; }
+  .video-grid > :first-child { grid-column: 1 / -1; grid-row: auto; }
+  .video-grid > :not(:first-child) { aspect-ratio: 16 / 9; }
+  .video-card .cap { left: 12px; bottom: 8px; font-size: 11px; }
+  .video-card .cap i { font-size: 20px; }
 }
 
-.game_glitch::after {
-    color: #f0f;
-    z-index: -2;
-    /* 4秒周期のうち、一瞬だけズレるアニメーション */
-    animation: glitch-periodic-right 4s infinite;
+/* ==========================================================
+   TOP：CONTENTS（ノベル・ショップ等）
+   ========================================================== */
+.contents-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.content-card {
+  position: relative; display: flex; flex-direction: column; justify-content: flex-end;
+  min-height: 380px; padding: 28px; border-radius: 8px; overflow: hidden; isolation: isolate;
+  border: 1px solid var(--line);
+}
+.content-card .bg { position: absolute; inset: 0; z-index: -2; background: var(--img) center / cover; transition: transform 1.2s var(--ease); }
+.content-card::before { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(to top, rgba(8, 11, 28, .95) 10%, rgba(8, 11, 28, .2) 70%); }
+.content-card:hover .bg { transform: scale(1.06); }
+.content-card .en { font-family: var(--f-en); font-size: 30px; font-weight: 700; line-height: 1.1; display: flex; justify-content: space-between; align-items: center; }
+.content-card .en i { font-size: 14px; width: 40px; height: 40px; display: grid; place-items: center; border: 1px solid rgba(255, 255, 255, .3); border-radius: 50%; transition: background .4s, color .4s, border-color .4s; }
+.content-card:hover .en i { background: var(--text); color: var(--ink); border-color: var(--text); }
+.content-card .ja { font-size: 13px; color: var(--mute); margin-top: 10px; line-height: 1.8; }
+@media (max-width: 860px) { .contents-grid { grid-template-columns: 1fr; } .content-card { min-height: 260px; } }
+
+/* ==========================================================
+   ABOUT
+   ========================================================== */
+.about-intro { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(32px, 6vw, 96px); align-items: center; }
+.about-intro .lead { font-size: clamp(22px, 2.6vw, 34px); font-weight: 700; line-height: 1.7; margin: 0 0 32px; }
+.about-intro p { margin: 0 0 1.3em; color: #d5dbf5; }
+.about-visual { position: relative; }
+.about-visual img { width: 100%; }
+.about-visual::before {
+  content: ""; position: absolute; inset: 15% 5%; z-index: -1; border-radius: 50%;
+  background: radial-gradient(circle, rgba(159, 216, 255, .35), rgba(255, 179, 212, .15) 50%, transparent 70%); filter: blur(30px);
+}
+@media (max-width: 860px) { .about-intro { grid-template-columns: 1fr; } .about-visual { order: -1; } }
+
+.profile-card {
+  display: grid; grid-template-columns: 360px 1fr; border: 1px solid var(--line); border-radius: 10px; overflow: hidden;
+  background: linear-gradient(135deg, rgba(23, 29, 66, .7), rgba(15, 20, 48, .4));
+}
+.profile-card + .profile-card { margin-top: 24px; }
+.profile-side { padding: clamp(28px, 4vw, 48px); border-right: 1px solid var(--line); position: relative; overflow: hidden; }
+.profile-side .name-en { font-family: var(--f-en); font-size: clamp(36px, 4.4vw, 56px); font-weight: 700; line-height: 1; margin: 0; }
+.profile-side .name-ja { color: var(--mute); margin: 12px 0 28px; font-size: 13px; letter-spacing: .2em; }
+.profile-side dl { margin: 0; font-size: 13px; display: grid; grid-template-columns: auto 1fr; gap: 10px 18px; }
+.profile-side dt { font-family: var(--f-mono); color: var(--sky); font-size: 11px; letter-spacing: .12em; padding-top: 3px; }
+.profile-side dd { margin: 0; line-height: 1.7; }
+.profile-side .deco { position: absolute; right: -20px; bottom: -30px; width: 180px; opacity: .15; filter: grayscale(1) brightness(2); }
+.profile-body { padding: clamp(28px, 4vw, 56px); }
+.profile-body p { margin: 0 0 1.4em; }
+.profile-body p:last-child { margin: 0; }
+.profile-body .note { font-size: 12px; color: var(--mute); }
+@media (max-width: 860px) { .profile-card { grid-template-columns: 1fr; } .profile-side { border-right: 0; border-bottom: 1px solid var(--line); } }
+
+/* Q&A */
+.qa-list { display: grid; gap: 16px; }
+.qa-item { border: 1px solid var(--line); border-radius: 10px; background: rgba(15, 20, 48, .5); transition: border-color .4s; }
+.qa-item[open] { border-color: rgba(159, 216, 255, .4); }
+.qa-item summary {
+  list-style: none; cursor: pointer; display: grid; grid-template-columns: 40px 1fr 28px; align-items: center; gap: 16px;
+  padding: 22px clamp(18px, 3vw, 32px); font-weight: 700; font-size: clamp(14px, 1.4vw, 16px);
+}
+.qa-item summary::-webkit-details-marker { display: none; }
+.qa-item .q { font-family: var(--f-en); font-size: 22px; color: var(--sky); }
+.qa-item .pm { position: relative; width: 28px; height: 28px; border: 1px solid var(--line); border-radius: 50%; }
+.qa-item .pm::before, .qa-item .pm::after { content: ""; position: absolute; left: 50%; top: 50%; width: 10px; height: 1px; background: var(--text); translate: -50% -50%; transition: rotate .4s var(--ease); }
+.qa-item .pm::after { rotate: 90deg; }
+.qa-item[open] .pm::after { rotate: 0deg; }
+.qa-answer { display: grid; grid-template-columns: 72px 1fr; gap: 20px; padding: 0 clamp(18px, 3vw, 32px) 28px; }
+.qa-answer img { width: 72px; height: 72px; border-radius: 50%; object-fit: cover; object-position: top; border: 2px solid var(--pink); background: #fff; }
+.bubble { position: relative; background: rgba(255, 255, 255, .06); border: 1px solid var(--line); border-radius: 4px 18px 18px 18px; padding: 20px 24px; line-height: 2.1; font-size: 14.5px; }
+.bubble .a { font-family: var(--f-en); color: var(--pink); font-size: 18px; display: block; margin-bottom: 4px; }
+@media (max-width: 600px) { .qa-answer { grid-template-columns: 1fr; } .qa-answer img { width: 56px; height: 56px; } }
+
+/* クリエイター */
+.creator-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+.creator { padding: 32px; border: 1px solid var(--line); border-radius: 10px; position: relative; overflow: hidden; }
+.creator::before { content: ""; position: absolute; left: 0; top: 0; width: 100%; height: 2px; background: var(--grad); transform: scaleX(0); transform-origin: left; transition: transform .8s var(--ease); }
+.creator:hover::before { transform: none; }
+.creator .role { font-family: var(--f-mono); font-size: 11px; color: var(--sky); letter-spacing: .15em; }
+.creator h3 { font-size: 24px; margin: 10px 0 12px; line-height: 1.4; }
+.creator p { margin: 0; font-size: 13px; color: var(--mute); line-height: 2; }
+@media (max-width: 760px) { .creator-grid { grid-template-columns: 1fr; } }
+
+/* ==========================================================
+   MUSIC（一覧）
+   ========================================================== */
+.filter-bar { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: clamp(32px, 4vw, 48px); }
+.filter-bar button {
+  font-family: var(--f-en); font-size: 11.5px; letter-spacing: .14em; padding: 9px 18px; border-radius: 999px;
+  border: 1px solid var(--line); color: var(--mute); transition: all .3s;
+}
+.filter-bar button:hover { color: var(--text); border-color: rgba(255, 255, 255, .35); }
+.filter-bar button.is-active { background: var(--text); color: var(--ink); border-color: var(--text); }
+.release-grid .release-card.is-hidden { display: none; }
+
+.artist-links { display: flex; gap: 12px; flex-wrap: wrap; }
+
+/* モーダル */
+.modal { position: fixed; inset: 0; z-index: 200; display: grid; place-items: center; padding: 20px; visibility: hidden; }
+.modal-bg { position: absolute; inset: 0; background: rgba(4, 6, 16, .8); backdrop-filter: blur(10px); opacity: 0; transition: opacity .4s; }
+.modal-panel {
+  position: relative; width: min(1040px, 100%); max-height: calc(100svh - 40px); overflow-y: auto;
+  background: var(--ink-2); border: 1px solid var(--line); border-radius: 14px;
+  opacity: 0; transform: translateY(30px) scale(.98); transition: opacity .5s var(--ease), transform .5s var(--ease);
+}
+.modal.is-open { visibility: visible; }
+.modal.is-open .modal-bg { opacity: 1; }
+.modal.is-open .modal-panel { opacity: 1; transform: none; }
+.modal-lock { overflow: hidden; }
+.modal-close { position: absolute; top: 14px; right: 14px; width: 44px; height: 44px; border-radius: 50%; background: rgba(8, 11, 28, .7); z-index: 3; border: 1px solid var(--line); }
+.modal-close span { position: absolute; left: 13px; right: 13px; top: 21px; height: 1.5px; background: var(--text); rotate: 45deg; }
+.modal-close span + span { rotate: -45deg; }
+.modal-body { display: grid; grid-template-columns: 1fr 1.1fr; }
+.modal-jacket { position: relative; overflow: hidden; padding: clamp(24px, 4vw, 48px); display: grid; place-items: center; isolation: isolate; }
+.modal-jacket::before { content: ""; position: absolute; inset: -20%; z-index: -1; background: var(--bg) center / cover; filter: blur(60px) saturate(1.3) brightness(.6); }
+.modal-jacket img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 6px; box-shadow: 0 30px 60px -10px rgba(0, 0, 0, .6); }
+.modal-info { padding: clamp(28px, 4vw, 52px); }
+.modal-label { font-family: var(--f-mono); font-size: 11px; letter-spacing: .2em; color: var(--pink); margin: 0; }
+.modal-title { font-family: var(--f-en); font-size: clamp(26px, 3.4vw, 42px); line-height: 1.25; margin: 12px 0 4px; word-break: break-word; }
+.modal-sub { color: var(--mute); margin: 0; }
+.modal-artist { font-size: 13px; color: var(--mute); margin: 8px 0 28px; }
+.modal-video { margin-top: 28px; aspect-ratio: 16 / 9; border-radius: 8px; overflow: hidden; background: #000; position: relative; }
+.modal-video iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.yt-lite { position: absolute; inset: 0; width: 100%; background: center / cover; display: grid; place-items: center; }
+.yt-lite i { font-size: 64px; color: rgba(255, 255, 255, .9); transition: color .3s, transform .3s var(--ease); filter: drop-shadow(0 4px 12px rgba(0, 0, 0, .5)); }
+.yt-lite:hover i { color: #ff0000; transform: scale(1.08); }
+@media (max-width: 760px) {
+  .modal { padding: 0; align-items: end; }
+  .modal-panel { border-radius: 16px 16px 0 0; max-height: 92svh; }
+  .modal-body { grid-template-columns: 1fr; }
+  .modal-jacket { padding: 48px 20% 24px; }
 }
 
-.game_glitch::before {
-    color: #0ff;
-    z-index: -1;
-    /* 4秒周期のうち、一瞬だけ逆にズレるアニメーション */
-    animation: glitch-periodic-left 4s infinite;
+/* ==========================================================
+   NEWS（一覧）
+   ========================================================== */
+.news-articles { display: grid; gap: 20px; }
+.news-article {
+  display: grid; grid-template-columns: 240px 1fr; gap: clamp(20px, 3vw, 40px);
+  padding: clamp(20px, 3vw, 32px); border: 1px solid var(--line); border-radius: 10px;
+  background: rgba(15, 20, 48, .45); scroll-margin-top: calc(var(--header-h) + 20px);
 }
-
-/* --- 【新設計】周期的なグリッチアニメーション ---
-   0%〜85%（約3.4秒間）は完全に静止させ、残りの15%（約0.6秒）で激しくバグらせます。
-   これにより「普段は読めるのに、ときどきバグる」電脳世界らしさが演出できます。 */
-
-@keyframes glitch-periodic-left {
-    0%, 85%, 89%, 93%, 100% {
-        transform: translate(0, 0);
-        clip-path: inset(0 0 0 0);
-    }
-    86% {
-        transform: translate(-6px, -2px);
-        clip-path: inset(10% 0 80% 0); /* 文字を水平にスライスする効果 */
-    }
-    90% {
-        transform: translate(4px, 3px);
-        clip-path: inset(60% 0 10% 0);
-    }
-    92% {
-        transform: translate(-3px, 2px);
-        clip-path: inset(30% 0 40% 0);
-    }
+.news-article.no-image { grid-template-columns: 1fr; }
+.news-article .thumb { aspect-ratio: 1; border-radius: 6px; overflow: hidden; background: var(--ink-3); }
+.news-article .thumb img { width: 100%; height: 100%; object-fit: cover; }
+.news-article .meta { display: flex; align-items: center; gap: 14px; margin-bottom: 10px; }
+.news-article .meta .date { font-family: var(--f-mono); font-size: 13px; color: var(--mute); }
+.news-article h2 { font-size: clamp(18px, 2vw, 22px); line-height: 1.6; margin: 0 0 18px; }
+.news-article .body p { margin: 0 0 1em; }
+.news-article .body a:not(.stream-btn) { color: var(--sky); border-bottom: 1px solid currentColor; }
+.news-article .body .streaming-links { display: flex; flex-wrap: wrap; gap: 10px; }
+.news-article .body .streaming-links a {
+  display: inline-flex; align-items: center; gap: 10px; padding: 9px 18px; border-radius: 999px; font-size: 13px; font-weight: 700;
+  background: rgba(255, 255, 255, .06); border: 1px solid var(--line); transition: background .3s, color .3s;
 }
-
-@keyframes glitch-periodic-right {
-    0%, 85%, 89%, 93%, 100% {
-        transform: translate(0, 0);
-        clip-path: inset(0 0 0 0);
-    }
-    87% {
-        transform: translate(6px, 2px);
-        clip-path: inset(40% 0 30% 0);
-    }
-    91% {
-        transform: translate(-4px, -2px);
-        clip-path: inset(10% 0 70% 0);
-    }
+.news-article .body .streaming-links a.spotify:hover { background: #1db954; color: #000; }
+.news-article .body .streaming-links a.apple:hover { background: #fa2d48; }
+.news-article .body .streaming-links a.youtube:hover { background: #f00; }
+@media (max-width: 700px) {
+  .news-article { grid-template-columns: 1fr; }
+  .news-article .thumb { max-width: 200px; }
 }
+.loading { font-family: var(--f-mono); color: var(--mute); letter-spacing: .2em; font-size: 12px; }
+.loading::after { content: "_"; animation: blink 1s steps(1) infinite; }
 
-/* タイトル全体が時折フワッと明滅する、可読性を損なわない緩やかな効果 */
-@keyframes text-glow-pulse {
-    0%, 85%, 100% { filter: brightness(100%); }
-    88%, 91% { filter: brightness(140%) contrast(120%); }
+/* ==========================================================
+   CONTACT / 規約
+   ========================================================== */
+.narrow { max-width: 820px; }
+.form-intro { color: #d5dbf5; margin: 0 0 40px; }
+.form { display: grid; gap: 28px; }
+.field label { display: flex; align-items: center; gap: 10px; font-size: 13px; font-weight: 700; margin-bottom: 10px; letter-spacing: .1em; }
+.field .req { font-family: var(--f-mono); font-size: 10px; color: var(--ink); background: var(--pink); padding: 0 7px; border-radius: 3px; font-weight: 400; }
+.field .opt { font-family: var(--f-mono); font-size: 10px; color: var(--mute); border: 1px solid var(--line); padding: 0 7px; border-radius: 3px; font-weight: 400; }
+.field input, .field textarea {
+  width: 100%; font: inherit; color: var(--text); background: rgba(255, 255, 255, .04);
+  border: 1px solid var(--line); border-radius: 8px; padding: 16px 18px; transition: border-color .3s, background .3s, box-shadow .3s;
 }
-
-.game-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 30px;
-    width: 90%;
-    max-width: 1000px;
-    margin: 0 auto 50px;
-}
-
-.game-card {
-    background: rgba(255, 255, 255, 0.9);
-    border-radius: 15px;
-    overflow: hidden;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease;
-}
-
-.game-card:hover {
-    transform: translateY(-10px);
-}
-
-.game-thumb {
-    width: 100%;
-    height: 180px;
-    object-fit: cover;
-}
-
-.game-info {
-    padding: 20px;
-}
-
-.game-links {
-    display: flex;
-    gap: 10px;
-    margin-top: 15px;
-}
-
-/* ==========================================================================
-   Contact ページ
-   ========================================================================== */
-.contact_glitch {
-    font-size: 4.0rem; /* 他のページタイトルとサイズを統一（130pxから調整） */
-    line-height: 1;
-    font-family: 'Orbitron', sans-serif;
-    font-weight: 700;
-    margin: 0;
-    text-decoration: none;
-    color: #fff;
-    display: inline-block;
-    position: relative;
-    z-index: 10;
-    margin-bottom: 40px;
-    
-    /* 常時ブレるのではなく、4秒周期のメリハリのあるアニメーションに変更 */
-    animation: text-glow-pulse 2s infinite;
-}
-
-/* グリッチ用の疑似要素（本体の文字を絶対に揺らさないための工夫） */
-.contact_glitch::before,
-.contact_glitch::after {
-    display: block;
-    content: 'CONTACT';
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
-    opacity: 0.7;
-    /* 通常時は完全に本体の真後ろに隠す（ブレを無くす） */
-    transform: translate(0, 0); 
-}
-
-.contact_glitch::after {
-    color: #f0f;
-    z-index: -2;
-    /* 4秒周期のうち、一瞬だけズレるアニメーション */
-    animation: glitch-periodic-right 4s infinite;
-}
-
-.contact_glitch::before {
-    color: #0ff;
-    z-index: -1;
-    /* 4秒周期のうち、一瞬だけ逆にズレるアニメーション */
-    animation: glitch-periodic-left 4s infinite;
-}
-
-/* --- 【新設計】周期的なグリッチアニメーション ---
-   0%〜85%（約3.4秒間）は完全に静止させ、残りの15%（約0.6秒）で激しくバグらせます。
-   これにより「普段は読めるのに、ときどきバグる」電脳世界らしさが演出できます。 */
-
-@keyframes glitch-periodic-left {
-    0%, 85%, 89%, 93%, 100% {
-        transform: translate(0, 0);
-        clip-path: inset(0 0 0 0);
-    }
-    86% {
-        transform: translate(-6px, -2px);
-        clip-path: inset(10% 0 80% 0); /* 文字を水平にスライスする効果 */
-    }
-    90% {
-        transform: translate(4px, 3px);
-        clip-path: inset(60% 0 10% 0);
-    }
-    92% {
-        transform: translate(-3px, 2px);
-        clip-path: inset(30% 0 40% 0);
-    }
-}
-
-@keyframes glitch-periodic-right {
-    0%, 85%, 89%, 93%, 100% {
-        transform: translate(0, 0);
-        clip-path: inset(0 0 0 0);
-    }
-    87% {
-        transform: translate(6px, 2px);
-        clip-path: inset(40% 0 30% 0);
-    }
-    91% {
-        transform: translate(-4px, -2px);
-        clip-path: inset(10% 0 70% 0);
-    }
-}
-
-/* タイトル全体が時折フワッと明滅する、可読性を損なわない緩やかな効果 */
-@keyframes text-glow-pulse {
-    0%, 85%, 100% { filter: brightness(100%); }
-    88%, 91% { filter: brightness(140%) contrast(120%); }
-}
-
-/* --- CONTACT FORM STYLE --- */
-.contact-box {
-    max-width: 600px;
-    width: 90%;
-    margin: 20px auto;
-}
-
-.contact-form {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-.form-group {
-    display: flex;
-    flex-direction: column;
-    text-align: left;
-}
-
-.form-group label {
-    font-size: 0.9rem;
-    margin-bottom: 8px;
-    font-weight: bold;
-    color: #191970;
-}
-
-.form-group input,
-.form-group textarea {
-    padding: 12px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    font-size: 1rem;
-    background: rgba(255, 255, 255, 0.9);
-}
-
+.field textarea { min-height: 200px; resize: vertical; }
+.field input:focus, .field textarea:focus { outline: none; border-color: var(--sky); background: rgba(159, 216, 255, .06); box-shadow: 0 0 0 4px rgba(159, 216, 255, .12); }
+.form-consent { font-size: 13px; color: var(--mute); margin: 0; }
+.form-consent a { color: var(--sky); border-bottom: 1px solid currentColor; }
 .submit-btn {
-    background-color: #191970;
-    color: white;
-    padding: 15px;
-    border: none;
-    border-radius: 30px;
-    font-size: 1.1rem;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    margin-top: 10px;
+  justify-self: center; min-width: 260px; padding: 20px 40px; border-radius: 999px;
+  background: var(--grad); color: var(--ink); font-family: var(--f-en); font-weight: 700; letter-spacing: .2em; font-size: 14px;
+  transition: transform .4s var(--ease), box-shadow .4s;
+}
+.submit-btn:hover { transform: translateY(-3px); box-shadow: 0 16px 40px -10px rgba(201, 184, 255, .6); }
+
+.legal { color: #d5dbf5; font-size: 14px; }
+.legal h2 { font-size: 17px; margin: 48px 0 14px; padding-left: 16px; border-left: 2px solid var(--sky); line-height: 1.6; }
+.legal ul { padding-left: 1.4em; }
+.legal li { margin-bottom: .6em; }
+.legal a { color: var(--sky); border-bottom: 1px solid currentColor; }
+.legal .policy-date { margin-top: 48px; color: var(--mute); font-size: 13px; }
+
+/* ==========================================================
+   フッター
+   ========================================================== */
+.site-footer { border-top: 1px solid var(--line); margin-top: clamp(60px, 8vw, 120px); background: linear-gradient(transparent, rgba(15, 20, 48, .8)); }
+.footer-marquee { overflow: hidden; border-bottom: 1px solid var(--line); }
+.footer-marquee > div { display: flex; width: max-content; animation: marquee 60s linear infinite; }
+.footer-marquee span {
+  font-family: var(--f-en); font-weight: 800; font-size: clamp(40px, 8vw, 110px); line-height: 1.3; padding: 0 .3em; white-space: nowrap;
+  color: transparent; -webkit-text-stroke: 1px rgba(190, 205, 255, .22);
+}
+.footer-marquee .dot { -webkit-text-stroke: 0; color: var(--pink); font-size: clamp(20px, 3vw, 40px); align-self: center; }
+.footer-inner {
+  max-width: var(--max); margin: 0 auto; padding: clamp(48px, 6vw, 80px) var(--pad) 40px;
+  display: grid; grid-template-columns: 1.2fr 2fr auto; gap: 40px; align-items: start;
+}
+.footer-brand img { width: 52px; height: 52px; border-radius: 50%; background: #fff; margin-bottom: 16px; }
+.footer-brand .logo-text { font-size: 22px; }
+.footer-copy { font-size: 12px; color: var(--mute); margin: 14px 0 0; }
+.footer-nav { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, max-content); gap: 10px 56px; }
+.footer-nav a { font-family: var(--f-en); font-size: 12px; letter-spacing: .15em; color: var(--mute); transition: color .3s; }
+.footer-nav a:hover { color: var(--text); }
+.footer-sns { display: flex; gap: 12px; }
+.footer-sns a, .drawer-sns a {
+  width: 46px; height: 46px; display: grid; place-items: center; border: 1px solid var(--line); border-radius: 50%; font-size: 18px;
+  transition: background .3s, color .3s, border-color .3s;
+}
+.footer-sns a:hover, .drawer-sns a:hover { background: var(--text); color: var(--ink); border-color: var(--text); }
+.copyright { text-align: center; font-family: var(--f-mono); font-size: 11px; color: var(--mute); letter-spacing: .15em; padding: 24px var(--pad) 32px; margin: 0; border-top: 1px solid var(--line); }
+@media (max-width: 860px) {
+  .footer-inner { grid-template-columns: 1fr; }
 }
 
-.submit-btn:hover {
-    background-color: pink;
-    color: #191970;
-    transform: translateY(-2px);
-}
-
-.policy_glitch {
-    font-size: 4.0rem; /* 他のページタイトルとサイズを統一（130pxから調整） */
-    line-height: 1;
-    font-family: 'Orbitron', sans-serif;
-    font-weight: 700;
-    margin: 0;
-    text-decoration: none;
-    color: #fff;
-    display: inline-block;
-    position: relative;
-    z-index: 10;
-    margin-bottom: 40px;
-    
-    /* 常時ブレるのではなく、4秒周期のメリハリのあるアニメーションに変更 */
-    animation: text-glow-pulse 2s infinite;
-}
-
-/* グリッチ用の疑似要素（本体の文字を絶対に揺らさないための工夫） */
-.policy_glitch::before,
-.policy_glitch::after {
-    display: block;
-    content: 'PRIVACY POLICY';
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
-    opacity: 0.7;
-    /* 通常時は完全に本体の真後ろに隠す（ブレを無くす） */
-    transform: translate(0, 0); 
-}
-
-.policy_glitch::after {
-    color: #f0f;
-    z-index: -2;
-    /* 4秒周期のうち、一瞬だけズレるアニメーション */
-    animation: glitch-periodic-right 4s infinite;
-}
-
-.policy_glitch::before {
-    color: #0ff;
-    z-index: -1;
-    /* 4秒周期のうち、一瞬だけ逆にズレるアニメーション */
-    animation: glitch-periodic-left 4s infinite;
-}
-
-/* --- 【新設計】周期的なグリッチアニメーション ---
-   0%〜85%（約3.4秒間）は完全に静止させ、残りの15%（約0.6秒）で激しくバグらせます。
-   これにより「普段は読めるのに、ときどきバグる」電脳世界らしさが演出できます。 */
-
-@keyframes glitch-periodic-left {
-    0%, 85%, 89%, 93%, 100% {
-        transform: translate(0, 0);
-        clip-path: inset(0 0 0 0);
-    }
-    86% {
-        transform: translate(-6px, -2px);
-        clip-path: inset(10% 0 80% 0); /* 文字を水平にスライスする効果 */
-    }
-    90% {
-        transform: translate(4px, 3px);
-        clip-path: inset(60% 0 10% 0);
-    }
-    92% {
-        transform: translate(-3px, 2px);
-        clip-path: inset(30% 0 40% 0);
-    }
-}
-
-@keyframes glitch-periodic-right {
-    0%, 85%, 89%, 93%, 100% {
-        transform: translate(0, 0);
-        clip-path: inset(0 0 0 0);
-    }
-    87% {
-        transform: translate(6px, 2px);
-        clip-path: inset(40% 0 30% 0);
-    }
-    91% {
-        transform: translate(-4px, -2px);
-        clip-path: inset(10% 0 70% 0);
-    }
-}
-
-/* タイトル全体が時折フワッと明滅する、可読性を損なわない緩やかな効果 */
-@keyframes text-glow-pulse {
-    0%, 85%, 100% { filter: brightness(100%); }
-    88%, 91% { filter: brightness(140%) contrast(120%); }
-}
-
-/* ==========================================================================
-   フッター & SNS
-   ========================================================================== */
-footer {
-    width: 100%;
-    padding: 15px 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 2px; 
-    color: #fff;
-    margin-top: auto;
-    
-    background-color: #171717; 
-}
-
-.page-title {
-    font-family: 'Orbitron', sans-serif;
-    text-align: center;
-    font-size: 4.0rem;
-    color: #191970;
-    /* 背景画像に紛れないよう、文字の背後に暗いブラーを薄く敷いて可読性を確保 */
-    text-shadow: 0 0 15px rgba(172, 161, 230, 0.6), 1px 1px 2px rgba(255,255,255) !important;
-}
-
-.sns-links a {
-    font-size: 36px;
-    color: #f7f7f7;
-    margin: 0 10px;
-    text-decoration: none;
-    /* text-shadow: 1px 1px 2px #fffafa; */
-}
-
-.copyright {
-    margin-top: 20px;
-    font-size: 0.8rem;
-    color: #f7f7f7;
-    /* text-shadow: 1px 1px 2px #fffafa; */
-}
-
-.footer-links {
-    margin-top: 10px;
-    display: flex;
-    gap: 18px;
-    flex-wrap: wrap;
-    justify-content: center;
-}
-
-.footer-links a {
-    color: #cfcfcf;
-    font-size: 0.8rem;
-    text-decoration: none;
-}
-
-.footer-links a:hover {
-    color: #fff;
-    text-decoration: underline;
-}
-
-/* --- 法務ページ（プライバシーポリシー等） --- */
-.legal-box {
-    line-height: 1.9;
-}
-
-.legal-box h2 {
-    font-size: 1.15rem;
-    margin: 1.6em 0 0.5em;
-    padding-bottom: 0.3em;
-    border-bottom: 1px solid rgba(185, 153, 255, 0.4);
-}
-
-.legal-box ul {
-    padding-left: 1.4em;
-    margin: 0.5em 0;
-}
-
-.legal-box li {
-    margin: 0.3em 0;
-}
-
-.legal-box a {
-    color: #6eccee;
-}
-
-.legal-box .policy-date {
-    font-size: 0.85rem;
-    opacity: 0.8;
-}
-
-/* ==========================================================================
-   レスポンシブ (スマホ対応)
-   ========================================================================== */
-/* 画面幅 1024px 以下のタブレット環境 */
-@media (max-width: 1024px) {
-    .about-wrapper {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .about-image-container {
-        width: 100%;
-        max-width: 500px;
-    }
-}
-
-/* 画面幅 768px 以下のスマートフォン環境 */
-@media (max-width: 768px) {
-    /* スマホ時はメニューバーを画面いっぱいの幅に変更 */
-    #navMenu {
-        width: 100%;
-        right: -100%;
-    }
-
-    #navMenu.open {
-        right: 0;
-    }
-
-    #navMenu a {
-        font-size: 1.8rem;
-        padding: 15px 0;
-    }
-
-    .page-title {
-        font-size: 2.8rem;
-    }
-
-    .content-box,
-    .about-content-box {
-        padding: 25px;
-    }
-
-    footer {
-        padding: 5px 0;
-        text-align: center;
-        width: 100%;
-    }
-
-    .content-box,
-    .home-banner,
-    .news-container,
-    .about-wrapper {
-        margin-bottom: 20px;
-    }
-}
-
-/* ==========================================================================
-   12. トップページ専用：右からのスライドインアニメーション定義
-   ========================================================================== */
-@keyframes slideInRight {
-    0% {
-        /* 画面の右側（見えない場所）からスタート */
-        transform: translateX(150%);
-        opacity: 0;
-    }
-    100% {
-        /* 現在の美しい定位置（中央）にぴったり止まる */
-        transform: translateX(-50%);
-        opacity: 1;
-    }
+/* ==========================================================
+   動きを減らす設定
+   ========================================================== */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition-duration: .01ms !important; }
+  .reveal, .fade-up, .hero-line > span, .hero-chara, .hero-release { opacity: 1 !important; transform: none !important; }
 }

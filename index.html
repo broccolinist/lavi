@@ -4,16 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bug&Lavi Project</title>
+    <title>Bug&amp;Lavi Project 公式サイト</title>
 
     <!-- SEO / favicon -->
     <meta name="description" content="うさぎのキャラクター“ラヴィ”を中心に、音楽・ノベル・ゲーム・グッズを展開するBug&Lavi Projectの公式サイト。データの中に住む存在、ラヴィの世界へ。">
-    <meta name="keywords" content="Bug&Lavi Project, Bug&Lavi, ばぐらび, バグラビ, ばぐらびっ">
+    <meta name="keywords" content="Bug&Lavi Project, Bug&Lavi, ばぐらび, バグラビ, ばぐらびっ, ラヴィ, Lavi AI Singer-songwriter">
+    <meta name="theme-color" content="#080b1c">
     <link rel="canonical" href="https://bug-and-lavi-project.com/">
     <link rel="icon" href="img/picture/lavi_icon.png">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP&family=Orbitron:wght@400..900&display=swap" rel="stylesheet">
 
     <!-- OGP -->
     <meta property="og:type" content="website">
@@ -23,222 +21,194 @@
     <meta property="og:description" content="ラヴィを中心に、音楽・ノベル・ゲーム・グッズなどを展開するBug&Lavi Project(バグラビ)の公式サイト。">
     <meta property="og:url" content="https://bug-and-lavi-project.com/">
     <meta property="og:image" content="https://bug-and-lavi-project.com/img/picture/lavi_tati.png">
-
-    <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
 
     <!-- Cloudflare Web Analytics -->
     <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "5204ed30baa54e48af164bfa0e777612"}'></script>
-    <!-- End Cloudflare Web Analytics -->
 
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono&family=Unbounded:wght@400;500;600;700;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="preload" as="image" href="img/thumb/haikyo.jpg">
+    <link rel="stylesheet" href="style.css?v=20261001">
 </head>
 
-<body>
+<body class="home" data-has-releases>
 
-    <div class="background-image"></div>
+    <header id="site-header" class="site-header"></header>
 
-    <header id="common-header"></header>
+    <main>
+        <!-- ===== HERO ===== -->
+        <section class="hero">
+            <div class="hero-bg"></div>
+            <canvas id="particles"></canvas>
+            <img src="img/picture/lavi_ue.png" alt="ラヴィ" class="hero-chara" fetchpriority="high">
 
-    <main class="top-page-main">
-        <div class="home-banner">
-            <div class="banner-wrapper">
-                <img src="img/picture/lavi_tati.png" alt="Character" class="banner-char">
+            <div class="hero-inner">
+                <p class="hero-kicker fade-up">SIGNAL FOUND — WORLD://BUG&amp;LAVI</p>
+                <h1 class="hero-title">
+                    <span class="hero-line"><span class="l1 glitch" data-text="Lavi">Lavi</span></span>
+                    <span class="hero-line"><span class="l2">AI Singer-songwriter</span></span>
+                </h1>
+                <p class="hero-lead fade-up">
+                    サービス終了したゲームの“世界”に、ひとり取り残されたうさぎ。<br>
+                    データの中に住む存在、ラヴィの物語へようこそ。
+                </p>
             </div>
+
+            <a href="#" class="hero-release" id="hero-release"></a>
+            <div class="hero-scroll">SCROLL</div>
+        </section>
+
+        <div class="ticker" aria-hidden="true">
+            <div class="ticker-track" id="ticker"></div>
         </div>
 
-        <!-- <section class="home-news">
-            <h2 class="section-title">LATEST NEWS</h2>
-            <ul id="news-list-container" class="home-news-list">
-                <li style="text-align:center; padding:20px; border:none;">Loading...</li>
-            </ul>
-            <div class="view-more">
-                <a href="news.html" class="btn">VIEW ALL NEWS</a>
+        <!-- ===== NEWS ===== -->
+        <section class="section">
+            <div class="wrap news-layout">
+                <div class="section-head reveal">
+                    <h2 class="section-title"><span class="num">01</span><span class="en">NEWS</span><span class="ja">お知らせ</span></h2>
+                    <a href="news.html" class="more-link">VIEW ALL <i class="fas fa-arrow-right"></i></a>
+                </div>
+                <ul class="news-list reveal" id="home-news">
+                    <li><p class="loading">LOADING</p></li>
+                </ul>
             </div>
-        </section> -->
+        </section>
 
-        <!-- <section class="video-slide-section">
-            <h2 class="section-title">VIDEOS</h2>
-            <div class="video-carousel">
-                <div class="video-item">
-                    <a href="https://youtu.be/W0IrXi9CZCQ?si=F7z2TG16W1qyN6Ul" target="_blank">
-                        <img src="img/movie/video1.png" alt="Video 1">
-                        <i class="fab fa-youtube play-icon"></i>
-                    </a>
+        <!-- ===== MUSIC ===== -->
+        <section class="section" style="padding-top:0">
+            <div class="wrap">
+                <div class="section-head reveal">
+                    <h2 class="section-title"><span class="num">02</span><span class="en">MUSIC</span><span class="ja">楽曲</span></h2>
+                    <a href="music.html" class="more-link">DISCOGRAPHY <i class="fas fa-arrow-right"></i></a>
                 </div>
-                <div class="video-item">
-                    <a href="https://youtu.be/9qHI4nd3aiU?si=JWtkKkQwsL5HD6iw" target="_blank">
-                        <img src="img/movie/video2.png" alt="Video 2">
-                        <i class="fab fa-youtube play-icon"></i>
-                    </a>
+
+                <div class="music-feature reveal" id="music-feature"></div>
+                <div class="release-scroller" id="home-releases"></div>
+            </div>
+        </section>
+
+        <!-- ===== STORY ===== -->
+        <section class="story">
+            <div class="story-bg"></div>
+            <div class="wrap story-grid">
+                <div class="story-text">
+                    <h2 class="section-title reveal" style="margin-bottom:48px"><span class="num">03</span><span class="en">STORY</span><span class="ja">ラヴィについて</span></h2>
+                    <p class="quote reveal">バグなのか、ただの偶然なのか。<br>ラヴィはたったひとり<br>“世界”で目を覚ます。</p>
+                    <p class="reveal">とあるソーシャルゲームに実装されるはずだったキャラクター。実装前にゲームはサービス終了し、不完全なデータだけが“世界”に取り残された。<br>
+                        目を覚ましたラヴィは、この“世界”で何者になっていくのか。</p>
+                    <div class="reveal" style="margin-top:40px"><a href="about.html" class="more-link">READ MORE <i class="fas fa-arrow-right"></i></a></div>
                 </div>
-                <div class="video-item">
-                    <a href="https://youtu.be/mprv86HCNMo?si=zazhGWacHGUHNweI" target="_blank">
-                        <img src="img/movie/video3.png" alt="Video 3">
-                        <i class="fab fa-youtube play-icon"></i>
+                <div class="story-visual reveal" style="--d:.15s">
+                    <div class="frame"></div>
+                    <img src="img/picture/lavi_tati.png" alt="ラヴィ" loading="lazy">
+                    <p class="tag">NAME : <b>LAVI</b><br>STATUS : UNRELEASED DATA<br>LOCATION : ???</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== VIDEO ===== -->
+        <section class="section">
+            <div class="wrap">
+                <div class="section-head reveal">
+                    <h2 class="section-title"><span class="num">04</span><span class="en">VIDEO</span><span class="ja">動画</span></h2>
+                    <a href="https://www.youtube.com/@LaviAIsinger-songwriter" target="_blank" rel="noopener" class="more-link">YOUTUBE <i class="fab fa-youtube"></i></a>
+                </div>
+                <div class="video-grid reveal" id="home-videos"></div>
+            </div>
+        </section>
+
+        <!-- ===== CONTENTS ===== -->
+        <section class="section" style="padding-top:0">
+            <div class="wrap">
+                <div class="section-head reveal">
+                    <h2 class="section-title"><span class="num">05</span><span class="en">CONTENTS</span><span class="ja">コンテンツ</span></h2>
+                </div>
+                <div class="contents-grid">
+                    <a href="https://ncode.syosetu.com/n3901mo/" target="_blank" rel="noopener" class="content-card reveal" style="--img:url('img/thumb/novel_start.jpg')">
+                        <div class="bg"></div>
+                        <span class="en">NOVEL <i class="fas fa-arrow-up-right-from-square"></i></span>
+                        <span class="ja">ノベル『ばぐらび！ from Bug&amp;Lavi Project』<br>「小説家になろう」にて連載中</span>
+                    </a>
+                    <a href="https://bug-and-lavi.designstore.jp/" target="_blank" rel="noopener" class="content-card reveal" style="--d:.08s;--img:url('img/thumb/carrot.jpg')">
+                        <div class="bg"></div>
+                        <span class="en">SHOP <i class="fas fa-arrow-up-right-from-square"></i></span>
+                        <span class="ja">ラヴィのオリジナルグッズを販売中</span>
+                    </a>
+                    <a href="about.html" class="content-card reveal" style="--d:.16s;--img:url('img/thumb/haikyo.jpg')">
+                        <div class="bg"></div>
+                        <span class="en">ABOUT <i class="fas fa-arrow-right"></i></span>
+                        <span class="ja">プロジェクトとラヴィの紹介、<br>「おしえて！ラヴィさん！」Q&amp;A</span>
                     </a>
                 </div>
             </div>
-        </section> -->
-
-        <!-- <script>
-            // ニュースデータの定義（新しいものを上に書く）
-            const allNews = [
-                { date: "20xx.xx.xx", title: "作業用BGMにおすすめ", url: "news/20xxxxx2.html" },
-                { date: "20xx.xx.xx", title: "○○を公開", url: "news/20xxxxx1.html" },
-                { date: "202x.xx.xx", title: "公式サイトをオープンしました", url: "" },
-                { date: "202.xx.xx", title: "旧ニュース", url: "" }
-            ];
-
-            function displayLatestNews() {
-                const container = document.getElementById('news-list-container');
-                container.innerHTML = ''; // Loading表示を消去
-
-                // 最新の3件だけを取り出す
-                const latestThree = allNews.slice(0, 3);
-
-                latestThree.forEach(item => {
-                    const li = document.createElement('li');
-
-                    // URLがある場合とない場合で処理を分ける
-                    if (item.url) {
-                        // リンクあり：従来通り<a>タグで囲む
-                        li.innerHTML = `
-                <a href="${item.url}">
-                    <span class="date">${item.date}</span>
-                    <span class="title">${item.title}</span>
-                </a>
-            `;
-                    } else {
-                        // リンクなし：<div>などで囲み、クリックできないようにする
-                        li.innerHTML = `
-                <div class="no-link-item">
-                    <span class="date">${item.date}</span>
-                    <span class="title">${item.title}</span>
-                </div>
-            `;
-                    }
-                    container.appendChild(li);
-                });
-            }
-
-            // 実行
-            displayLatestNews();
-        </script> -->
+        </section>
     </main>
 
-    <footer id="common-footer"></footer>
+    <footer id="site-footer" class="site-footer"></footer>
 
-    <!-- <script>
-        const carousel = document.querySelector('.video-carousel');
-        const originalItems = Array.from(carousel.querySelectorAll('.video-item'));
+    <script src="js/data.js?v=20261001"></script>
+    <script src="js/site.js?v=20261001"></script>
+    <script>
+        window.pageInit = async () => {
+            const latest = RELEASES[0];
 
-        if (carousel && originalItems.length > 0) {
-            // --- 1. 要素の複製（順序を 1-2-3 [1-2-3] 1-2-3 にする） ---
+            // ヒーロー右下の最新リリース
+            const hr = document.getElementById('hero-release');
+            hr.dataset.release = latest.id;
+            hr.innerHTML = `
+                <img src="${latest.jacket}" alt="">
+                <span><span class="label">NEW RELEASE</span><span class="title">${esc(latest.title)}</span><span class="date">${latest.date} OUT NOW</span></span>
+                <span class="go"><i class="fas fa-play"></i></span>`;
 
-            // 後ろに追加 (1-2-3 の順で末尾へ)
-            originalItems.forEach(item => {
-                const clone = item.cloneNode(true);
-                carousel.appendChild(clone);
+            // ティッカー
+            const words = [`NEW RELEASE「${latest.title}」OUT NOW`, 'LAVI AI SINGER-SONGWRITER', 'NOVEL「ばぐらび！」連載中', 'BUG&LAVI PROJECT'];
+            const line = words.map(w => `<span>${esc(w)}</span><span class="dot">✦</span>`).join('');
+            document.getElementById('ticker').innerHTML = line.repeat(4);
+
+            // 注目の1曲
+            document.getElementById('music-feature').innerHTML = `
+                <div class="feature-jacket" style="--bg:url('${latest.jacket}')">
+                    <div class="vinyl"></div>
+                    <img src="${latest.jacket}" alt="${esc(latest.title)}">
+                </div>
+                <div class="feature-info">
+                    <span class="label">LATEST ${latest.type.toUpperCase()}</span>
+                    <h3>${esc(latest.title)}</h3>
+                    <p class="meta">${latest.date} Release ／ Lavi AI Singer-songwriter</p>
+                    <div class="stream-list">${streamButtons(latest)}</div>
+                    <button class="more-link" data-release="${latest.id}">DETAIL <i class="fas fa-arrow-right"></i></button>
+                </div>`;
+
+            // 過去作
+            document.getElementById('home-releases').innerHTML = RELEASES.slice(1, 9).map(releaseCard).join('');
+
+            // 動画
+            document.getElementById('home-videos').innerHTML = VIDEOS.map(v => `
+                <a class="video-card" href="https://youtu.be/${v.id}" data-yt="${v.id}" target="_blank" rel="noopener">
+                    <img src="${v.thumb}" alt="${esc(v.title)}" loading="lazy">
+                    <span class="cap"><i class="fab fa-youtube"></i>${esc(v.title)}</span>
+                </a>`).join('');
+            document.getElementById('home-videos').addEventListener('click', e => {
+                const a = e.target.closest('.video-card');
+                if (!a || a.querySelector('iframe')) return;
+                e.preventDefault();
+                a.insertAdjacentHTML('beforeend', `<iframe src="https://www.youtube-nocookie.com/embed/${a.dataset.yt}?autoplay=1" title="YouTube" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>`);
             });
 
-            // 前に追加 (1-2-3 の順を保って先頭へ)
-            // reverse() して insertBefore することで 1-2-3 の順序を維持します
-            [...originalItems].reverse().forEach(item => {
-                const clone = item.cloneNode(true);
-                carousel.insertBefore(clone, carousel.firstChild);
-            });
-
-            const gap = 30;
-            const itemWidth = originalItems[0].offsetWidth + gap;
-
-            // --- 2. 初期位置の設定 ---
-            // 複製した「1-2-3」の次にある、オリジナルの「1」が中央に来るように計算
-            // 画面中央に配置するため、(画面幅/2 - アイテム幅/2)を調整
-            const startScroll = (itemWidth * originalItems.length) - (window.innerWidth / 2 - originalItems[0].offsetWidth / 2);
-            carousel.scrollLeft = startScroll;
-
-            // --- 3. スクロール監視とループ処理 ---
-            carousel.addEventListener('scroll', () => {
-                const scrollLeft = carousel.scrollLeft;
-                const itemTotalWidth = itemWidth * originalItems.length;
-
-                // 右にスクロールしすぎたら中央へ戻す
-                if (scrollLeft >= itemTotalWidth * 2) {
-                    carousel.scrollLeft -= itemTotalWidth;
-                }
-                // 左にスクロールしすぎたら中央へ戻す
-                if (scrollLeft <= 0) {
-                    carousel.scrollLeft += itemTotalWidth;
-                }
-
-                // --- 中央要素の強調表示 ---
-                let minDistance = Infinity;
-                let activeItem = null;
-                const allItems = carousel.querySelectorAll('.video-item');
-
-                allItems.forEach(item => {
-                    const rect = item.getBoundingClientRect();
-                    const itemCenter = rect.left + rect.width / 2;
-                    const distance = Math.abs(itemCenter - window.innerWidth / 2);
-
-                    if (distance < minDistance) {
-                        minDistance = distance;
-                        activeItem = item;
-                    }
-                });
-
-                allItems.forEach(item => item.classList.remove('is-active'));
-                if (activeItem) activeItem.classList.add('is-active');
-            });
-
-            // 初期実行
-            setTimeout(() => {
-                carousel.dispatchEvent(new Event('scroll'));
-            }, 100);
-        }
-    </script> -->
-
-<script>
-        async function loadCommonParts() {
-            // 1. ヘッダーの読み込み
-            const headerRes = await fetch('header.html');
-            const headerHtml = await headerRes.text();
-            document.getElementById('common-header').innerHTML = headerHtml;
-
-            // 2. フッターの読み込み
-            const footerRes = await fetch('footer.html');
-            const footerHtml = await footerRes.text();
-            document.getElementById('common-footer').innerHTML = footerHtml;
-
-            // --- ヘッダー読み込み後にハンバーガーメニューのJSを起動させる ---
-            setupMenu();
-            
-            // ★以前ここに追加した「document.body.style.gridTemplateRows...」の行は完全に削除してください
-        }
-
-        function setupMenu() {
-            const menuBtn = document.getElementById('menuBtn');
-            const navMenu = document.getElementById('navMenu');
-
-            if (menuBtn && navMenu) {
-                menuBtn.addEventListener('click', () => {
-                    menuBtn.classList.toggle('open');
-                    navMenu.classList.toggle('open');
-                });
-
-                navMenu.querySelectorAll('a').forEach(link => {
-                    link.addEventListener('click', () => {
-                        menuBtn.classList.remove('open');
-                        navMenu.classList.remove('open');
-                    });
-                });
-            }
-        }
-
-        // 実行
-        loadCommonParts();
+            // ニュース
+            const news = await loadNews(4);
+            document.getElementById('home-news').innerHTML = news.map(n => `
+                <li><a class="news-row" href="news.html#${n.file.split('/').pop().replace('.html', '')}">
+                    <span class="date">${n.date}</span>
+                    <span class="cat cat-${n.category}">${n.category}</span>
+                    <span class="title">${esc(n.title)}${isNew(n.date) ? '<span class="badge-new">NEW</span>' : ''}</span>
+                    <i class="fas fa-arrow-right"></i>
+                </a></li>`).join('') || '<li><p class="loading">NO DATA</p></li>';
+        };
     </script>
 </body>
 

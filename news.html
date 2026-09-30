@@ -1,194 +1,80 @@
 <!DOCTYPE html>
 <html lang="ja">
 
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>News | Bug&Lavi Project</title>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEWS | Bug&amp;Lavi Project</title>
+    <meta name="description" content="Bug&Lavi Projectの最新情報・お知らせ。">
+    <meta name="theme-color" content="#080b1c">
+    <link rel="canonical" href="https://bug-and-lavi-project.com/news.html">
+    <link rel="icon" href="img/picture/lavi_icon.png">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="Bug&Lavi Project">
+    <meta property="og:title" content="NEWS | Bug&Lavi Project">
+    <meta property="og:url" content="https://bug-and-lavi-project.com/news.html">
+    <meta property="og:image" content="https://bug-and-lavi-project.com/img/picture/lavi_tati.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "5204ed30baa54e48af164bfa0e777612"}'></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono&family=Unbounded:wght@400;500;600;700;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="style.css?v=20261001">
+</head>
 
-        <!-- SEO / favicon -->
-        <meta name="description" content="Bug&Lavi Projectの最新ニュース・お知らせ。新曲リリースや活動の最新情報をお届け。">
-        <link rel="canonical" href="https://bug-and-lavi-project.com/news.html">
-        <link rel="icon" href="img/picture/lavi_icon.png">
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP&family=Orbitron:wght@400..900&display=swap" rel="stylesheet">
-        <!-- OGP -->
-        <meta property="og:type" content="website">
-        <meta property="og:site_name" content="Bug&Lavi Project">
-        <meta property="og:locale" content="ja_JP">
-        <meta property="og:title" content="News | Bug&Lavi Project">
-        <meta property="og:description" content="Bug&Lavi Projectの最新ニュース・お知らせ。新曲リリースや活動の最新情報をお届け。">
-        <meta property="og:url" content="https://bug-and-lavi-project.com/news.html">
-        <meta property="og:image" content="https://bug-and-lavi-project.com/img/picture/lavi_tati.png">
+<body>
+    <header id="site-header" class="site-header"></header>
 
-        <!-- Twitter -->
-        <meta name="twitter:card" content="summary_large_image">
-
-        <!-- Cloudflare Web Analytics -->
-        <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "5204ed30baa54e48af164bfa0e777612"}'></script>
-        <!-- End Cloudflare Web Analytics -->
-
-        <link rel="stylesheet" href="style.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    </head>
-
-    <body>
-        <div class="background-image"></div>
-        <header id="common-header"></header>
-
-        <main>
-            <h1 class="page-title news_glitch">NEWS</h1>
-            <div id="news-container" class="news-container">
+    <main>
+        <section class="page-hero" data-bg="NEWS">
+            <div class="wrap">
+                <p class="crumb"><a href="index.html">HOME</a> / NEWS</p>
+                <h1><span class="en glitch" data-text="NEWS">NEWS</span><span class="ja">お知らせ</span></h1>
             </div>
-        </main>
+        </section>
 
-        <footer id="common-footer"></footer>
+        <section class="section" style="padding-top:clamp(20px,4vw,40px)">
+            <div class="wrap">
+                <div class="filter-bar reveal" id="filter">
+                    <button class="is-active" data-f="ALL">ALL</button>
+                    <button data-f="INFO">INFO</button>
+                    <button data-f="MUSIC">MUSIC</button>
+                    <button data-f="NOVEL">NOVEL</button>
+                </div>
+                <div class="news-articles" id="news-container"><p class="loading">LOADING</p></div>
+            </div>
+        </section>
+    </main>
 
-        <script>
-        // 1. 共通パーツを読み込む関数
-        async function loadCommonParts() {
-            try {
-                const headerRes = await fetch('header.html');
-                const headerHtml = await headerRes.text();
-                document.getElementById('common-header').innerHTML = headerHtml;
+    <footer id="site-footer" class="site-footer"></footer>
 
-                const footerRes = await fetch('footer.html');
-                const footerHtml = await footerRes.text();
-                document.getElementById('common-footer').innerHTML = footerHtml;
+    <script src="js/data.js?v=20261001"></script>
+    <script src="js/site.js?v=20261001"></script>
+    <script>
+        window.pageInit = async () => {
+            const box = document.getElementById('news-container');
+            const news = await loadNews();
+            box.innerHTML = news.map(n => `
+                <article class="news-article reveal ${n.image ? '' : 'no-image'}" id="${n.file.split('/').pop().replace('.html', '')}" data-cat="${n.category}">
+                    ${n.image ? `<div class="thumb"><img src="${n.image}" alt="" loading="lazy"></div>` : ''}
+                    <div>
+                        <div class="meta"><span class="date">${n.date}</span><span class="cat cat-${n.category}">${n.category}</span>${isNew(n.date) ? '<span class="badge-new" style="margin:0">NEW</span>' : ''}</div>
+                        <h2>${esc(n.title)}</h2>
+                        <div class="body">${n.body}</div>
+                    </div>
+                </article>`).join('') || '<p class="loading">NO DATA</p>';
+            box.querySelectorAll('.body a[target="_blank"]').forEach(a => a.rel = 'noopener');
 
-                setupMenu();
-            } catch (error) {
-                console.error("共通パーツの読み込みに失敗:", error);
-            }
-        }
+            document.getElementById('filter').addEventListener('click', e => {
+                const b = e.target.closest('button');
+                if (!b) return;
+                document.querySelectorAll('#filter button').forEach(x => x.classList.toggle('is-active', x === b));
+                box.querySelectorAll('.news-article').forEach(a => a.style.display = (b.dataset.f === 'ALL' || a.dataset.cat === b.dataset.f) ? '' : 'none');
+            });
+            if (location.hash) setTimeout(() => document.getElementById(location.hash.slice(1))?.scrollIntoView(), 50);
+        };
+    </script>
+</body>
 
-        // 日付が1ヶ月（30日）以内かを判定する関数
-        function isWithinOneMonth(dateString) {
-            // "yyyy.mm.dd" 形式を "yyyy-mm-dd" に変換して日付判定
-            const formattedDate = dateString.replace(/\./g, '-');
-            const newsDate = new Date(formattedDate);
-            const today = new Date();
-            const diffTime = today - newsDate;
-            const diffDays = diffTime / (1000 * 60 * 60 * 24);
-            return diffDays >= 0 && diffDays <= 30;
-        }
-
-        // 2. 記事ファイルを読み込んで整形・描画する関数
-        async function loadNewsArticles() {
-            const articleFiles = [
-                'news/2026_004.html',
-                'news/2026_003.html',
-                'news/2026_002.html',
-                'news/2026_001.html'
-            ];
-
-            const container = document.getElementById('news-container');
-            container.innerHTML = '';
-
-            for (const file of articleFiles) {
-                try {
-                    const response = await fetch(file);
-                    if (!response.ok) continue;
-
-                    const htmlText = await response.text();
-                
-                    // 取得したHTMLをDOM要素として一時変換
-                    const parser = new DOMParser();
-                    const doc = parser.parseFromString(htmlText, 'text/html');
-                    const dataEl = doc.querySelector('.news-article-data');
-
-                    if (!dataEl) continue;
-
-                    // 属性データの取得
-                    const date = dataEl.dataset.date || '';
-                    const category = dataEl.dataset.category || '';
-                    const title = dataEl.dataset.title || '';
-                    const isImportant = dataEl.dataset.important === 'true';
-                    const imageSrc = dataEl.dataset.image || '';
-                    const type = dataEl.dataset.type || 'short';
-                    const bodyHtml = dataEl.innerHTML;
-
-                    // 1ヶ月以内NEW!判定
-                    const isNew = isWithinOneMonth(date);
-
-                    // 外枠カード作成
-                    const articleBox = document.createElement('div');
-                    articleBox.className = `news-content-box ${isImportant ? 'is-important' : ''} ${type === 'long' ? 'is-long' : ''}`;
-
-                    // 画像部分のHTML（画像パスが設定されている場合のみ）
-                    const imageHtml = imageSrc ? `
-                        <div class="news-image-wrap">
-                            <img src="${imageSrc}" alt="${title}">
-                        </div>
-                    ` : '';
-
-                    // 本文・開閉ボタンのHTML
-                    let contentHtml = '';
-                    if (type === 'short') {
-                        contentHtml = `<div class="news-item-body">${bodyHtml}</div>`;
-                    } else {
-                        contentHtml = `
-                            <button type="button" class="btn-toggle-news" onclick="toggleNews(this)">続きを読む ▼</button>
-                            <div class="news-item-body news-content-toggle">${bodyHtml}</div>
-                        `;
-                    }
-
-                    // 全体レイアウト生成
-                    articleBox.innerHTML = `
-                        <div class="news-inner-container">
-                            ${imageHtml}
-                            <div class="news-text-body">
-                                <div class="news-meta">
-                                    <span class="news-date">${date}</span> | <span class="news-category">${category}</span>
-                                    ${isNew ? '<span class="badge-new">NEW!</span>' : ''}
-                                </div>
-                                <h3 class="news-item-title">${title}</h3>
-                                ${contentHtml}
-                            </div>
-                        </div>
-                    `;
-
-                    container.appendChild(articleBox);
-                } catch (error) {
-                    console.error("記事の読み込みに失敗:", file, error);
-                }
-            }
-        }
-
-        // 長尺ニュースの開閉処理
-        function toggleNews(button) {
-            const toggleContent = button.nextElementSibling;
-            const isExpanded = toggleContent.style.display === 'block';
-
-            if (isExpanded) {
-                toggleContent.style.display = 'none';
-                button.innerText = '続きを読む ▼';
-            } else {
-                toggleContent.style.display = 'block';
-                button.innerText = '閉じる ▲';
-            }
-        }
-
-        // 3. ハンバーガーメニューの設定
-        function setupMenu() {
-            const menuBtn = document.getElementById('menuBtn');
-            const navMenu = document.getElementById('navMenu');
-            if (menuBtn && navMenu) {
-                menuBtn.addEventListener('click', () => {
-                    menuBtn.classList.toggle('open');
-                    navMenu.classList.toggle('open');
-                });
-            }
-        }
-
-        // すべてを順番に実行
-        async function init() {
-            await loadCommonParts();
-            await loadNewsArticles();
-        }
-
-        init();
-        </script>
-    </body>
 </html>

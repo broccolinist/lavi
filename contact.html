@@ -4,109 +4,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact | Bug&Lavi Project</title>
-
-    <!-- SEO / favicon -->
-    <meta name="description" content="Bug&Lavi Projectへのお問い合わせはこちら。">
+    <title>CONTACT | Bug&amp;Lavi Project</title>
+    <meta name="description" content="Bug&Lavi Projectへのお問い合わせ。">
+    <meta name="theme-color" content="#080b1c">
     <link rel="canonical" href="https://bug-and-lavi-project.com/contact.html">
     <link rel="icon" href="img/picture/lavi_icon.png">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP&family=Orbitron:wght@400..900&display=swap" rel="stylesheet">
-
-    <!-- OGP -->
-    <meta property="og:type" content="website">
+    <meta property="og:type" content="article">
     <meta property="og:site_name" content="Bug&Lavi Project">
-    <meta property="og:locale" content="ja_JP">
-    <meta property="og:title" content="Contact | Bug&Lavi Project">
-    <meta property="og:description" content="Bug&Lavi Projectへのお問い合わせはこちら。">
+    <meta property="og:title" content="CONTACT | Bug&Lavi Project">
     <meta property="og:url" content="https://bug-and-lavi-project.com/contact.html">
     <meta property="og:image" content="https://bug-and-lavi-project.com/img/picture/lavi_tati.png">
-
-    <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
-
-    <!-- Cloudflare Web Analytics -->
     <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "5204ed30baa54e48af164bfa0e777612"}'></script>
-    <!-- End Cloudflare Web Analytics -->
-
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono&family=Unbounded:wght@400;500;600;700;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="style.css?v=20261001">
 </head>
 
 <body>
-    <div class="background-image"></div>
-    <header id="common-header"></header>
+    <header id="site-header" class="site-header"></header>
 
     <main>
-        <h1 class="page-title contact_glitch">CONTACT</h1>
+        <section class="page-hero" data-bg="CONTACT">
+            <div class="wrap">
+                <p class="crumb"><a href="index.html">HOME</a> / CONTACT</p>
+                <h1><span class="en glitch" data-text="CONTACT">CONTACT</span><span class="ja">お問い合わせ</span></h1>
+            </div>
+        </section>
 
-        <div class="content-box contact-box">
-            <form action="https://ssgform.com/s/ksv3VlVP7hTt" method="POST" class="contact-form">
-                <div class="form-group">
-                    <label>件名</label>
-                    <input type="text" name="件名" required>
-                </div>
-                <div class="form-group">
-                    <label>名前</label>
-                    <input type="text" name="お名前" required>
-                </div>
-                <div class="form-group">
-                    <label>フリガナ</label>
-                    <input type="text" name="フリガナ">
-                </div>
-                <div class="form-group">
-                    <label>連絡先（メールアドレス）</label>
-                    <input type="email" name="email" required>
-                </div>
-                <div class="form-group">
-                    <label>内容</label>
-                    <textarea name="お問い合わせ内容" rows="5" required></textarea>
-                </div>
-
-                <input type="hidden" name="redirect_to"
-                    value="https://bug-and-lavi-project.com/index.html">
-
-                <p class="form-consent" style="font-size:0.85em; margin:1em 0;">
-                    <a href="privacy.html">プライバシーポリシー</a>に同意のうえ送信してください。
-                </p>
-
-                <button type="submit" class="btn submit-btn">送信する</button>
-            </form>
-        </div>
+        <section class="section" style="padding-top:clamp(20px,4vw,40px)">
+            <div class="wrap narrow">
+                <p class="form-intro reveal">Bug&amp;Lavi Projectへのご意見・ご感想・ご相談などは、以下のフォームよりお送りください。<br>内容によってはお返事までにお時間をいただく場合がございます。</p>
+                <form action="https://ssgform.com/s/ksv3VlVP7hTt" method="POST" class="form reveal">
+                    <div class="field">
+                        <label for="f-subject">件名 <span class="req">REQUIRED</span></label>
+                        <input id="f-subject" type="text" name="件名" required>
+                    </div>
+                    <div class="field">
+                        <label for="f-name">お名前 <span class="req">REQUIRED</span></label>
+                        <input id="f-name" type="text" name="お名前" autocomplete="name" required>
+                    </div>
+                    <div class="field">
+                        <label for="f-kana">フリガナ <span class="opt">OPTIONAL</span></label>
+                        <input id="f-kana" type="text" name="フリガナ">
+                    </div>
+                    <div class="field">
+                        <label for="f-mail">メールアドレス <span class="req">REQUIRED</span></label>
+                        <input id="f-mail" type="email" name="email" autocomplete="email" required>
+                    </div>
+                    <div class="field">
+                        <label for="f-body">お問い合わせ内容 <span class="req">REQUIRED</span></label>
+                        <textarea id="f-body" name="お問い合わせ内容" required></textarea>
+                    </div>
+                    <input type="hidden" name="redirect_to" value="https://bug-and-lavi-project.com/index.html">
+                    <p class="form-consent"><a href="privacy.html">プライバシーポリシー</a>に同意のうえ送信してください。</p>
+                    <button type="submit" class="submit-btn">SEND</button>
+                </form>
+            </div>
+        </section>
     </main>
 
-    <footer id="common-footer"></footer>
+    <footer id="site-footer" class="site-footer"></footer>
 
-    <script>
-        async function loadCommonParts() {
-            const headerRes = await fetch('header.html');
-            const headerHtml = await headerRes.text();
-            document.getElementById('common-header').innerHTML = headerHtml;
-            const footerRes = await fetch('footer.html');
-            const footerHtml = await footerRes.text();
-            document.getElementById('common-footer').innerHTML = footerHtml;
-            setupMenu();
-        }
-
-        function setupMenu() {
-            const menuBtn = document.getElementById('menuBtn');
-            const navMenu = document.getElementById('navMenu');
-            if (menuBtn && navMenu) {
-                menuBtn.addEventListener('click', () => {
-                    menuBtn.classList.toggle('open');
-                    navMenu.classList.toggle('open');
-                });
-                navMenu.querySelectorAll('a').forEach(link => {
-                    link.addEventListener('click', () => {
-                        menuBtn.classList.remove('open');
-                        navMenu.classList.remove('open');
-                    });
-                });
-            }
-        }
-        loadCommonParts();
-    </script>
+    <script src="js/data.js?v=20261001"></script>
+    <script src="js/site.js?v=20261001"></script>
 </body>
 
 </html>
