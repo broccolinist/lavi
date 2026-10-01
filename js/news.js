@@ -6,18 +6,35 @@
    date     … 日付（例：2026.10.01）
    category … INFO ／ MUSIC ／ NOVEL のどれか
    title    … 見出し
-   image    … 画像（なければ ''）
+   image    … 画像（なければ ''。楽曲のお知らせで '' のときは、その作品のジャケットが自動で出る）
    release  … 楽曲のお知らせなら、その作品の名前（MUSIC ページと同じ表記）。配信ボタンが自動で付く。関係なければ ''
    body     … 本文。` ` の間に書く。改行はそのまま改行になる
    ========================================================== */
 const NEWS = [
+  {
+    id: '2026_006', date: '2026.10.01', category: 'MUSIC',
+    title: '『I\'m Not Artist』配信決定',
+    image: 'img/thumb/j_imnotartist.jpg', release: 'I\'m Not Artist',
+    body: `ラヴィ「新しいアルバム『I'm Not Artist』、2026.10.10に配信リリースが決まったよ。
+ラヴィはアーティストじゃないけど、それでも歌いたいことを詰めこんだよ。
+ちょっとドキドキしてるけど、聴いてくれたら嬉しいな(〃ω〃)」`
+  },
+  {
+    id: '2026_005', date: '2026.10.01', category: 'INFO',
+    title: 'LINEスタンプ販売中',
+    image: '', release: '',
+    body: `ラヴィ「ラヴィのLINEスタンプ、販売中だよ。
+いつものやりとりに、ラヴィをこっそり混ぜてみてね。
+きみのトークにお邪魔できたら、ちょっと嬉しいな(￣▽￣)」
+<a href="https://line.me/S/sticker/36583304" target="_blank" rel="noopener">LINE STOREで見る</a>`
+  },
   {
     id: '2026_004', date: '2026.08.06', category: 'NOVEL',
     title: '「小説家になろう」にてノベル連載開始',
     image: 'img/thumb/novel_start.jpg', release: '',
     body: `ラヴィ「いよいよ、ノベル『ばぐらび！ from Bug&Lavi Project』が「小説家になろう」で連載スタートしたよ。
 少しずつ更新していく予定だから、ぜひチェックしてみてね(・ω・)」
-<a href="https://ncode.syosetu.com/n3901mo/" target="_blank">小説家になろうで読む</a>`
+<a href="https://ncode.syosetu.com/n3901mo/" target="_blank" rel="noopener">小説家になろうで読む</a>`
   },
   {
     id: '2026_003', date: '2026.07.18', category: 'MUSIC',

@@ -294,7 +294,9 @@ async function loadNews(limit) {
   return list.map(n => {
     const r = n.release && RELEASES.find(x => newsKey(x.title) === newsKey(n.release));
     const links = r ? `<div class="stream-list">${streamButtons(r)}</div>` : '';
-    return { ...n, category: n.category || 'INFO', body: `<p>${n.body.trim().replace(/\n/g, '<br>')}</p>${links}` };
+    // 楽曲の記事で画像が空なら、その作品のジャケットを自動で使う
+    const image = n.image || (r && r.jacket) || '';
+    return { ...n, image, category: n.category || 'INFO', body: `<p>${n.body.trim().replace(/\n/g, '<br>')}</p>${links}` };
   });
 }
 
