@@ -1,5 +1,5 @@
-# 毎日、YouTube の最新の横動画3本を js/videos.json に反映する
-name: Update latest videos
+# 毎日、YouTube の最新の横動画3本（js/videos.json）と、リリースタブの作品一覧（js/releases.json）を更新する
+name: Update latest videos and releases
 
 on:
   schedule:
@@ -18,14 +18,15 @@ jobs:
         with:
           python-version: "3.12"
       - run: python scripts/update_videos.py
+      - run: python scripts/update_releases.py
       - name: Commit if changed
         run: |
-          if git diff --quiet js/videos.json; then
+          if git diff --quiet js/videos.json js/releases.json; then
             echo "変更なし"
           else
             git config user.name "github-actions[bot]"
             git config user.email "41898799+github-actions[bot]@users.noreply.github.com"
-            git add js/videos.json
-            git commit -m "最新の動画を更新"
+            git add js/videos.json js/releases.json
+            git commit -m "最新の動画・楽曲を更新"
             git push
           fi

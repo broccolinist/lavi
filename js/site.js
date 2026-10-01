@@ -262,23 +262,33 @@ function setupReleaseModal() {
   if (hash && RELEASES.some(r => r.id === hash)) open(hash);
 }
 
-/* ---------- ニュース記事の読み込み ---------- */
+/* ---------- 楽曲データの読み込み ----------
+   js/releases.json（GitHub Actions が毎日 YouTube のリリースタブと Apple Music から更新）に、
+   data.js の RELEASES に手で書いた情報（Spotify のリンクなど）を上書きで重ねる。
+   読めなければ data.js の RELEASES をそのまま使う */
+async function loadReleases() {
+  try {
+    const res = await fetch(`js/releases.json?t=${Date.now()}`);
+    if (!res.ok) return;
+    const auto = await res.json();
+    const appleId = url => (url || '').match(/(\d+)\/?$/)?.[1];
+    const manual = a => RELEASES.find(m => appleId(m.apple) && appleId(m.apple) === appleId(a.apple))
+      || RELEASES.find(m => newsKey(m.title) === newsKey(a.title)) || {};
+    if (auto.length) RELEASES = auto.map(a => ({ ...a, ...manual(a) }));
+  } catch { /* 予備の RELEASES を使う */ }
+}
+
+/* ---------- ニュース（js/news.js） ---------- */
+// 作品名の表記ゆれ（全角・半角、記号、大文字小文字）を無視して比べる
+function newsKey(s) { return (s || '').normalize('NFKC').toLowerCase().replace(/[^\p{L}\p{N}]/gu, ''); }
+
 async function loadNews(limit) {
-  const files = limit ? NEWS_FILES.slice(0, limit) : NEWS_FILES;
-  const items = await Promise.all(files.map(async file => {
-    try {
-      const res = await fetch(file);
-      if (!res.ok) return null;
-      const doc = new DOMParser().parseFromString(await res.text(), 'text/html');
-      const d = doc.querySelector('.news-article-data');
-      if (!d) return null;
-      return {
-        file, date: d.dataset.date || '', category: d.dataset.category || 'INFO',
-        title: d.dataset.title || '', image: d.dataset.image || '', body: d.innerHTML
-      };
-    } catch { return null; }
-  }));
-  return items.filter(Boolean);
+  const list = limit ? NEWS.slice(0, limit) : NEWS;
+  return list.map(n => {
+    const r = n.release && RELEASES.find(x => newsKey(x.title) === newsKey(n.release));
+    const links = r ? `<div class="stream-list">${streamButtons(r)}</div>` : '';
+    return { ...n, category: n.category || 'INFO', body: `<p>${n.body.trim().replace(/\n/g, '<br>')}</p>${links}` };
+  });
 }
 
 function isNew(date) {
@@ -413,12 +423,13 @@ function setupImageGuard() {
 }
 
 /* ---------- 起動 ---------- */
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
   renderHeader();
   renderFooter();
   setupParticles();
   setupTabWhisper();
   setupImageGuard();
+  await loadReleases();
   if (document.querySelector('[data-release], [data-has-releases]')) setupReleaseModal();
   requestAnimationFrame(() => document.body.classList.add('is-loaded'));
   // ページごとの処理（各ページで window.pageInit を定義）

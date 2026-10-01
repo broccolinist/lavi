@@ -1,0 +1,6 @@
+﻿# クラウド同期ソフトが自動で作るファイル
+desktop.ini
+.tmp.driveupload/
+
+# 手元で表示確認するための設定
+docker-compose.yml

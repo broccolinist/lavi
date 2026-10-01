@@ -34,7 +34,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800&family=DotGothic16&family=Zen+Maru+Gothic:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="style.css?v=20261001t">
+    <link rel="stylesheet" href="style.css?v=20261001v">
 </head>
 
 <body class="home" data-has-releases>
@@ -136,8 +136,9 @@
 
     <footer id="site-footer" class="site-footer"></footer>
 
-    <script src="js/data.js?v=20261001t"></script>
-    <script src="js/site.js?v=20261001t"></script>
+    <script src="js/data.js?v=20261001v"></script>
+    <script src="js/news.js?v=20261001v"></script>
+    <script src="js/site.js?v=20261001v"></script>
     <script>
         window.pageInit = async () => {
             const latest = RELEASES[0];
@@ -192,7 +193,7 @@
             const top = news[0];
             const recent = (Date.now() - new Date(latest.date.replace(/\./g, '-'))) / 86400000 <= 60;
             document.getElementById('gate').innerHTML = `
-                ${top ? `<a class="gate-card is-news" href="news.html#${top.file.split('/').pop().replace('.html', '')}">
+                ${top ? `<a class="gate-card is-news" href="news.html#${top.id}">
                     <span class="gate-icon"><i class="fas fa-satellite-dish"></i></span>
                     <span class="gate-text"><span class="gate-label">LATEST NEWS</span><span class="gate-title">${esc(top.title)}</span><span class="gate-sub">${top.date}</span></span>
                     <i class="fas fa-chevron-right gate-go"></i></a>` : ''}
@@ -208,7 +209,7 @@
 
             setupPresence();
             document.getElementById('home-news').innerHTML = news.map(n => `
-                <li><a class="news-row" href="news.html#${n.file.split('/').pop().replace('.html', '')}">
+                <li><a class="news-row" href="news.html#${n.id}">
                     <span class="date">${n.date}</span>
                     <span class="cat cat-${n.category}">${n.category}</span>
                     <span class="title">${esc(n.title)}${isNew(n.date) ? '<span class="badge-new">NEW</span>' : ''}</span>
