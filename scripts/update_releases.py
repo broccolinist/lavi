@@ -1,19 +1,21 @@
-"""YouTube のリリースタブにある作品を js/releases.json に書き出す。
+"""Apple Music の作品一覧から js/releases.json を作る（自動で読み取ってよい公開の窓口だけを使う）。
 
-- 作品の一覧・曲数・YouTube のリンク … YouTube のリリースタブ（サイトの MUSIC の「正」）
-- 発売日・Apple Music のリンク・ジャケット … Apple の公開検索API（作品名で照らし合わせる）
-- Spotify のリンクや別表記などは js/data.js の RELEASES に手で書いたものが優先される（サイト側で合体）
+- 作品名・発売日・曲数・Apple Music のリンク・ジャケット … Apple の公開検索API
+- YouTube のリンク … YouTube の公開フィード（最新15本）から、作品名を含む動画を探す。
+  見つからなければ前回の値を残す。古い作品は js/data.js の RELEASES に手で書いた値が優先される
+- Spotify のリンクや別表記なども js/data.js の RELEASES に手で書いたものが優先される（サイト側で合体）
+※ YouTube のページ（リリースタブ）を直接読み取る方法は、YouTube の利用規約（自動での読み取りの禁止）に触れるため使わない
 
 使い方：python scripts/update_releases.py
 GitHub Actions（.github/workflows/update-videos.yml）が毎日自動で実行する。
 追加のライブラリは不要（Python 標準機能のみ）。
 """
-import datetime
 import json
 import pathlib
 import re
 import unicodedata
 import urllib.request
+import xml.etree.ElementTree as ET
 
 CHANNEL_ID = "UCnoHBENdYJj2_YojBdk1QTQ"  # Lavi AI singer-songwriter
 APPLE_ARTIST_ID = "1851121558"
@@ -33,29 +35,15 @@ def key(name):
     return re.sub(r"[\W_]", "", name)
 
 
-def youtube_releases():
-    html = fetch(f"https://www.youtube.com/channel/{CHANNEL_ID}/releases")
-    m = re.search(r"var ytInitialData = (\{.*?\});</script>", html)
-    if not m:
-        raise SystemExit("YouTube のページ構成が変わったため読めませんでした。既存のファイルを残します")
-    found = []
-
-    def walk(o):
-        if isinstance(o, dict):
-            if "playlistRenderer" in o:
-                found.append(o["playlistRenderer"])
-            for v in o.values():
-                walk(v)
-        elif isinstance(o, list):
-            for v in o:
-                walk(v)
-
-    walk(json.loads(m.group(1)))
-    return [{
-        "title": p["title"]["simpleText"],
-        "tracks": int(p.get("videoCount") or 1),
-        "youtube": p["navigationEndpoint"]["watchEndpoint"]["videoId"],
-    } for p in found]
+def youtube_feed():
+    """公開フィードの動画（ショート除く）を [(タイトルの比較用の名前, 動画ID)] で返す"""
+    ns = {"a": "http://www.w3.org/2005/Atom", "yt": "http://www.youtube.com/xml/schemas/2015"}
+    try:
+        root = ET.fromstring(fetch(f"https://www.youtube.com/feeds/videos.xml?channel_id={CHANNEL_ID}"))
+    except Exception:
+        return []
+    return [(key(e.find("a:title", ns).text), e.find("yt:videoId", ns).text)
+            for e in root.findall("a:entry", ns) if "/shorts/" not in e.find("a:link", ns).get("href", "")]
 
 
 def apple_albums():
@@ -64,8 +52,9 @@ def apple_albums():
     for r in data["results"]:
         if r.get("wrapperType") != "collection":
             continue
-        albums[key(r["collectionName"])] = {
-            "appleId": str(r["collectionId"]),
+        albums[str(r["collectionId"])] = {
+            "title": re.sub(r"\s-\s(Single|EP)$", "", r["collectionName"]),
+            "tracks": r.get("trackCount", 1),
             "date": r["releaseDate"][:10].replace("-", "."),
             "apple": r["collectionViewUrl"].split("?")[0],
             "jacket": r["artworkUrl100"].replace("100x100bb", "600x600bb"),
@@ -74,28 +63,28 @@ def apple_albums():
 
 
 def main():
-    items = youtube_releases()
-    if not items:
+    albums = apple_albums()
+    if not albums:
         raise SystemExit("作品が1つも取得できなかったため、既存のファイルを残します")
-    apple = apple_albums()
+    feed = youtube_feed()
 
-    # Apple にまだ出ていない作品は、前回の日付（なければ今日）を使う
     old = {}
     if OUT.exists():
-        old = {r["youtube"]: r for r in json.loads(OUT.read_text(encoding="utf-8"))}
-    today = datetime.date.today().strftime("%Y.%m.%d")
+        old = {r["id"]: r for r in json.loads(OUT.read_text(encoding="utf-8"))}
 
     releases = []
-    for it in items:
-        a = apple.get(key(it["title"]), {})
+    for apple_id, a in albums.items():
+        rid = "a" + apple_id
+        k = key(a["title"])
+        found = next((vid for title, vid in feed if k and k in title), "")
         releases.append({
-            "id": "a" + a["appleId"] if a else "y" + it["youtube"],
-            "title": it["title"],
-            "date": a.get("date") or old.get(it["youtube"], {}).get("date") or today,
-            "tracks": it["tracks"],
-            "jacket": a.get("jacket") or f"https://i.ytimg.com/vi/{it['youtube']}/hqdefault.jpg",
-            "apple": a.get("apple", ""),
-            "youtube": it["youtube"],
+            "id": rid,
+            "title": a["title"],
+            "date": a["date"],
+            "tracks": a["tracks"],
+            "jacket": a["jacket"],
+            "apple": a["apple"],
+            "youtube": found or old.get(rid, {}).get("youtube", ""),
         })
     releases.sort(key=lambda r: r["date"], reverse=True)
 

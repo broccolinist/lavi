@@ -8,7 +8,7 @@
 
     <!-- SEO / favicon -->
     <meta name="description" content="うさぎのキャラクター“ラヴィ”を中心に、音楽・ノベル・ゲーム・グッズを展開するBug&Lavi Projectの公式サイト。データの中に住む存在、ラヴィの世界へ。">
-    <meta name="keywords" content="Bug&Lavi Project, Bug&Lavi, ばぐらび, バグラビ, ばぐらびっ, ラヴィ, Lavi AI Singer-songwriter">
+    <meta name="keywords" content="Bug&Lavi Project, Bug&Lavi, ばぐらび, バグラビ, ばぐらびっ, ラヴィ, Lavi AI singer-songwriter">
     <meta name="theme-color" content="#080b1c">
     <link rel="canonical" href="https://bug-and-lavi-project.com/">
     <link rel="icon" href="img/logo/favicon-32.png" sizes="32x32">
@@ -34,7 +34,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800&family=DotGothic16&family=Zen+Maru+Gothic:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="style.css?v=20261001v">
+    <link rel="stylesheet" href="style.css?v=20261001x">
 </head>
 
 <body class="home" data-has-releases>
@@ -126,7 +126,7 @@
             <div class="wrap">
                 <div class="section-head reveal">
                     <h2 class="section-title"><span class="num">04</span><span class="en">VIDEO</span><span class="ja">動画</span></h2>
-                    <a href="https://www.youtube.com/@LaviAIsinger-songwriter" target="_blank" rel="noopener" class="more-link">YOUTUBE <i class="fab fa-youtube"></i></a>
+                    <a href="https://www.youtube.com/@LaviAIsinger-songwriter" target="_blank" rel="noopener" class="more-link">YOUTUBE <img class="brand-icon is-wide" src="img/brand/youtube-icon-white.png" alt="" style="display:inline-block;vertical-align:-2px"></a>
                 </div>
                 <div class="video-grid reveal" id="home-videos"></div>
             </div>
@@ -136,9 +136,9 @@
 
     <footer id="site-footer" class="site-footer"></footer>
 
-    <script src="js/data.js?v=20261001v"></script>
-    <script src="js/news.js?v=20261001v"></script>
-    <script src="js/site.js?v=20261001v"></script>
+    <script src="js/data.js?v=20261001x"></script>
+    <script src="js/news.js?v=20261001x"></script>
+    <script src="js/site.js?v=20261001x"></script>
     <script>
         window.pageInit = async () => {
             const latest = RELEASES[0];
@@ -159,7 +159,7 @@
                 <div class="feature-info">
                     <span class="label">LATEST RELEASE</span>
                     <h3>${esc(latest.title)}</h3>
-                    <p class="meta">${latest.date} Release ／ Lavi AI Singer-songwriter</p>
+                    <p class="meta">${latest.date} Release ／ Lavi AI singer-songwriter</p>
                     <div class="stream-list">${streamButtons(latest)}</div>
                     <button class="more-link" data-release="${latest.id}">DETAIL <i class="fas fa-arrow-right"></i></button>
                 </div>`;
@@ -177,7 +177,7 @@
                 <a class="video-card" href="https://youtu.be/${v.id}" data-yt="${v.id}" target="_blank" rel="noopener">
                     <img src="https://i.ytimg.com/vi/${v.id}/${i === 0 ? 'maxresdefault' : 'hqdefault'}.jpg" alt="${esc(v.title)}" loading="lazy"
                         onload="if (this.naturalWidth <= 120 && !this.dataset.fb) { this.dataset.fb = 1; this.src = 'https://i.ytimg.com/vi/${v.id}/hqdefault.jpg'; }">
-                    <span class="cap"><i class="fab fa-youtube"></i><span class="cap-text">${esc(v.title)}${v.published ? `<small>${v.published}</small>` : ''}</span></span>
+                    <span class="cap"><img class="brand-icon is-wide" src="img/brand/youtube-icon-white.png" alt=""><span class="cap-text">${esc(v.title)}${v.published ? `<small>${v.published}</small>` : ''}</span></span>
                 </a>`).join('');
             document.getElementById('home-videos').addEventListener('click', e => {
                 const a = e.target.closest('.video-card');

@@ -1,4 +1,4 @@
-# 毎日、YouTube の最新の横動画3本（js/videos.json）と、リリースタブの作品一覧（js/releases.json）を更新する
+# 毎日、YouTube の最新の横動画3本（js/videos.json）と、Apple Music の作品一覧（js/releases.json）を更新する
 name: Update latest videos and releases
 
 on:

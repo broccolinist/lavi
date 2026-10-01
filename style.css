@@ -192,6 +192,28 @@ html.menu-open, .menu-open body { overflow: hidden; }
 .stream-btn:hover { transform: translateY(-2px); }
 .stream-btn.is-spotify:hover { background: #1db954; border-color: #1db954; color: #000; }
 .stream-btn.is-apple:hover { background: #fa2d48; border-color: #fa2d48; }
+/* Apple Music：公式のアイコン・バッジだけを使う（形や色は変えない。バッジは高さ30px以上、周りに余白） */
+.brand-icon { width: 1em; height: 1em; display: block; }
+.stream-btn .brand-icon { width: 17px; height: 17px; }
+.footer-sns a:hover .brand-icon, .drawer-sns a:hover .brand-icon { filter: brightness(0); }
+.am-badge { display: inline-flex; align-items: center; margin: 2px 4px; transition: transform .4s var(--ease); }
+.am-badge img { height: 40px; width: auto; display: block; }
+.am-badge:hover { transform: translateY(-2px); }
+/* Spotify・YouTube：Apple のバッジと同じ体裁（黒地・灰色の細い枠・高さ40px）。アイコンは公式のカラー、周りに余白（Spotify はアイコンの高さの半分以上） */
+.listen-badge {
+  display: inline-flex; align-items: center; gap: 11px; height: 40px; margin: 2px 4px; padding: 0 14px 0 11px;
+  background: #000; border: 1px solid #a6a6a6; border-radius: 7px; color: #fff;
+  font-family: -apple-system, "Helvetica Neue", "Hiragino Sans", "Noto Sans JP", sans-serif; transition: transform .4s var(--ease);
+}
+.listen-badge:hover { transform: translateY(-2px); }
+.lb-icon { width: 22px; height: 22px; display: block; }
+.lb-icon.is-wide { width: 26px; height: auto; }
+.lb-text { display: flex; flex-direction: column; line-height: 1.05; text-align: left; }
+.lb-text b { font-size: 15px; font-weight: 600; letter-spacing: 0; }
+.lb-text small { font-size: 9.5px; letter-spacing: .04em; margin-top: 2px; }
+.brand-icon.is-wide { width: 1.2em; height: auto; }
+.stream-btn .brand-icon.is-wide { width: 20px; height: auto; }
+.footer-nav a i { font-size: .8em; margin-left: 2px; }
 .stream-btn.is-youtube:hover { background: #ff0000; border-color: #ff0000; }
 
 /* ==========================================================
@@ -520,8 +542,7 @@ html.menu-open, .menu-open body { overflow: hidden; }
 .video-card::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to top, rgba(8, 11, 28, .85), transparent 55%); }
 .video-card:hover img { transform: scale(1.05); }
 .video-card .cap { position: absolute; left: 20px; bottom: 16px; z-index: 1; font-family: var(--f-en); font-size: 13px; letter-spacing: .15em; display: flex; align-items: center; gap: 12px; }
-.video-card .cap i { font-size: 26px; color: #fff; transition: color .3s; }
-.video-card:hover .cap i { color: #ff0000; }
+.video-card .cap .brand-icon { width: 30px; flex: none; }
 .video-card iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; z-index: 2; }
 @media (max-width: 760px) {
   .video-grid { grid-template-columns: 1fr 1fr; grid-template-rows: auto; }
@@ -659,7 +680,7 @@ html.menu-open, .menu-open body { overflow: hidden; }
 .news-article .meta .date { font-family: var(--f-mono); font-size: 13px; color: var(--mute); }
 .news-article h2 { font-size: clamp(18px, 2vw, 22px); line-height: 1.6; margin: 0 0 18px; }
 .news-article .body p { margin: 0 0 1em; }
-.news-article .body a:not(.stream-btn) { color: var(--sky); border-bottom: 1px solid currentColor; }
+.news-article .body a:not(.stream-btn):not(.am-badge):not(.listen-badge) { color: var(--sky); border-bottom: 1px solid currentColor; }
 .news-article .body .streaming-links { display: flex; flex-wrap: wrap; gap: 10px; }
 .news-article .body .streaming-links a {
   display: inline-flex; align-items: center; gap: 10px; padding: 9px 18px; border-radius: 999px; font-size: 13px; font-weight: 700;
@@ -920,3 +941,7 @@ img { -webkit-user-drag: none; user-select: none; -webkit-user-select: none; -we
 .game-info { padding: 22px 24px 26px; display: flex; flex-direction: column; gap: 14px; flex: 1; align-items: flex-start; }
 .game-title { margin: 0; font-size: 17px; line-height: 1.5; }
 .game-info p { margin: 0; color: var(--mute); font-size: 14px; line-height: 1.9; flex: 1; }
+
+.form-recaptcha { font-size: 11px; color: var(--mute); line-height: 1.8; margin: 18px 0 0; }
+.form-recaptcha a { color: var(--sky); }
+.grecaptcha-badge { visibility: hidden; } /* 右下の reCAPTCHA マークは、フォーム下の文で代替（Google が認める方法） */

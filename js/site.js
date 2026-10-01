@@ -13,9 +13,10 @@ const NAV = [
 ];
 
 const ICON = {
-  spotify: '<i class="fab fa-spotify"></i>',
-  apple: '<i class="fab fa-apple"></i>',
-  youtube: '<i class="fab fa-youtube"></i>',
+  // 配信サービスのマークは各社の公式素材だけを使う（形・色を変えない）→ Knowledge/apple-music-badge-guidelines
+  spotify: '<img class="brand-icon" src="img/brand/spotify-icon-white.svg" alt="">',
+  apple: '<img class="brand-icon" src="img/brand/apple-music-icon-white.svg" alt="">',
+  youtube: '<img class="brand-icon is-wide" src="img/brand/youtube-icon-white.png" alt="">',
   ext: '<i class="fas fa-arrow-up-right-from-square"></i>',
   arrow: '<i class="fas fa-arrow-right"></i>'
 };
@@ -86,7 +87,7 @@ function renderFooter() {
         <p class="footer-copy" aria-live="polite">データの中に住む存在、ラヴィの世界へ。</p>
       </div>
       <ul class="footer-nav">
-        ${NAV.map(n => `<li><a href="${n.href}" ${n.ext ? 'target="_blank" rel="noopener"' : ''}>${n.en}</a></li>`).join('')}
+        ${NAV.map(n => `<li><a href="${n.href}" ${n.ext ? 'target="_blank" rel="noopener"' : ''}>${n.en}${n.ext ? ' ' + ICON.ext : ''}</a></li>`).join('')}
         <li><a href="privacy.html">PRIVACY POLICY</a></li>
       </ul>
       <div class="footer-sns">${snsLinks()}</div>
@@ -208,11 +209,18 @@ function releaseCard(r, i = 0) {
     </button>`;
 }
 
+// 配信ボタン：Apple は公式バッジ。Spotify・YouTube は公式アイコン（カラー）を黒地に置き、Apple のバッジと体裁をそろえる
+const BADGE = {
+  spotify: url => `<a class="listen-badge" href="${url}" target="_blank" rel="noopener"><img src="img/brand/spotify-icon-green.svg" alt="" class="lb-icon"><span class="lb-text"><b>Spotify</b><small>で聴く</small></span></a>`,
+  apple: url => `<a class="am-badge" href="${url}" target="_blank" rel="noopener"><img src="img/brand/apple-music-badge-ja.svg" alt="Apple Music で聴く" width="140" height="40"></a>`,
+  youtube: url => `<a class="listen-badge" href="${url}" target="_blank" rel="noopener"><img src="img/brand/youtube-icon-red.png" alt="" class="lb-icon is-wide"><span class="lb-text"><b>YouTube</b><small>で聴く</small></span></a>`
+};
+
 function streamButtons(r) {
   return `
-    ${r.spotify ? `<a class="stream-btn is-spotify" href="${r.spotify}" target="_blank" rel="noopener">${ICON.spotify}<span>Spotify</span></a>` : ''}
-    ${r.apple ? `<a class="stream-btn is-apple" href="${r.apple}" target="_blank" rel="noopener">${ICON.apple}<span>Apple Music</span></a>` : ''}
-    ${r.youtube ? `<a class="stream-btn is-youtube" href="https://youtu.be/${r.youtube}" target="_blank" rel="noopener">${ICON.youtube}<span>YouTube</span></a>` : ''}`;
+    ${r.spotify ? BADGE.spotify(r.spotify) : ''}
+    ${r.apple ? BADGE.apple(r.apple) : ''}
+    ${r.youtube ? BADGE.youtube(`https://youtu.be/${r.youtube}`) : ''}`;
 }
 
 /* ---------- 楽曲モーダル ---------- */
@@ -234,9 +242,8 @@ function setupReleaseModal() {
         <p class="modal-label">${r.date} Release ／ ${r.tracks}曲</p>
         <h2 class="modal-title">${esc(r.title)}</h2>
         ${r.sub ? `<p class="modal-sub">${esc(r.sub)}</p>` : ''}
-        <p class="modal-artist">Lavi AI Singer-songwriter</p>
+        <p class="modal-artist">Lavi AI singer-songwriter</p>
         <div class="stream-list">${streamButtons(r)}</div>
-        ${r.youtube ? `<div class="modal-video"><button class="yt-lite" data-yt="${r.youtube}" style="background-image:url('https://i.ytimg.com/vi/${r.youtube}/hqdefault.jpg')" aria-label="動画を再生"><i class="fab fa-youtube"></i></button></div>` : ''}
       </div>`;
     modal.classList.add('is-open');
     document.body.classList.add('modal-lock');
@@ -263,7 +270,7 @@ function setupReleaseModal() {
 }
 
 /* ---------- 楽曲データの読み込み ----------
-   js/releases.json（GitHub Actions が毎日 YouTube のリリースタブと Apple Music から更新）に、
+   js/releases.json（GitHub Actions が毎日 Apple Music と YouTube の公開フィードから更新）に、
    data.js の RELEASES に手で書いた情報（Spotify のリンクなど）を上書きで重ねる。
    読めなければ data.js の RELEASES をそのまま使う */
 async function loadReleases() {

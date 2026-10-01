@@ -24,7 +24,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800&family=DotGothic16&family=Zen+Maru+Gothic:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="style.css?v=20261001v">
+    <link rel="stylesheet" href="style.css?v=20261001x">
 </head>
 
 <body>
@@ -63,8 +63,10 @@
                         <textarea id="f-body" name="お問い合わせ内容" required></textarea>
                     </div>
                     <input type="hidden" name="redirect_to" value="https://bug-and-lavi-project.com/index.html">
+                    <input type="hidden" name="g-recaptcha-response" id="g-recaptcha-response">
                     <p class="form-consent"><a href="privacy.html">プライバシーポリシー</a>に同意のうえ送信してください。</p>
                     <button type="submit" class="submit-btn">SEND</button>
+                    <p class="form-recaptcha" hidden>このフォームは reCAPTCHA で保護されており、Google の<a href="https://policies.google.com/privacy?hl=ja" target="_blank" rel="noopener">プライバシーポリシー</a>と<a href="https://policies.google.com/terms?hl=ja" target="_blank" rel="noopener">利用規約</a>が適用されます。</p>
                 </form>
             </div>
         </section>
@@ -72,9 +74,32 @@
 
     <footer id="site-footer" class="site-footer"></footer>
 
-    <script src="js/data.js?v=20261001v"></script>
-    <script src="js/news.js?v=20261001v"></script>
-    <script src="js/site.js?v=20261001v"></script>
+    <script src="js/data.js?v=20261001x"></script>
+    <script src="js/news.js?v=20261001x"></script>
+    <script src="js/site.js?v=20261001x"></script>
+    <script>
+        /* 迷惑メール対策：Google reCAPTCHA v3
+           1. https://www.google.com/recaptcha/admin で v3 を登録（ドメイン：bug-and-lavi-project.com）
+           2. 表示された「シークレットキー」を SSGform のフォーム設定（reCAPTCHA）に入力
+           3. 「サイトキー」を下の RECAPTCHA_SITE_KEY に貼る
+           空欄のあいだは reCAPTCHA なしで、今までどおり送信される */
+        const RECAPTCHA_SITE_KEY = '6Ldgz9gtAAAAAELkMetCu_E7EcZ9BmT0rtNmM1zo';
+        if (RECAPTCHA_SITE_KEY) {
+            const s = document.createElement('script');
+            s.src = `https://www.google.com/recaptcha/api.js?render=${RECAPTCHA_SITE_KEY}`;
+            document.head.appendChild(s);
+            document.querySelector('.form-recaptcha').hidden = false;
+            const form = document.querySelector('form.form');
+            form.addEventListener('submit', e => {
+                e.preventDefault();
+                if (!form.reportValidity()) return;
+                grecaptcha.ready(() => grecaptcha.execute(RECAPTCHA_SITE_KEY, { action: 'submit' }).then(token => {
+                    document.getElementById('g-recaptcha-response').value = token;
+                    form.submit();
+                }));
+            });
+        }
+    </script>
 </body>
 
 </html>
