@@ -115,10 +115,12 @@ body::after {
   display: flex; flex-direction: column; justify-content: center; padding: var(--header-h) var(--pad) 24px; overflow-y: auto;
   visibility: hidden; opacity: 0; transition: opacity .5s var(--ease), visibility .5s;
 }
-.drawer-bg { position: absolute; inset: 0; background: rgba(8, 11, 28, .96); backdrop-filter: blur(18px); z-index: -1; }
+/* すりガラス効果（backdrop-filter）は、スマホで画面全体に使うと描画に失敗して真っ黒になることがあるため使わない */
+.drawer-bg { position: absolute; inset: 0; background: rgba(8, 11, 28, .98); z-index: -1; }
 .drawer ul { list-style: none; margin: 0; padding: 0; }
-.drawer li { overflow: hidden; border-bottom: 1px solid var(--line); }
-.drawer a { display: flex; align-items: baseline; justify-content: space-between; padding: 16px 0; transform: translateY(100%); transition: transform .7s var(--ease); }
+.drawer li { border-bottom: 1px solid var(--line); }
+/* 文字は隠さず、少し下から浮き上がるだけにする（スマホで動きが止まっても、メニューが見えなくならないように） */
+.drawer a { display: flex; align-items: baseline; justify-content: space-between; padding: 16px 0; transform: translateY(14px); transition: transform .7s var(--ease); }
 .drawer .en { font-family: var(--f-en); font-size: clamp(24px, 7vw, 34px); font-weight: 600; letter-spacing: .06em; }
 .drawer .en i { font-size: .4em; vertical-align: .6em; opacity: .6; }
 .drawer .ja { font-size: 12px; color: var(--mute); }
@@ -477,7 +479,9 @@ html.menu-open, .menu-open body { overflow: hidden; }
 .release-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: clamp(20px, 3vw, 40px) clamp(16px, 2.4vw, 32px); }
 .release-scroller {
   display: grid; grid-auto-flow: column; grid-auto-columns: clamp(180px, 22vw, 260px); gap: clamp(16px, 2.4vw, 32px);
-  overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 24px;
+  /* overflow-y: hidden … カードの登場アニメーション（下から浮き上がる）の分だけ縦にも動いてしまうのを防ぐ
+     overscroll-behavior-x … 端まで行ったときにページごと引っぱられないようにする */
+  overflow-x: auto; overflow-y: hidden; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; padding-bottom: 24px;
   scrollbar-width: thin; scrollbar-color: var(--ink-3) transparent;
 }
 .release-scroller > * { scroll-snap-align: start; }
@@ -535,21 +539,32 @@ html.menu-open, .menu-open body { overflow: hidden; }
    TOP：VIDEO
    ========================================================== */
 .video-grid { display: grid; grid-template-columns: 2fr 1fr; grid-template-rows: 1fr 1fr; gap: 20px; }
-.video-grid > :first-child { grid-row: 1 / 3; }
+.video-grid > .is-main { grid-row: 1 / 3; }
 .video-card { position: relative; display: block; overflow: hidden; border-radius: 6px; aspect-ratio: 16 / 9; background: var(--ink-2); }
-.video-grid > :not(:first-child) { aspect-ratio: auto; }
-.video-card img { width: 100%; height: 100%; object-fit: cover; transition: transform 1s var(--ease); }
+.video-grid > :not(.is-main) { aspect-ratio: auto; }
+/* サムネイルは枠に合わせて敷くだけにする（画像の元の縦横比で、枠の高さが変わってしまうのを防ぐ） */
+.video-card > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 1s var(--ease); }
 .video-card::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to top, rgba(8, 11, 28, .85), transparent 55%); }
-.video-card:hover img { transform: scale(1.05); }
+.video-card:hover > img { transform: scale(1.05); }
 .video-card .cap { position: absolute; left: 20px; bottom: 16px; z-index: 1; font-family: var(--f-en); font-size: 13px; letter-spacing: .15em; display: flex; align-items: center; gap: 12px; }
 .video-card .cap .brand-icon { width: 30px; flex: none; }
 .video-card iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; z-index: 2; }
+@media (min-width: 761px) { .video-card.is-clone { display: none; } }  /* 写しはスマホの回転式だけで使う */
 @media (max-width: 760px) {
-  .video-grid { grid-template-columns: 1fr 1fr; grid-template-rows: auto; }
-  .video-grid > :first-child { grid-column: 1 / -1; grid-row: auto; }
-  .video-grid > :not(:first-child) { aspect-ratio: 16 / 9; }
+  /* スマホは回転式の横スクロール。真ん中の1本を大きく見せ、両端に前後の動画を薄くのぞかせる
+     （2本を横に並べると、YouTube のプレーヤーが小さすぎて再生できないため） */
+  .video-grid {
+    display: flex; gap: 12px; margin-inline: calc(var(--pad) * -1); padding-inline: 9vw;
+    overflow-x: auto; overflow-y: hidden; overscroll-behavior-x: contain; scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+  }
+  .video-grid::-webkit-scrollbar { display: none; }
+  .video-grid > .video-card {
+    flex: 0 0 82vw; aspect-ratio: 16 / 9; scroll-snap-align: center;
+    opacity: .4; transform: scale(.94); transition: opacity .4s var(--ease), transform .4s var(--ease);
+  }
+  .video-grid > .video-card.is-active { opacity: 1; transform: none; }
   .video-card .cap { left: 12px; bottom: 8px; font-size: 11px; }
-  .video-card .cap i { font-size: 20px; }
 }
 
 
@@ -928,7 +943,7 @@ img { -webkit-user-drag: none; user-select: none; -webkit-user-select: none; -we
 .video-card .cap-text { display: flex; flex-direction: column; min-width: 0; line-height: 1.5; }
 .video-card .cap-text { overflow: hidden; text-overflow: ellipsis; }
 .video-card .cap-text small { font-family: var(--f-mono); font-weight: 400; font-size: 11px; color: var(--mute); letter-spacing: .1em; }
-.video-grid > :not(:first-child) .cap { font-size: 12.5px; }
+.video-grid > :not(.is-main) .cap { font-size: 12.5px; }
 
 /* ---- フッターのキャッチコピーがラヴィの言葉に変わるとき ---- */
 .footer-copy { min-height: 1.8em; transition: color .4s; }

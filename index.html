@@ -35,7 +35,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800&family=DotGothic16&family=Zen+Maru+Gothic:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="style.css?v=20261001y">
+    <link rel="stylesheet" href="style.css?v=20261002c">
 </head>
 
 <body class="home" data-has-releases>
@@ -137,10 +137,39 @@
 
     <footer id="site-footer" class="site-footer"></footer>
 
-    <script src="js/data.js?v=20261001y"></script>
-    <script src="js/news.js?v=20261001y"></script>
-    <script src="js/site.js?v=20261001y"></script>
+    <script src="js/data.js?v=20261002c"></script>
+    <script src="js/news.js?v=20261002c"></script>
+    <script src="js/site.js?v=20261002c"></script>
     <script>
+        // スマホ用：動画の回転式の横スクロール。真ん中の1本がはっきり見え、両端に前後の動画が薄く見える
+        function setupVideoCarousel(grid, count) {
+            const cards = [...grid.children];
+            const mq = matchMedia('(max-width: 760px)');
+            const centerOf = c => c.offsetLeft - (grid.clientWidth - c.offsetWidth) / 2;
+            const setWidth = () => cards[count].offsetLeft - cards[0].offsetLeft;   // 1セット分の幅
+            const mark = () => {
+                const mid = grid.scrollLeft + grid.clientWidth / 2;
+                cards.forEach(c => c.classList.toggle('is-active', Math.abs(c.offsetLeft + c.offsetWidth / 2 - mid) < c.offsetWidth / 2));
+            };
+            const reset = () => { if (mq.matches) { grid.scrollLeft = centerOf(cards[count]); mark(); } };
+            let timer;
+            grid.addEventListener('scroll', () => {
+                if (!mq.matches) return;
+                mark();
+                clearTimeout(timer);
+                // 止まったら、写しの位置から本物の同じ位置へこっそり戻す（再生中の動画があるときは動かさない）
+                timer = setTimeout(() => {
+                    if (grid.querySelector('iframe')) return;
+                    const w = setWidth(), x = grid.scrollLeft - centerOf(cards[0]);
+                    if (x < w - 1) grid.scrollLeft += w;
+                    else if (x > w * 2 - 1) grid.scrollLeft -= w;
+                }, 140);
+            }, { passive: true });
+            mq.addEventListener('change', reset);
+            window.addEventListener('resize', reset);
+            reset();
+        }
+
         window.pageInit = async () => {
             const latest = RELEASES[0];
 
@@ -174,13 +203,18 @@
                 const res = await fetch(`js/videos.json?t=${Date.now()}`);
                 if (res.ok) videos = await res.json();
             } catch { }
-            document.getElementById('home-videos').innerHTML = videos.map((v, i) => `
-                <a class="video-card" href="https://youtu.be/${v.id}" data-yt="${v.id}" target="_blank" rel="noopener">
+            // スマホでは横スクロールの回転式（カルーセル）。端までいっても続けて回せるよう、前後に同じ並びの写し（is-clone）を置く。
+            // 写しはパソコンでは非表示（style.css）
+            const videoGrid = document.getElementById('home-videos');
+            const videoSet = clone => videos.map((v, i) => `
+                <a class="video-card${clone ? ' is-clone' : i === 0 ? ' is-main' : ''}" href="https://youtu.be/${v.id}" data-yt="${v.id}" target="_blank" rel="noopener"${clone ? ' tabindex="-1" aria-hidden="true"' : ''}>
                     <img src="https://i.ytimg.com/vi/${v.id}/${i === 0 ? 'maxresdefault' : 'hqdefault'}.jpg" alt="${esc(v.title)}" loading="lazy"
                         onload="if (this.naturalWidth <= 120 && !this.dataset.fb) { this.dataset.fb = 1; this.src = 'https://i.ytimg.com/vi/${v.id}/hqdefault.jpg'; }">
                     <span class="cap"><img class="brand-icon is-wide" src="img/brand/youtube-icon-white.png" alt=""><span class="cap-text">${esc(v.title)}${v.published ? `<small>${v.published}</small>` : ''}</span></span>
                 </a>`).join('');
-            document.getElementById('home-videos').addEventListener('click', e => {
+            videoGrid.innerHTML = videoSet(true) + videoSet(false) + videoSet(true);
+            setupVideoCarousel(videoGrid, videos.length);
+            videoGrid.addEventListener('click', e => {
                 const a = e.target.closest('.video-card');
                 if (!a || a.querySelector('iframe')) return;
                 e.preventDefault();
