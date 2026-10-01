@@ -737,6 +737,8 @@ html.menu-open, .menu-open body { overflow: hidden; }
 
 .legal { color: #d5dbf5; font-size: 14px; }
 .legal h2 { font-size: 17px; margin: 48px 0 14px; padding-left: 16px; border-left: 2px solid var(--sky); line-height: 1.6; }
+.legal h3 { font-size: 15px; margin: 28px 0 10px; line-height: 1.6; }
+.legal a { overflow-wrap: anywhere; }
 .legal ul { padding-left: 1.4em; }
 .legal li { margin-bottom: .6em; }
 .legal a { color: var(--sky); border-bottom: 1px solid currentColor; }
