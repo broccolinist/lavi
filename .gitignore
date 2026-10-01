@@ -4,3 +4,6 @@ desktop.ini
 
 # 手元で表示確認するための設定
 docker-compose.yml
+
+# ジャケットの元画像（サイトでは img/thumb/ の縮小版を使う）
+img/jacket/
