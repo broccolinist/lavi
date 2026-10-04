@@ -195,32 +195,28 @@ html.menu-open, .menu-open body { overflow: hidden; }
   transition: background .3s, border-color .3s, transform .3s var(--ease);
 }
 .stream-btn i { font-size: 17px; }
-.stream-btn:hover { transform: translateY(-2px); }
-.stream-btn.is-spotify:hover { background: #1db954; border-color: #1db954; color: #000; }
-.stream-btn.is-apple:hover { background: #fa2d48; border-color: #fa2d48; }
+.stream-btn:hover { transform: translateY(-2px); background: rgba(255, 255, 255, .12); border-color: var(--text); }  /* 各社の色の背景にすると白いアイコンの見え方が公式と変わるため、明るくするだけ */
 /* Apple Music：公式のアイコン・バッジだけを使う（形や色は変えない。バッジは高さ30px以上、周りに余白） */
-.brand-icon { width: 1em; height: 1em; display: block; }
-.stream-btn .brand-icon { width: 17px; height: 17px; }
-.footer-sns a:hover .brand-icon, .drawer-sns a:hover .brand-icon { filter: brightness(0); }
+.brand-icon { width: 22px; height: 22px; display: block; flex: none; }
+/* YouTube：透明な余白を切り落とした素材を、マーク本体の高さ24px（最低24dp）で表示する。周りの余白は三角形の大きさ（約8px）以上 */
+.brand-icon.is-wide { width: auto; height: 24px; }
 .am-badge { display: inline-flex; align-items: center; margin: 2px 4px; transition: transform .4s var(--ease); }
-.am-badge img { height: 40px; width: auto; display: block; }
+.am-badge img { height: 46px; width: auto; display: block; }
 .am-badge:hover { transform: translateY(-2px); }
-/* Spotify・YouTube：Apple のバッジと同じ体裁（黒地・灰色の細い枠・高さ40px）。アイコンは公式のカラー、周りに余白（Spotify はアイコンの高さの半分以上） */
+/* Spotify・YouTube：Apple のバッジと同じ体裁（黒地・灰色の細い枠・高さ46px）。アイコンは公式のカラー、周りに余白（Spotify はアイコンの高さの半分以上） */
 .listen-badge {
-  display: inline-flex; align-items: center; gap: 11px; height: 40px; margin: 2px 4px; padding: 0 14px 0 11px;
+  /* 高さ46px：枠線(1px)を除いて、アイコンの上下に Spotify の指定（アイコンの高さの半分＝11px）以上の余白を取る */
+  display: inline-flex; align-items: center; gap: 11px; height: 46px; margin: 2px 4px; padding: 0 14px 0 11px;
   background: #000; border: 1px solid #a6a6a6; border-radius: 7px; color: #fff;
   font-family: -apple-system, "Helvetica Neue", "Hiragino Sans", "Noto Sans JP", sans-serif; transition: transform .4s var(--ease);
 }
 .listen-badge:hover { transform: translateY(-2px); }
 .lb-icon { width: 22px; height: 22px; display: block; }
-.lb-icon.is-wide { width: 26px; height: auto; }
+.lb-icon.is-wide { width: auto; height: 24px; }
 .lb-text { display: flex; flex-direction: column; line-height: 1.05; text-align: left; }
 .lb-text b { font-size: 15px; font-weight: 600; letter-spacing: 0; }
 .lb-text small { font-size: 9.5px; letter-spacing: .04em; margin-top: 2px; }
-.brand-icon.is-wide { width: 1.2em; height: auto; }
-.stream-btn .brand-icon.is-wide { width: 20px; height: auto; }
 .footer-nav a i { font-size: .8em; margin-left: 2px; }
-.stream-btn.is-youtube:hover { background: #ff0000; border-color: #ff0000; }
 
 /* ==========================================================
    ページヘッダー（下層）
@@ -551,7 +547,7 @@ html.menu-open, .menu-open body { overflow: hidden; }
 .video-card::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to top, rgba(8, 11, 28, .85), transparent 55%); }
 .video-card:hover > img { transform: scale(1.05); }
 .video-card .cap { position: absolute; left: 20px; bottom: 16px; z-index: 1; font-family: var(--f-en); font-size: 13px; letter-spacing: .15em; display: flex; align-items: center; gap: 12px; }
-.video-card .cap .brand-icon { width: 30px; flex: none; }
+.video-card .cap .brand-icon { flex: none; }
 .video-card iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; z-index: 2; }
 @media (min-width: 761px) { .video-card.is-clone { display: none; } }  /* 写しはスマホの回転式だけで使う */
 @media (max-width: 760px) {
@@ -568,6 +564,8 @@ html.menu-open, .menu-open body { overflow: hidden; }
     opacity: .4; transform: scale(.94); transition: opacity .4s var(--ease), transform .4s var(--ease);
   }
   .video-grid > .video-card.is-active { opacity: 1; transform: none; }
+  /* 前後の動画は94%に縮むので、YouTube のマークは26pxにして縮んでも24px以上に保つ */
+  .video-grid .video-card .cap .brand-icon.is-wide { height: 26px; }
   .video-card .cap { left: 12px; bottom: 8px; font-size: 11px; }
 }
 
@@ -771,10 +769,15 @@ html.menu-open, .menu-open body { overflow: hidden; }
 .footer-nav a:hover { color: var(--text); }
 .footer-sns { display: flex; gap: 12px; }
 .footer-sns a, .drawer-sns a {
-  width: 46px; height: 46px; display: grid; place-items: center; border: 1px solid var(--line); border-radius: 50%; font-size: 18px;
+  /* 52px：YouTube のマーク（34×24px）の周りに8px以上、Spotify（22px）の周りに11px以上の余白を取る */
+  width: 52px; height: 52px; display: grid; place-items: center; border: 1px solid var(--line); border-radius: 50%; font-size: 18px;
   transition: background .3s, color .3s, border-color .3s;
 }
-.footer-sns a:hover, .drawer-sns a:hover { background: var(--text); color: var(--ink); border-color: var(--text); }
+/* メニュー内の丸は、メニューの文字リンク用の指定（.drawer a）を打ち消して中央に置く */
+.drawer .drawer-sns a { display: grid; place-items: center; place-content: center; padding: 0; transform: none; }
+/* ホバーでもアイコンは公式の白のまま（色を変えない）。丸だけ明るくする */
+.footer-sns a:hover, .drawer-sns a:hover { background: rgba(255, 255, 255, .12); border-color: var(--text); }
+.copyright small { display: block; margin-top: 8px; font-size: 10px; letter-spacing: .04em; opacity: .8; }
 .copyright { text-align: center; font-family: var(--f-mono); font-size: 11px; color: var(--mute); letter-spacing: .15em; padding: 24px var(--pad) 32px; margin: 0; border-top: 1px solid var(--line); }
 @media (max-width: 860px) {
   .footer-inner { grid-template-columns: 1fr; }

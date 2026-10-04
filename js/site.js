@@ -92,7 +92,7 @@ function renderFooter() {
       </ul>
       <div class="footer-sns">${snsLinks()}</div>
     </div>
-    <p class="copyright">© Bug&amp;Lavi Project. All Rights Reserved.</p>`;
+    <p class="copyright">© Bug&amp;Lavi Project. All Rights Reserved.<small>Apple and Apple Music are trademarks of Apple Inc., registered in the U.S. and other countries</small></p>`;
 
   // 隠し要素：フッターのふちから小さなラヴィがのぞいている。
   // フッターにたどりついたとき／ラヴィを押したとき、キャッチコピーが一瞬乱れてラヴィの言葉に変わる
@@ -216,10 +216,11 @@ const BADGE = {
   youtube: url => `<a class="listen-badge" href="${url}" target="_blank" rel="noopener"><img src="img/brand/youtube-icon-red.png" alt="" class="lb-icon is-wide"><span class="lb-text"><b>YouTube</b><small>で聴く</small></span></a>`
 };
 
+// 並び順は Apple Music を先頭に（Apple のガイドライン 1.3）
 function streamButtons(r) {
   return `
-    ${r.spotify ? BADGE.spotify(r.spotify) : ''}
     ${r.apple ? BADGE.apple(r.apple) : ''}
+    ${r.spotify ? BADGE.spotify(r.spotify) : ''}
     ${r.youtube ? BADGE.youtube(`https://youtu.be/${r.youtube}`) : ''}`;
 }
 
