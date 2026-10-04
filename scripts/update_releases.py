@@ -12,6 +12,7 @@ GitHub Actions（.github/workflows/update-videos.yml）が毎日自動で実行�
 """
 import json
 import pathlib
+import time
 import re
 import unicodedata
 import urllib.request
@@ -23,9 +24,17 @@ OUT = pathlib.Path(__file__).resolve().parent.parent / "js" / "releases.json"
 
 
 def fetch(url):
+    """一時的に断られることがあるので、間をあけて数回試す"""
     req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0", "Accept-Language": "ja"})
-    with urllib.request.urlopen(req, timeout=30) as res:
-        return res.read().decode("utf-8")
+    for wait in (0, 10, 30):
+        time.sleep(wait)
+        try:
+            with urllib.request.urlopen(req, timeout=30) as res:
+                return res.read().decode("utf-8")
+        except Exception as e:
+            last = e
+            print(f"{url.split('?')[0]} の取得に失敗（{e}）")
+    raise last
 
 
 def key(name):
@@ -63,9 +72,15 @@ def apple_albums():
 
 
 def main():
-    albums = apple_albums()
+    try:
+        albums = apple_albums()
+    except Exception as e:
+        # 取れなくてもエラー終了にはしない（サイトは前回の releases.json のまま表示される）
+        print(f"::warning::Apple Music の作品一覧を取得できなかったため、楽曲は前回のままにします（{e}）")
+        return
     if not albums:
-        raise SystemExit("作品が1つも取得できなかったため、既存のファイルを残します")
+        print("::warning::作品が1つも取得できなかったため、既存のファイルを残します")
+        return
     feed = youtube_feed()
 
     old = {}

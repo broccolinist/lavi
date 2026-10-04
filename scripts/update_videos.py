@@ -6,6 +6,7 @@ GitHub Actions（.github/workflows/update-videos.yml）が毎日自動で実行�
 """
 import json
 import pathlib
+import time
 import urllib.request
 import xml.etree.ElementTree as ET
 
@@ -20,11 +21,29 @@ NS = {
 }
 
 
-def main():
+def fetch_feed():
+    """YouTube の公開フィードを読む。GitHub のサーバーからだと一時的に断られることがあるので、間をあけて数回試す"""
     url = f"https://www.youtube.com/feeds/videos.xml?channel_id={CHANNEL_ID}"
-    req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
-    with urllib.request.urlopen(req, timeout=30) as res:
-        root = ET.fromstring(res.read())
+    req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0", "Accept-Language": "ja"})
+    last = None
+    for wait in (0, 10, 30, 60):
+        time.sleep(wait)
+        try:
+            with urllib.request.urlopen(req, timeout=30) as res:
+                return ET.fromstring(res.read())
+        except Exception as e:  # 404・429・500 や接続切れなど
+            last = e
+            print(f"フィードの取得に失敗（{e}）。{'もう一度試します' if wait < 60 else 'あきらめます'}")
+    raise last
+
+
+def main():
+    try:
+        root = fetch_feed()
+    except Exception as e:
+        # 取れなくてもエラー終了にはしない（サイトは前回の videos.json のまま表示される）
+        print(f"::warning::YouTube のフィードを取得できなかったため、動画は前回のままにします（{e}）")
+        return
 
     videos = []
     for entry in root.findall("a:entry", NS):
@@ -40,7 +59,8 @@ def main():
             break
 
     if not videos:
-        raise SystemExit("動画が1本も取得できなかったため、既存のファイルを残します")
+        print("::warning::動画が1本も取得できなかったため、既存のファイルを残します")
+        return
 
     OUT.write_text(json.dumps(videos, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print(f"{OUT} に {len(videos)} 本を書き出しました")
