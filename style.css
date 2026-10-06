@@ -954,6 +954,21 @@ img { -webkit-user-drag: none; user-select: none; -webkit-user-select: none; -we
 .video-card .cap-text small { font-family: var(--f-mono); font-weight: 400; font-size: 11px; color: var(--mute); letter-spacing: .1em; }
 .video-grid > :not(.is-main) .cap { font-size: 12.5px; }
 
+/* ---- SHORTS（縦長の動画を4本並べる。スマホは横スクロール） ---- */
+.shorts-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+.video-card.is-short { aspect-ratio: 9 / 16; }
+.video-card.is-short .cap { left: 14px; right: 14px; bottom: 14px; gap: 10px; font-size: 12.5px; }
+.video-card.is-short .cap-title { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; }
+@media (max-width: 760px) {
+  .shorts-grid {
+    display: flex; gap: 12px; margin-inline: calc(var(--pad) * -1); padding-inline: var(--pad);
+    overflow-x: auto; overflow-y: hidden; overscroll-behavior-x: contain; scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--pad); scrollbar-width: none;
+  }
+  .shorts-grid::-webkit-scrollbar { display: none; }
+  .shorts-grid > .video-card { flex: 0 0 62vw; scroll-snap-align: start; }
+}
+
 /* ---- フッターのキャッチコピーがラヴィの言葉に変わるとき ---- */
 .footer-copy { min-height: 1.8em; transition: color .4s; }
 .footer-copy.is-lavi { font-family: "DotGothic16", var(--f-ja); color: var(--pink); letter-spacing: .06em; font-size: 13px; }

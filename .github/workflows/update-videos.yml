@@ -1,4 +1,4 @@
-# 毎日、YouTube の最新の横動画3本（js/videos.json）と、Apple Music の作品一覧（js/releases.json）を更新する
+# 毎日、YouTube の最新の横動画3本（js/videos.json）・ショート4本（js/shorts.json）と、Apple Music の作品一覧（js/releases.json）を更新する
 name: Update latest videos and releases
 
 on:
@@ -24,12 +24,12 @@ jobs:
       - run: python scripts/update_releases.py
       - name: Commit if changed
         run: |
-          if git diff --quiet js/videos.json js/releases.json; then
+          if git diff --quiet js/videos.json js/shorts.json js/releases.json; then
             echo "変更なし"
           else
             git config user.name "github-actions[bot]"
             git config user.email "41898799+github-actions[bot]@users.noreply.github.com"
-            git add js/videos.json js/releases.json
+            git add js/videos.json js/shorts.json js/releases.json
             git commit -m "最新の動画・楽曲を更新"
             git push
           fi

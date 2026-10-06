@@ -1,4 +1,4 @@
-"""YouTube の最新の横動画（ショートを除く）を取ってくる共通の部品。
+"""YouTube の最新の動画（横動画／ショート）を取ってくる共通の部品。
 
 - 環境変数 YOUTUBE_API_KEY があれば、YouTube 公式の API（YouTube Data API v3）を使う。
   GitHub Actions では、リポジトリの Secrets に登録したキーが渡される
@@ -29,11 +29,12 @@ def _get(url):
     raise last
 
 
-def _from_api(key, count):
-    # 「UULF＋チャンネルIDのUC以降」は、そのチャンネルの横動画だけが新しい順に並ぶ再生リスト（ショートは入らない）
+def _from_api(key, count, shorts):
+    # 「UULF＋チャンネルIDのUC以降」は、そのチャンネルの横動画だけが新しい順に並ぶ再生リスト（ショートは入らない）。
+    # 「UUSH＋…」は、ショートだけが並ぶ再生リスト
     params = urllib.parse.urlencode({
         "part": "snippet,contentDetails",
-        "playlistId": "UULF" + CHANNEL_ID[2:],
+        "playlistId": ("UUSH" if shorts else "UULF") + CHANNEL_ID[2:],
         "maxResults": count,
         "key": key,
     })
@@ -49,12 +50,13 @@ def _from_api(key, count):
     return videos
 
 
-def _from_feed(count):
+def _from_feed(count, shorts):
+    # 公開フィードは、横動画とショートを合わせた最新15本。リンクに /shorts/ があるものがショート
     ns = {"a": "http://www.w3.org/2005/Atom", "yt": "http://www.youtube.com/xml/schemas/2015"}
     root = ET.fromstring(_get(f"https://www.youtube.com/feeds/videos.xml?channel_id={CHANNEL_ID}"))
     videos = []
     for entry in root.findall("a:entry", ns):
-        if "/shorts/" in entry.find("a:link", ns).get("href", ""):  # ショート動画は除外
+        if ("/shorts/" in entry.find("a:link", ns).get("href", "")) != shorts:
             continue
         videos.append({
             "id": entry.find("yt:videoId", ns).text,
@@ -64,11 +66,20 @@ def _from_feed(count):
     return videos[:count]
 
 
-def latest_videos(count=15):
-    """新しい順の [{id, title, published}]。取れなければ例外を出す"""
+def _latest(count, shorts):
     key = os.environ.get("YOUTUBE_API_KEY", "").strip()
     if key:
         print("YouTube 公式の API から取得します")
-        return _from_api(key, count)
+        return _from_api(key, count, shorts)
     print("API キーがないため、公開フィードから取得します")
-    return _from_feed(count)
+    return _from_feed(count, shorts)
+
+
+def latest_videos(count=15):
+    """横動画（ショートを除く）を新しい順に [{id, title, published}]。取れなければ例外を出す"""
+    return _latest(count, shorts=False)
+
+
+def latest_shorts(count=15):
+    """ショート動画を新しい順に [{id, title, published}]。取れなければ例外を出す"""
+    return _latest(count, shorts=True)
