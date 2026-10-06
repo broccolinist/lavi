@@ -1,7 +1,7 @@
 """Apple Music の作品一覧から js/releases.json を作る（自動で読み取ってよい公開の窓口だけを使う）。
 
 - 作品名・発売日・曲数・Apple Music のリンク・ジャケット … Apple の公開検索API
-- YouTube のリンク … YouTube の公開フィード（最新15本）から、作品名を含む動画を探す。
+- YouTube のリンク … 最新の横動画15本（scripts/yt.py。YouTube 公式の API、キーがなければ公開フィード）から、作品名を含む動画を探す。
   見つからなければ前回の値を残す。古い作品は js/data.js の RELEASES に手で書いた値が優先される
 - Spotify のリンクや別表記なども js/data.js の RELEASES に手で書いたものが優先される（サイト側で合体）
 ※ YouTube のページ（リリースタブ）を直接読み取る方法は、YouTube の利用規約（自動での読み取りの禁止）に触れるため使わない
@@ -16,9 +16,9 @@ import time
 import re
 import unicodedata
 import urllib.request
-import xml.etree.ElementTree as ET
 
-CHANNEL_ID = "UCnoHBENdYJj2_YojBdk1QTQ"  # Lavi AI singer-songwriter
+from yt import latest_videos
+
 APPLE_ARTIST_ID = "1851121558"
 OUT = pathlib.Path(__file__).resolve().parent.parent / "js" / "releases.json"
 
@@ -45,14 +45,12 @@ def key(name):
 
 
 def youtube_feed():
-    """公開フィードの動画（ショート除く）を [(タイトルの比較用の名前, 動画ID)] で返す"""
-    ns = {"a": "http://www.w3.org/2005/Atom", "yt": "http://www.youtube.com/xml/schemas/2015"}
+    """最新の横動画を [(タイトルの比較用の名前, 動画ID)] で返す。取れなければ空（YouTube のリンクは前回の値が残る）"""
     try:
-        root = ET.fromstring(fetch(f"https://www.youtube.com/feeds/videos.xml?channel_id={CHANNEL_ID}"))
-    except Exception:
+        return [(key(v["title"]), v["id"]) for v in latest_videos(15)]
+    except Exception as e:
+        print(f"::warning::YouTube の動画一覧を取得できなかったため、YouTube のリンクは前回のままにします（{e}）")
         return []
-    return [(key(e.find("a:title", ns).text), e.find("yt:videoId", ns).text)
-            for e in root.findall("a:entry", ns) if "/shorts/" not in e.find("a:link", ns).get("href", "")]
 
 
 def apple_albums():
