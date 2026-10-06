@@ -39,7 +39,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800&family=DotGothic16&family=Zen+Maru+Gothic:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="style.css?v=20261005e">
+    <link rel="stylesheet" href="style.css?v=20261007b">
 </head>
 
 <body class="home" data-has-releases>
@@ -141,9 +141,9 @@
 
     <footer id="site-footer" class="site-footer"></footer>
 
-    <script src="js/data.js?v=20261005e"></script>
-    <script src="js/news.js?v=20261005e"></script>
-    <script src="js/site.js?v=20261005e"></script>
+    <script src="js/data.js?v=20261007b"></script>
+    <script src="js/news.js?v=20261007b"></script>
+    <script src="js/site.js?v=20261007b"></script>
     <script>
         // スマホ用：動画の回転式の横スクロール。真ん中の1本がはっきり見え、両端に前後の動画が薄く見える
         function setupVideoCarousel(grid, count) {
@@ -180,7 +180,7 @@
             const newsPromise = loadNews(4);
 
             // ティッカー
-            const words = [`NEW RELEASE「${latest.title}」OUT NOW`, 'YOUR GATEWAY TO BUG&LAVI WORLD', 'NOVEL「ばぐらび！」連載中', 'BUG&LAVI PROJECT'];
+            const words = [`NEW RELEASE「${latest.title}」OUT NOW`, 'YOUR GATEWAY TO BUG&LAVI WORLD', 'NOVEL「ばぐらび！」完結', 'BUG&LAVI PROJECT'];
             const line = words.map(w => `<span>${esc(w)}</span><span class="dot">✦</span>`).join('');
             document.getElementById('ticker').innerHTML = line.repeat(4);
 
@@ -243,7 +243,7 @@
                     <i class="fas fa-chevron-right gate-go"></i></button>
                 <a class="gate-card is-novel" href="${LINKS.novel}" target="_blank" rel="noopener">
                     <span class="gate-icon"><i class="fas fa-book-open"></i></span>
-                    <span class="gate-text"><span class="gate-label">NOVEL</span><span class="gate-title">『ばぐらび！』を読む</span><span class="gate-sub">小説家になろうで連載中</span></span>
+                    <span class="gate-text"><span class="gate-label">NOVEL</span><span class="gate-title">『ばぐらび！』を読む</span><span class="gate-sub">小説家になろうで完結</span></span>
                     <i class="fas fa-chevron-right gate-go"></i></a>`;
 
             setupPresence();

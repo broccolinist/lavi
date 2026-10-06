@@ -29,6 +29,14 @@ const NEWS = [
 <a href="https://line.me/S/sticker/36583304" target="_blank" rel="noopener">LINE STOREで見る</a>`
   },
   {
+    id: '2026_007', date: '2026.09.21', category: 'NOVEL',
+    title: '「小説家になろう」ノベル完結',
+    image: '', release: '',
+    body: `ラヴィ「「小説家になろう」で連載していたノベル『ばぐらび！ from Bug&Lavi Project』が完結したよ。
+最後まで読んでみてね(・ω<)」
+<a href="https://ncode.syosetu.com/n3901mo/" target="_blank" rel="noopener">小説家になろうで読む</a>`
+  },
+  {
     id: '2026_004', date: '2026.08.06', category: 'NOVEL',
     title: '「小説家になろう」にてノベル連載開始',
     image: 'img/thumb/novel_start.jpg', release: '',
