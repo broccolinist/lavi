@@ -114,9 +114,12 @@ body::after {
   position: fixed; inset: 0; z-index: 99;
   display: flex; flex-direction: column; padding: var(--header-h) var(--pad) 24px; overflow-y: auto;
   visibility: hidden; opacity: 0; transition: opacity .5s var(--ease), visibility .5s;
+  /* 背景はメニューの箱そのものに、不透明で塗る。
+     中に置いた背景用の箱（.drawer-bg）に塗ると、メニューの中身が画面より長くてスクロールしたとき、背景も一緒に流れて下が透ける。
+     すりガラス効果（backdrop-filter）は、スマホで画面全体に使うと描画に失敗して真っ黒になることがあるため使わない */
+  background: var(--ink); overscroll-behavior: contain;
 }
-/* すりガラス効果（backdrop-filter）は、スマホで画面全体に使うと描画に失敗して真っ黒になることがあるため使わない */
-.drawer-bg { position: absolute; inset: 0; background: rgba(8, 11, 28, .98); z-index: -1; }
+.drawer-bg { display: none; }
 /* 上下の中央寄せは margin:auto で行う（justify-content:center だと、画面が低いとき上にはみ出した分がスクロールできず、ロゴに重なる） */
 .drawer ul { list-style: none; margin: auto 0 0; padding: 0; }
 .drawer li { border-bottom: 1px solid var(--line); }
