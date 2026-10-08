@@ -547,6 +547,128 @@ function setupDepth() {
   update();
 }
 
+/* ---------- 隠れキャラ集め ----------
+   ノベルの登場人物4人が、ページごとに1人ずつ、部品のふちの向こうから頭だけのぞいている。
+   押すと「！」が出て引っ込み、見つけた数（左下。最初の1人を見つけるまでは出さない）に入る。4人そろうとラヴィから一言。
+   名前はサイトに出さない決まりなので、番号（1〜4）だけで扱う。見つけた番号は、その人のブラウザに覚えておく */
+const FRIENDS = [   // anchor＝この部品の上のふちからのぞく。pos＝左右の位置。inside＝部品の中の先頭に置く（部品の上に余白があるとき）
+  { id: 1, page: 'index.html', anchor: '.ticker', pos: 'right:8%' },
+  { id: 2, page: 'about.html', anchor: '.qa-list', pos: 'right:4%' },
+  { id: 3, page: 'music.html', anchor: '.site-footer', pos: 'left:8%', inside: true },
+  { id: 4, page: 'news.html', anchor: '#news-container', pos: 'right:4%' },
+];
+const QUIET_PAGES = ['contact.html', 'privacy.html'];   // 事務的なページには、キャラの仕掛けを出さない
+
+function setupFriends() {
+  if (QUIET_PAGES.includes(currentPage)) return;
+  const KEY = 'lavi-friends';
+  let found = [];
+  try { found = JSON.parse(localStorage.getItem(KEY) || '[]').filter(n => FRIENDS.some(f => f.id === n)); } catch { }
+  const save = () => { try { localStorage.setItem(KEY, JSON.stringify(found)); } catch { } };
+
+  // 見つけた数
+  const chip = document.createElement('button');
+  chip.type = 'button'; chip.className = 'g-chip'; chip.setAttribute('aria-label', '見つけた数');
+  const hint = document.createElement('p');
+  hint.className = 'g-hint'; hint.setAttribute('aria-live', 'polite');
+  document.body.append(chip, hint);
+  const renderChip = justFound => {
+    chip.innerHTML = `<span class="g-slots">${FRIENDS.map(f => found.includes(f.id)
+      ? `<span class="g-slot${f.id === justFound ? ' is-new' : ''}"><img src="img/sprite/friend_${f.id}.png" alt=""></span>`
+      : '<span class="g-slot">?</span>').join('')}</span><span>${found.length} / ${FRIENDS.length}</span>`;
+    chip.classList.toggle('is-on', found.length > 0);
+    chip.classList.toggle('is-all', found.length === FRIENDS.length);
+  };
+  let hintTimer;
+  const showHint = text => {
+    hint.textContent = text; hint.classList.add('is-on');
+    clearTimeout(hintTimer); hintTimer = setTimeout(() => hint.classList.remove('is-on'), 3600);
+  };
+
+  // 4人そろったとき：ラヴィからの一言
+  const clear = document.createElement('div');
+  clear.className = 'g-clear'; clear.setAttribute('role', 'dialog'); clear.setAttribute('aria-label', 'ぜんぶ見つけた');
+  clear.innerHTML = `
+    <div class="g-clear-card">
+      <p class="g-clear-label">ALL FOUND</p>
+      <div class="g-clear-friends">
+        <img src="img/sprite/friend_1.png" alt="" loading="lazy"><img src="img/sprite/friend_2.png" alt="" loading="lazy">
+        <img src="img/sprite/lavi_full.png" alt="" class="is-lavi" loading="lazy">
+        <img src="img/sprite/friend_3.png" alt="" loading="lazy"><img src="img/sprite/friend_4.png" alt="" loading="lazy">
+      </div>
+      <p class="g-clear-text">……ぜんぶ、見つけてくれたんだね。<br>ありがとう。</p>
+      <button type="button" class="g-clear-close">CLOSE</button>
+    </div>`;
+  document.body.append(clear);
+  const showClear = () => clear.classList.add('is-on');
+  clear.addEventListener('click', e => { if (e.target === clear || e.target.closest('.g-clear-close')) clear.classList.remove('is-on'); });
+  addEventListener('keydown', e => { if (e.key === 'Escape') clear.classList.remove('is-on'); });
+  chip.addEventListener('click', () => {
+    if (found.length === FRIENDS.length) showClear();
+    else showHint(`あと${FRIENDS.length - found.length}人、どこかに隠れているみたい。ほかのページも探してみてね。`);
+  });
+  renderChip();
+
+  // このページに隠れているキャラを置く
+  const f = FRIENDS.find(x => x.page === currentPage);
+  const anchor = f && document.querySelector(f.anchor);
+  if (!anchor) return;
+  const host = document.createElement('div');
+  host.className = 'g-peek-host';
+  host.innerHTML = `
+    <div class="g-peek-wrap" style="${f.pos}">
+      <button type="button" class="g-peek" aria-label="なにかがのぞいている"><img src="img/sprite/friend_${f.id}.png" alt="" draggable="false"></button>
+      <span class="g-bang" aria-hidden="true">!</span>
+    </div>`;
+  if (f.inside) anchor.prepend(host); else anchor.before(host);
+  const peek = host.querySelector('.g-peek'), bang = host.querySelector('.g-bang');
+  let busy = false;
+  peek.addEventListener('click', () => {
+    if (busy) return;
+    busy = true;
+    peek.classList.add('is-found'); bang.classList.add('is-on');
+    const isNew = !found.includes(f.id);
+    if (isNew) { found.push(f.id); save(); }
+    setTimeout(() => {
+      renderChip(isNew ? f.id : null);
+      if (isNew && found.length === FRIENDS.length) setTimeout(showClear, 900);
+      else if (isNew) showHint(found.length === 1 ? '……だれか、いたみたい。' : `${found.length}人目を見つけた。`);
+    }, 700);
+    // しばらくすると、また同じ場所からのぞく
+    setTimeout(() => { peek.classList.replace('is-found', 'is-away'); bang.classList.remove('is-on'); }, 1000);
+    setTimeout(() => { peek.classList.remove('is-away'); busy = false; }, 25000);
+  });
+}
+
+/* ---------- 歩くドット絵ラヴィ ----------
+   ときどき、画面の下を横切る。押すと立ち止まって一言。台詞はトップのひとことと同じもの */
+function setupWalker() {
+  if (QUIET_PAGES.includes(currentPage) || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const lines = ['……見つかっちゃった。', 'ここ、けっこう静かでしょ？', 'きみの声、ちゃんと届いてるよ。', 'データの海って、夜はきれいなんだ。'];
+  let said = 0;
+  const schedule = first => setTimeout(walk, first ? 9000 : 45000 + Math.random() * 40000);   // 最初は9秒後、そのあとは45〜85秒おき
+  const walk = () => {
+    if (document.hidden) { schedule(); return; }
+    const toLeft = Math.random() < 0.5;
+    const el = document.createElement('div');
+    el.className = 'g-walker' + (toLeft ? ' is-left' : '');
+    el.innerHTML = '<button type="button" class="g-walker-body" aria-label="ラヴィ"><span class="g-walker-say"></span><img src="img/sprite/lavi_full.png" alt="" draggable="false"></button>';
+    document.body.append(el);
+    const w = 100, from = toLeft ? innerWidth + 10 : -w - 10, to = toLeft ? -w - 10 : innerWidth + 10;
+    const anim = el.animate([{ transform: `translateX(${from}px)` }, { transform: `translateX(${to}px)` }],
+      { duration: (innerWidth + w + 20) / 62 * 1000, easing: 'linear', fill: 'forwards' });   // 1秒に62pxほど
+    el.querySelector('.g-walker-body').addEventListener('click', () => {
+      if (el.classList.contains('is-stop')) return;
+      anim.pause();
+      el.querySelector('.g-walker-say').textContent = lines[said++ % lines.length];
+      el.classList.add('is-stop');
+      setTimeout(() => { el.classList.remove('is-stop'); anim.play(); }, 2600);
+    });
+    anim.finished.catch(() => { }).then(() => { el.remove(); schedule(); });
+  };
+  schedule(true);
+}
+
 /* ---------- 起動 ---------- */
 document.addEventListener('DOMContentLoaded', async () => {
   renderHeader();
@@ -560,4 +682,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   requestAnimationFrame(() => document.body.classList.add('is-loaded'));
   // ページごとの処理（各ページで window.pageInit を定義）
   Promise.resolve(window.pageInit ? window.pageInit() : null).then(setupReveal);
+  setupFriends();
+  setupWalker();
 });
