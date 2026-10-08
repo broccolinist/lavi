@@ -45,7 +45,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800&family=DotGothic16&family=Zen+Maru+Gothic:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="style.css?v=20261009a">
+    <link rel="stylesheet" href="style.css?v=20261009c">
 </head>
 
 <body class="home" data-has-releases>
@@ -88,7 +88,7 @@
         </div>
 
         <!-- ===== NEWS ===== -->
-        <section class="section">
+        <section class="section" data-world="news">
             <div class="wrap news-layout">
                 <div class="section-head reveal">
                     <h2 class="section-title"><span class="num">01</span><span class="en">NEWS</span><span class="ja">お知らせ</span></h2>
@@ -101,7 +101,7 @@
         </section>
 
         <!-- ===== MUSIC ===== -->
-        <section class="section" style="padding-top:0">
+        <section class="section" data-world="music">
             <div class="wrap">
                 <div class="section-head reveal">
                     <h2 class="section-title"><span class="num">02</span><span class="en">MUSIC</span><span class="ja">楽曲</span></h2>
@@ -133,7 +133,7 @@
         </section>
 
         <!-- ===== VIDEO ===== -->
-        <section class="section">
+        <section class="section" data-world="video">
             <div class="wrap">
                 <div class="section-head reveal">
                     <h2 class="section-title"><span class="num">04</span><span class="en">VIDEO</span><span class="ja">動画</span></h2>
@@ -144,7 +144,7 @@
         </section>
 
         <!-- ===== SHORTS（js/shorts.json が読めたときだけ表示） ===== -->
-        <section class="section" id="shorts-section" style="padding-top:0" hidden>
+        <section class="section" id="shorts-section" data-world="shorts" hidden>
             <div class="wrap">
                 <div class="section-head reveal">
                     <h2 class="section-title"><span class="num">05</span><span class="en">SHORTS</span><span class="ja">ショート動画</span></h2>
@@ -158,9 +158,9 @@
 
     <footer id="site-footer" class="site-footer"></footer>
 
-    <script src="js/data.js?v=20261009a"></script>
-    <script src="js/news.js?v=20261009a"></script>
-    <script src="js/site.js?v=20261009a"></script>
+    <script src="js/data.js?v=20261009c"></script>
+    <script src="js/news.js?v=20261009c"></script>
+    <script src="js/site.js?v=20261009c"></script>
     <script>
         // スマホ用：動画の回転式の横スクロール。真ん中の1本がはっきり見え、両端に前後の動画が薄く見える
         function setupVideoCarousel(grid, count) {

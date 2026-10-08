@@ -984,3 +984,109 @@ img { -webkit-user-drag: none; user-select: none; -webkit-user-select: none; -we
 .form-recaptcha { font-size: 11px; color: var(--mute); line-height: 1.8; margin: 18px 0 0; }
 .form-recaptcha a { color: var(--sky); }
 .grecaptcha-badge { visibility: hidden; } /* 右下の reCAPTCHA マークは、フォーム下の文で代替（Google が認める方法） */
+
+/* ==========================================================
+   TOP：奥行きと区切り（2026-10-09）
+   区画（data-world）ごとに色味と模様を変え、境目に斜めの帯を置く。
+   部品（.dp-bg・.dp-ghost・.dp-band・#dp-dust）は site.js の setupDepth が足す
+   ========================================================== */
+[data-world] { isolation: isolate; overflow-x: clip; --slant: 2.4vw; --st: var(--slant); --sb: var(--slant); }
+[data-world="news"] { --st: 0px; }      /* すぐ上は流れる文字（水平）なので、上はまっすぐ */
+[data-world="shorts"] { --sb: 0px; }    /* すぐ下はフッターなので、下はまっすぐ */
+
+/* ---- 区画ごとの世界（色味と模様）。上下の端は斜めに切る ---- */
+.dp-bg {
+  position: absolute; inset: calc(var(--st) / -2) 0 calc(var(--sb) / -2); z-index: -1; overflow: hidden; pointer-events: none;
+  clip-path: polygon(0 var(--st), 100% 0, 100% calc(100% - var(--sb)), 0 100%);
+}
+.dp-bg::before, .dp-bg::after { content: ""; position: absolute; inset: 0; }
+
+/* NEWS＝受信ログ：青緑、細い走査線 */
+[data-world="news"] .dp-bg { background: linear-gradient(180deg, rgba(20, 70, 90, .42), rgba(10, 30, 60, .30)); }
+[data-world="news"] .dp-bg::before { background: repeating-linear-gradient(0deg, rgba(150, 240, 255, .055) 0 1px, transparent 1px 4px); }
+[data-world="news"] .dp-bg::after {
+  background: linear-gradient(180deg, transparent, rgba(150, 240, 255, .07) 50%, transparent);
+  height: 40%; inset: auto 0 auto 0; top: -40%; animation: dp-scan 9s linear infinite;
+}
+@keyframes dp-scan { to { top: 100%; } }
+
+/* MUSIC＝音の波形：ピンク寄り、ゆっくり流れる波 */
+[data-world="music"] .dp-bg { background: radial-gradient(90% 70% at 80% 20%, rgba(255, 120, 190, .20), transparent 70%), linear-gradient(180deg, rgba(60, 24, 80, .46), rgba(28, 16, 60, .34)); }
+[data-world="music"] .dp-bg::before, [data-world="music"] .dp-bg::after {
+  inset: auto 0; height: 220px; width: 200%;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='220' viewBox='0 0 600 220'%3E%3Cpath d='M0 110 C 50 20 100 20 150 110 S 250 200 300 110 S 400 20 450 110 S 550 200 600 110' fill='none' stroke='%23ffb3d4' stroke-width='1.5'/%3E%3C/svg%3E") repeat-x 0 50% / 600px 220px;
+}
+[data-world="music"] .dp-bg::before { top: 18%; opacity: .16; animation: dp-wave 26s linear infinite; }
+[data-world="music"] .dp-bg::after { top: 52%; opacity: .09; animation: dp-wave 44s linear infinite reverse; scale: 1 1.6; }
+@keyframes dp-wave { to { transform: translateX(-600px); } }
+
+/* VIDEO＝スクリーン：暗め、上からの青い光 */
+[data-world="video"] .dp-bg { background: radial-gradient(80% 60% at 50% 0%, rgba(110, 150, 255, .22), transparent 70%), linear-gradient(180deg, rgba(4, 6, 16, .62), rgba(6, 9, 22, .50)); }
+[data-world="video"] .dp-bg::before { background: repeating-linear-gradient(90deg, rgba(160, 190, 255, .035) 0 1px, transparent 1px 90px); }
+
+/* SHORTS＝ネオン：紫〜マゼンタ */
+[data-world="shorts"] .dp-bg { background: radial-gradient(70% 60% at 15% 100%, rgba(190, 110, 255, .22), transparent 70%), radial-gradient(60% 50% at 95% 10%, rgba(255, 130, 200, .14), transparent 70%), linear-gradient(180deg, rgba(24, 10, 44, .52), rgba(14, 10, 36, .40)); }
+[data-world="shorts"] .dp-bg::before { background: radial-gradient(rgba(255, 190, 240, .10) 1px, transparent 1.5px) 0 0 / 26px 26px; }
+
+/* STORY はもとの廃墟の背景のまま。端だけ斜めに切る */
+.home .story { margin-block: calc(2.4vw / -2); clip-path: polygon(0 2.4vw, 100% 0, 100% calc(100% - 2.4vw), 0 100%); }
+
+/* ---- 見出しの後ろの巨大な英字（スクロールで本文よりゆっくり動く。--py は site.js が入れる） ---- */
+.dp-ghost {
+  position: absolute; right: -1vw; top: 50%; margin: 0;
+  font-family: var(--f-en); font-weight: 800; line-height: .8; white-space: nowrap;
+  font-size: clamp(110px, 25vw, 380px); letter-spacing: -.02em;
+  color: transparent; -webkit-text-stroke: 1px rgba(190, 210, 255, .13);
+  transform: translate3d(0, calc(-50% + var(--py, 0px)), 0); will-change: transform;
+}
+[data-world="music"] .dp-ghost { -webkit-text-stroke-color: rgba(255, 179, 212, .15); right: auto; left: -1vw; }
+[data-world="shorts"] .dp-ghost { -webkit-text-stroke-color: rgba(220, 170, 255, .15); right: auto; left: -1vw; }
+.story .dp-ghost { -webkit-text-stroke-color: rgba(255, 255, 255, .10); z-index: -1; }
+
+/* ---- 切り替わりの帯（境目と同じ角度に傾ける。2.4vw / 100vw の傾き ＝ 1.375度） ---- */
+.dp-band {
+  position: relative; z-index: 3; overflow: hidden; height: 48px; transform: skewY(-1.375deg);
+  border-block: 1px solid rgba(190, 205, 255, .34); background: rgba(8, 11, 28, .92);
+  display: flex; align-items: center;
+}
+.dp-band:has(+ [hidden]) { display: none; }   /* SHORTS が出ないときは、その上の帯も出さない */
+.dp-band-track { display: flex; width: max-content; animation: marquee 60s linear infinite; }
+.dp-band-track span { font-family: var(--f-mono); font-size: 13px; letter-spacing: .12em; color: var(--sky); opacity: .8; padding: 0 22px; white-space: nowrap; }
+.dp-band-track b { color: var(--pink); font-weight: 400; }
+
+/* 区画に入った瞬間だけ：光の線が1本通り、背景がかすかに乱れる（is-cut は site.js が付ける） */
+[data-world]::after {
+  content: ""; position: absolute; inset: 0 0 auto 0; height: 2px; z-index: 2; opacity: 0; pointer-events: none;
+  background: linear-gradient(90deg, transparent, rgba(190, 230, 255, .9) 30%, rgba(255, 190, 225, .9) 70%, transparent);
+}
+[data-world].is-cut::after { animation: dp-sweep .9s var(--ease) 1; }
+[data-world].is-cut .dp-bg { animation: dp-jolt .42s steps(2) 1; }
+@keyframes dp-sweep { 0% { top: 0; opacity: .9; } 100% { top: 55%; opacity: 0; } }
+@keyframes dp-jolt {
+  0% { transform: translateX(-10px); filter: hue-rotate(18deg) brightness(1.5); }
+  50% { transform: translateX(6px); filter: brightness(1.2); }
+  100% { transform: none; filter: none; }
+}
+
+/* ---- トップの絵が、スクロールで少し奥へ沈む（--kv-y・--kv-s は site.js が入れる） ---- */
+.home .kv { overflow: hidden; }
+.home .kv-visual picture { display: block; height: 100%; transform: translate3d(0, var(--kv-y, 0px), 0) scale(var(--kv-s, 1)); transform-origin: 50% 60%; will-change: transform; }
+
+/* ---- ページ全体に漂う粒（奥・中・手前の3層） ---- */
+#dp-dust { position: fixed; inset: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
+
+/* ---- 動きを減らす設定の人には、動きを止める ---- */
+@media (prefers-reduced-motion: reduce) {
+  .dp-band-track, .dp-bg::before, .dp-bg::after, [data-world].is-cut::after, [data-world].is-cut .dp-bg { animation: none !important; }
+  .dp-ghost { transform: translate3d(0, -50%, 0); }
+  .home .kv-visual picture { transform: none; }
+  #dp-dust { display: none; }
+}
+
+@media (max-width: 760px) {
+  [data-world] { --slant: 4vw; }
+  .home .story { margin-block: calc(4vw / -2); clip-path: polygon(0 4vw, 100% 0, 100% calc(100% - 4vw), 0 100%); }
+  .dp-ghost { font-size: 34vw; -webkit-text-stroke-width: .8px; }
+  .dp-band { height: 40px; transform: skewY(-2.29deg); }   /* 4vw / 100vw の傾き ＝ 2.29度 */
+  .dp-band-track span { font-size: 12px; letter-spacing: .08em; }
+}

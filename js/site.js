@@ -432,11 +432,127 @@ function setupImageGuard() {
   document.addEventListener('dragstart', e => { if (isImage(e.target)) e.preventDefault(); });
 }
 
+/* ---------- 奥行きと区切り（トップ） ----------
+   区画（data-world と STORY）に、背景・巨大な英字・切り替わりの帯・漂う粒を足す。見た目は style.css の「奥行きと区切り」 */
+// 帯に流す文字：ラヴィが言いそうなことを、プログラムの形で書いたもの（区画ごとに3つ。文を変えるときはここだけ直す）
+const BAND_CODES = {
+  music: ['lavi.sing("きみに届くまで");', 'while (listening) { 歌う(); }', 'volume = "ちょうどいい";'],
+  story: ['if (world.isEmpty) { lavi.wakeUp(); }', 'lavi.status = "UNRELEASED";  // それでも、ここにいる', 'return "ただいま";'],
+  video: ['screen.on();  // ちゃんと見えてる？', 'lavi.show(きみ);', 'await 目が合うまで();'],
+  shorts: ['for (ちょっとだけ) { lavi.peek(); }', 'sleep(0);  // まだ起きてるよ', 'lavi.wave("またね");'],
+};
+
+function setupDepth() {
+  /* ---------- 区画に部品を足す（背景・巨大な英字・切り替わりの帯） ---------- */
+  const worlds = [...document.querySelectorAll('[data-world], .home .story')];
+  if (!worlds.length) return;
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  worlds.forEach(sec => {
+    const en = sec.querySelector('.section-title .en')?.textContent.trim() || '';
+    const num = sec.querySelector('.section-title .num')?.textContent.trim() || '';
+
+    const ghost = document.createElement('p');
+    ghost.className = 'dp-ghost'; ghost.setAttribute('aria-hidden', 'true'); ghost.textContent = en;
+    if (sec.matches('.story')) sec.prepend(ghost);   // STORY はもとから背景の絵を持っているので、英字だけ足す
+    else {
+      const bg = document.createElement('div');
+      bg.className = 'dp-bg'; bg.append(ghost); sec.prepend(bg);
+    }
+
+    // NEWS の上には、もとから流れる文字（ティッカー）があるので帯は足さない
+    if (sec.dataset.world !== 'news') {
+      const band = document.createElement('div');
+      band.className = 'dp-band'; band.setAttribute('aria-hidden', 'true');
+      const codes = BAND_CODES[sec.dataset.world || 'story'] || [];
+      const line = `<span>// <b>${num}</b> ${en}</span><span>✦</span>` + codes.map(c => `<span>${esc(c)}</span><span>✦</span>`).join('');
+      band.innerHTML = `<div class="dp-band-track">${line.repeat(8)}</div>`;
+      sec.before(band);
+    }
+  });
+
+  /* ---------- 区画に入った瞬間の「切り替わり」 ---------- */
+  if ('IntersectionObserver' in window && !reduce) {
+    const io = new IntersectionObserver(entries => entries.forEach(en => {
+      if (!en.isIntersecting) return;
+      en.target.classList.remove('is-cut');
+      void en.target.offsetWidth;                    // 何度でも再生できるように、いったん外してから付け直す
+      en.target.classList.add('is-cut');
+    }), { rootMargin: '0px 0px -55% 0px' });
+    worlds.forEach(sec => io.observe(sec));
+  }
+
+  /* ---------- スクロールに合わせた速度差（巨大な英字・トップの絵） ---------- */
+  const kv = document.querySelector('.kv');
+  let ticking = false;
+  function update() {
+    ticking = false;
+    if (reduce) return;
+    const vh = innerHeight;
+    worlds.forEach(sec => {
+      const r = sec.getBoundingClientRect();
+      if (r.bottom < -200 || r.top > vh + 200) return;
+      const off = (r.top + r.height / 2) - vh / 2;   // 区画の中心が、画面の中心からどれだけずれているか
+      sec.style.setProperty('--py', `${(off * -0.22).toFixed(1)}px`);
+    });
+    if (kv) {
+      const y = Math.min(scrollY, kv.offsetHeight);
+      kv.style.setProperty('--kv-y', `${(y * 0.28).toFixed(1)}px`);
+      kv.style.setProperty('--kv-s', (1 + y * 0.00018).toFixed(4));
+    }
+  }
+  addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
+  addEventListener('resize', update);
+
+  /* ---------- ページ全体に漂う粒（奥・中・手前の3層。スクロールすると層ごとに違う速さで流れる） ---------- */
+  const canvas = document.createElement('canvas');
+  canvas.id = 'dp-dust'; canvas.setAttribute('aria-hidden', 'true');
+  if (!reduce) {
+    document.body.prepend(canvas);
+    const ctx = canvas.getContext('2d');
+    const LAYERS = [                                  // 奥ほど小さく・遅く・薄い
+      { size: [0.6, 1.2], speed: 0.06, scroll: 0.05, alpha: 0.30 },
+      { size: [1.0, 2.0], speed: 0.14, scroll: 0.14, alpha: 0.45 },
+      { size: [1.8, 3.4], speed: 0.26, scroll: 0.30, alpha: 0.55 },
+    ];
+    let w, h, dots = [];
+    const rand = (a, b) => a + Math.random() * (b - a);
+    const resize = () => {
+      const dpr = Math.min(devicePixelRatio || 1, 2);
+      w = innerWidth; h = innerHeight;
+      canvas.width = w * dpr; canvas.height = h * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      const n = Math.round(Math.min(w * h / 16000, w < 761 ? 34 : 90));   // スマホは数を減らす
+      dots = Array.from({ length: n }, (_, i) => {
+        const L = LAYERS[i % 3];
+        return { L, x: rand(0, w), y: rand(0, h), s: rand(...L.size), t: rand(0, 6.28), sq: Math.random() < 0.4, pink: Math.random() < 0.4 };
+      });
+    };
+    const tick = () => {
+      requestAnimationFrame(tick);
+      if (document.hidden) return;
+      ctx.clearRect(0, 0, w, h);
+      for (const d of dots) {
+        d.y -= d.L.speed; d.t += 0.01;
+        d.x += Math.sin(d.t) * 0.12;
+        const y = (((d.y - scrollY * d.L.scroll) % (h + 20)) + h + 20) % (h + 20) - 10;
+        const a = d.L.alpha * (0.6 + Math.sin(d.t * 1.7) * 0.4);
+        ctx.fillStyle = d.pink ? `rgba(255,200,230,${a})` : `rgba(170,220,255,${a})`;
+        if (d.sq) ctx.fillRect(d.x, y, d.s * 1.5, d.s * 1.5);
+        else { ctx.beginPath(); ctx.arc(d.x, y, d.s, 0, 6.283); ctx.fill(); }
+      }
+    };
+    resize(); tick();
+    addEventListener('resize', resize);
+  }
+  update();
+}
+
 /* ---------- 起動 ---------- */
 document.addEventListener('DOMContentLoaded', async () => {
   renderHeader();
   renderFooter();
   setupParticles();
+  setupDepth();
   setupTabWhisper();
   setupImageGuard();
   await loadReleases();
