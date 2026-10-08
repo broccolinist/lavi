@@ -12,6 +12,15 @@
    ========================================================== */
 const NEWS = [
   {
+    id: '2026_008', date: '2026.10.08', category: 'INFO',
+    title: 'YouTubeチャンネル登録者数100人突破',
+    image: '', release: '',
+    body: `ラヴィ「YouTubeのチャンネル登録者数が、100人を突破したよ！
+見つけてくれて、登録してくれて、本当にありがとう。
+ちょっと照れるけど、これからも歌を届けていくからよろしくぴょんっ☆(≧▽≦)」
+<a href="https://www.youtube.com/@LaviAIsinger-songwriter" target="_blank" rel="noopener">YouTubeで見る</a>`
+  },
+  {
     id: '2026_006', date: '2026.10.01', category: 'MUSIC',
     title: '『I\'m Not Artist』配信決定',
     image: 'img/thumb/j_imnotartist.jpg', release: 'I\'m Not Artist',

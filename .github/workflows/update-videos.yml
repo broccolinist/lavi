@@ -3,7 +3,9 @@ name: Update latest videos and releases
 
 on:
   schedule:
-    - cron: "0 0 * * *"   # 毎日 9:00（日本時間）
+    # 毎日 6:23（日本時間）。GitHub の定時実行は混むと数時間遅れるので、9時ごろに間に合うよう早めにしている。
+    # 「毎時0分」は特に混むので避ける
+    - cron: "23 21 * * *"
   workflow_dispatch:       # GitHub の画面から手動でも実行できる
 
 permissions:
