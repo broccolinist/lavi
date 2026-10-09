@@ -574,7 +574,7 @@ function setupFriends() {
   document.body.append(chip, hint);
   const renderChip = justFound => {
     chip.innerHTML = `<span class="g-slots">${FRIENDS.map(f => found.includes(f.id)
-      ? `<span class="g-slot${f.id === justFound ? ' is-new' : ''}"><img src="img/sprite/friend_${f.id}.png" alt=""></span>`
+      ? `<span class="g-slot${f.id === justFound ? ' is-new' : ''}"><img src="img/sprite/friend_${f.id}_face.png" alt=""></span>`   // 顔の大きさと位置をそろえた、顔だけの画像
       : '<span class="g-slot">?</span>').join('')}</span><span>${found.length} / ${FRIENDS.length}</span>`;
     chip.classList.toggle('is-on', found.length > 0);
     chip.classList.toggle('is-all', found.length === FRIENDS.length);

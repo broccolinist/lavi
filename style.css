@@ -993,7 +993,10 @@ img { -webkit-user-drag: none; user-select: none; -webkit-user-select: none; -we
    区画（data-world）ごとに色味と模様を変え、境目に斜めの帯を置く。
    部品（.dp-bg・.dp-ghost・.dp-band・#dp-dust）は site.js の setupDepth が足す
    ========================================================== */
-[data-world] { isolation: isolate; overflow-x: clip; --slant: 2.4vw; --st: var(--slant); --sb: var(--slant); }
+/* 区画には overflow を付けない。iPhone（Safari 系）は overflow-x: clip でも縦方向まで切ってしまい、
+   区画の外へはみ出させている斜めの背景が水平に切れて、帯とのあいだにすき間ができる（2026-10-10）。
+   横にはみ出す巨大な英字は、背景の箱（.dp-bg）の中で切っている */
+[data-world] { isolation: isolate; --slant: 2.4vw; --st: var(--slant); --sb: var(--slant); }
 [data-world="news"] { --st: 0px; }      /* すぐ上は流れる文字（水平）なので、上はまっすぐ */
 [data-world="shorts"] { --sb: 0px; }    /* すぐ下はフッターなので、下はまっすぐ */
 
@@ -1149,7 +1152,7 @@ img { -webkit-user-drag: none; user-select: none; -webkit-user-select: none; -we
   width: 26px; height: 26px; border-radius: 50%; overflow: hidden; position: relative; display: grid; place-items: center;
   border: 1px solid var(--line); background: var(--ink-2); color: var(--mute); font-size: 12px;
 }
-.g-slot img { position: absolute; left: 50%; top: -3px; height: 96px; width: auto; max-width: none; translate: -50% 0; }
+.g-slot img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 .g-slot.is-new { animation: g-slot-pop .7s var(--ease); }
 @keyframes g-slot-pop { 0% { scale: .2; } 60% { scale: 1.25; } 100% { scale: 1; } }
 .g-hint {
