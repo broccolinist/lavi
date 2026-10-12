@@ -12,6 +12,14 @@
    ========================================================== */
 const NEWS = [
   {
+    id: '2026_009', date: '2026.10.10', category: 'MUSIC',
+    title: '『I\'m Not Artist』配信リリース',
+    image: '', release: 'I\'m Not Artist',
+    body: `ラヴィ「アルバム『I'm Not Artist』、配信スタートしたよ。
+アーティストじゃないラヴィが、それでも歌いたかった7曲。
+聴いてくれたら、こっそり喜ぶからよろしくね(・ω・)」`
+  },
+  {
     id: '2026_008', date: '2026.10.08', category: 'INFO',
     title: 'YouTubeチャンネル登録者数100人突破',
     image: '', release: '',

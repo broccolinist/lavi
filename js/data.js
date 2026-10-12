@@ -5,11 +5,19 @@
    ========================================================== */
 
 /* ---- 楽曲の手書き情報 ----
-   新曲は Apple Music に出れば、翌朝までに自動で載る（作品名・発売日・曲数・ジャケット・Apple Music。YouTube は動画名に作品名が入っていれば自動）。
+   新曲は Apple Music に出れば、翌朝までに自動で載る（作品名・発売日・曲数・ジャケット・Apple Music。YouTube は動画名に作品名が入っていれば自動。告知や XFD の動画は選ばない）。
+   YouTube のリンクは、リリースタブに出る作品の1曲目の動画ID（youtube: の値）。自動で付いた動画が違うときは、ここに書けば置き換わる。
    Spotify や YouTube のリンクを付けたいときや、自動の内容を変えたいときだけ、ここに1件足す（新しいものを上に）。
    作品は apple（なければ title）で照らし合わせ、ここに書いた項目が自動の内容より優先される。
    書かなかった項目は自動の内容のまま。releases.json が読めなかったときは、ここの一覧だけで表示する */
 let RELEASES = [
+  {
+    id: 'imnotartist', title: 'I\'m Not Artist', date: '2026.10.10', tracks: 7,
+    jacket: 'img/thumb/j_imnotartist.jpg',
+    spotify: 'https://open.spotify.com/intl-ja/album/3GNmgjQbFcC0mZiwH6shXU',
+    apple: 'https://music.apple.com/jp/album/im-not-artist/6813594667',
+    youtube: 'zMZqwzEdldI'
+  },
   {
     id: 'mermaid', title: 'MERMAID', date: '2026.09.12', tracks: 1,
     jacket: 'img/thumb/j_mermaid.jpg',

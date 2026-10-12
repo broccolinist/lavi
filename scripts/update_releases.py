@@ -1,7 +1,7 @@
 """Apple Music の作品一覧から js/releases.json を作る（自動で読み取ってよい公開の窓口だけを使う）。
 
 - 作品名・発売日・曲数・Apple Music のリンク・ジャケット … Apple の公開検索API
-- YouTube のリンク … 最新の横動画15本（scripts/yt.py。YouTube 公式の API、キーがなければ公開フィード）から、作品名を含む動画を探す。
+- YouTube のリンク … 最新の横動画15本（scripts/yt.py。YouTube 公式の API、キーがなければ公開フィード）から、作品名を含む動画を探す（告知・予告の動画は除く）。
   見つからなければ前回の値を残す。古い作品は js/data.js の RELEASES に手で書いた値が優先される
 - Spotify のリンクや別表記なども js/data.js の RELEASES に手で書いたものが優先される（サイト側で合体）
 ※ YouTube のページ（リリースタブ）を直接読み取る方法は、YouTube の利用規約（自動での読み取りの禁止）に触れるため使わない
@@ -44,13 +44,20 @@ def key(name):
     return re.sub(r"[\W_]", "", name)
 
 
+# 作品そのものではない動画（告知・予告・試聴まとめ）の題名に入る言葉。これを含む動画は、作品の YouTube リンクに選ばない
+NOT_RELEASE = re.compile(r"告知|予告|XFD|クロスフェード|Digital Release|Trailer|Teaser|Coming Soon", re.IGNORECASE)
+
+
 def youtube_feed():
-    """最新の横動画を [(タイトルの比較用の名前, 動画ID)] で返す。取れなければ空（YouTube のリンクは前回の値が残る）"""
+    """最新の横動画を、作品のリンクに使えるもの [(タイトルの比較用の名前, 動画ID)] と、使わない動画IDの集まりに分けて返す。
+    取れなければどちらも空（YouTube のリンクは前回の値が残る）"""
     try:
-        return [(key(v["title"]), v["id"]) for v in latest_videos(15)]
+        videos = latest_videos(15)
     except Exception as e:
         print(f"::warning::YouTube の動画一覧を取得できなかったため、YouTube のリンクは前回のままにします（{e}）")
-        return []
+        return [], set()
+    skip = {v["id"] for v in videos if NOT_RELEASE.search(v["title"])}
+    return [(key(v["title"]), v["id"]) for v in videos if v["id"] not in skip], skip
 
 
 def apple_albums():
@@ -79,7 +86,7 @@ def main():
     if not albums:
         print("::warning::作品が1つも取得できなかったため、既存のファイルを残します")
         return
-    feed = youtube_feed()
+    feed, skip = youtube_feed()
 
     old = {}
     if OUT.exists():
@@ -97,7 +104,7 @@ def main():
             "tracks": a["tracks"],
             "jacket": a["jacket"],
             "apple": a["apple"],
-            "youtube": found or old.get(rid, {}).get("youtube", ""),
+            "youtube": found or next((y for y in [old.get(rid, {}).get("youtube", "")] if y not in skip), ""),   # 前回、告知の動画を選んでいたら外す
         })
     releases.sort(key=lambda r: r["date"], reverse=True)
 
