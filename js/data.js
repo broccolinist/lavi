@@ -12,6 +12,13 @@
    書かなかった項目は自動の内容のまま。releases.json が読めなかったときは、ここの一覧だけで表示する */
 let RELEASES = [
   {
+    id: 'aisou', title: '愛想欠品', date: '2026.10.17', tracks: 1,
+    jacket: 'img/thumb/j_aisou.jpg',
+    spotify: 'https://open.spotify.com/intl-ja/track/0su5UyJGjJf9ThY500QoEM',
+    apple: 'https://music.apple.com/jp/album/%E6%84%9B%E6%83%B3%E6%AC%A0%E5%93%81-single/6821552801',
+    youtube: 'cTmPCye-c80'
+  },
+  {
     id: 'imnotartist', title: 'I\'m Not Artist', date: '2026.10.10', tracks: 7,
     jacket: 'img/thumb/j_imnotartist.jpg',
     spotify: 'https://open.spotify.com/intl-ja/album/3GNmgjQbFcC0mZiwH6shXU',
