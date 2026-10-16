@@ -12,6 +12,15 @@
    ========================================================== */
 const NEWS = [
   {
+    id: '2026_010', date: '2026.10.17', category: 'MUSIC',
+    title: '新曲『愛想欠品』配信開始',
+    image: '', release: '愛想欠品',
+    body: `ラヴィ「新曲『愛想欠品』、配信スタートしたよ。
+愛想はちょっと品切れ中だけど、歌はちゃんと届けるからね。
+聴いてくれたら、内心すごく喜んでるよ(・ω・)」
+<a href="https://youtu.be/cTmPCye-c80" target="_blank" rel="noopener">YouTubeで見る</a>`
+  },
+  {
     id: '2026_009', date: '2026.10.10', category: 'MUSIC',
     title: '『I\'m Not Artist』配信リリース',
     image: '', release: 'I\'m Not Artist',
