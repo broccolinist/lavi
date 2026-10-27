@@ -1236,3 +1236,30 @@ img { -webkit-user-drag: none; user-select: none; -webkit-user-select: none; -we
   .g-chip { left: 10px; bottom: 10px; }
   .g-hint { left: 10px; bottom: 54px; }
 }
+
+/* ==========================================================
+   静かめ調整（2026-10-28）：グラデーションをやめる／グリッチを控えめに／飾りを絞る
+   ========================================================== */
+:root { --grad: var(--sky); }
+.grad-text { background: none; color: var(--sky); }
+.section-title .ja::before { background: var(--pink); }
+/* 背景：青紫とピンクのにじみをやめ、ごく薄い走査線だけ */
+body::before {
+  background:
+    repeating-linear-gradient(0deg, rgba(160, 190, 255, .025) 0 1px, transparent 1px 3px), var(--ink) !important;
+}
+/* 見出しのグリッチ：ずれは水色だけ、間隔を長く、動きを小さく */
+.glitch::after { display: none; }
+.glitch::before { animation: glitch-quiet 23s infinite steps(1); }
+@keyframes glitch-quiet {
+  0%, 97.4%, 100% { opacity: 0; transform: none; clip-path: none; }
+  97.5% { opacity: .7; transform: translate(-2px, 0); clip-path: inset(40% 0 45% 0); }
+  98.2% { opacity: 0; }
+}
+.page-hero::after { display: none; }
+/* 飾り：漂う粒・縦の SCROLL・点滅を止める。帯は止めて置くだけ（隠し要素は残る） */
+#particles { display: none; }
+.hero-scroll { display: none; }
+.hero-kicker::before, .hero-hint::before { animation: none; }
+.ticker-track { animation: none; }
+.gate-badge { background: var(--pink); }
