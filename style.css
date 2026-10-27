@@ -1276,7 +1276,7 @@ body::before {
    丸薬型（999px）は上の各所で 2px に変更済み。ラヴィの台詞・コード風の帯は DotGothic16 のまま
    ========================================================== */
 .section-title .num { display: none; }
-.logo-text small, .page-hero .crumb, .hero-kicker, .gate-label, .gate-badge, .hero-hint,
+.num, .logo-text small, .page-hero .crumb, .hero-kicker, .gate-label, .gate-badge, .hero-hint,
 .news-row .date, .cat, .badge-new, .feature-info .label, .release-meta, .story-visual .tag,
 .profile-side dt, .creator .role, .modal-label, .news-article .meta .date, .loading,
 .field .req, .field .opt, .copyright, .video-card .cap-text small, .g-chip, .g-clear-label, .nf-status {
