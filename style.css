@@ -1263,3 +1263,10 @@ body::before {
 .hero-kicker::before, .hero-hint::before { animation: none; }
 .ticker-track { animation: none; }
 .gate-badge { background: var(--pink); }
+/* 区画の色：にじみ（放射状のぼかし）をやめ、ほぼ紺の単色に。区画ごとの色味はごく薄く残す */
+[data-world="news"]   .dp-bg { background: rgba(14, 40, 58, .38); }
+[data-world="music"]  .dp-bg { background: rgba(34, 18, 52, .38); }
+[data-world="video"]  .dp-bg { background: rgba(5, 7, 18, .55); }
+[data-world="shorts"] .dp-bg { background: rgba(22, 14, 42, .40); }
+/* 流れる帯：止めて置くだけ（文字はそのまま読める） */
+.dp-band-track, .footer-marquee > div { animation: none; }
