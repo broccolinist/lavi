@@ -1261,7 +1261,6 @@ body::before {
 #particles { display: none; }
 .hero-scroll { display: none; }
 .hero-kicker::before, .hero-hint::before { animation: none; }
-.ticker-track { animation: none; }
 .gate-badge { background: var(--pink); }
 /* 区画の色：にじみ（放射状のぼかし）をやめ、ほぼ紺の単色に。区画ごとの色味はごく薄く残す */
 [data-world="news"]   .dp-bg { background: rgba(14, 40, 58, .38); }
