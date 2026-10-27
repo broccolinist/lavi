@@ -171,7 +171,7 @@ html.menu-open, .menu-open body { overflow: hidden; }
 .more-link {
   display: inline-flex; align-items: center; gap: 14px;
   font-family: var(--f-en); font-size: 12px; font-weight: 500; letter-spacing: .18em;
-  padding: 16px 26px; border: 1px solid var(--line); border-radius: 999px;
+  padding: 16px 26px; border: 1px solid var(--line); border-radius: 2px;
   position: relative; overflow: hidden; transition: color .4s var(--ease), border-color .4s;
 }
 .more-link::before {
@@ -193,7 +193,7 @@ html.menu-open, .menu-open body { overflow: hidden; }
 .stream-list { display: flex; flex-wrap: wrap; gap: 10px; }
 .stream-btn {
   display: inline-flex; align-items: center; gap: 10px;
-  padding: 11px 20px; border-radius: 999px; font-size: 13px; font-weight: 700; letter-spacing: .06em;
+  padding: 11px 20px; border-radius: 2px; font-size: 13px; font-weight: 700; letter-spacing: .06em;
   background: rgba(255, 255, 255, .06); border: 1px solid var(--line);
   transition: background .3s, border-color .3s, transform .3s var(--ease);
 }
@@ -338,7 +338,7 @@ html.menu-open, .menu-open body { overflow: hidden; }
 .gate-card:hover .gate-go { transform: translateX(4px); color: var(--c); }
 .gate-badge {
   position: absolute; top: -10px; right: 16px; font-family: var(--f-mono); font-size: 10px; letter-spacing: .15em;
-  padding: 3px 10px; border-radius: 999px; color: var(--ink); background: linear-gradient(90deg, #ffd29b, var(--pink));
+  padding: 3px 10px; border-radius: 2px; color: var(--ink); background: linear-gradient(90deg, #ffd29b, var(--pink));
 }
 .gate .gate-card:nth-child(2) { transition-delay: 0s; }
 .hero-hint {
@@ -431,7 +431,7 @@ html.menu-open, .menu-open body { overflow: hidden; }
 .news-row:hover i { transform: translateX(4px); color: var(--sky); }
 .cat {
   font-family: var(--f-mono); font-size: 10.5px; letter-spacing: .12em; text-align: center;
-  padding: 3px 10px; border-radius: 999px; border: 1px solid currentColor; justify-self: start; line-height: 1.6;
+  padding: 3px 10px; border-radius: 2px; border: 1px solid currentColor; justify-self: start; line-height: 1.6;
 }
 .cat-MUSIC { color: var(--sky); }
 .cat-NOVEL { color: var(--pink); }
@@ -639,7 +639,7 @@ html.menu-open, .menu-open body { overflow: hidden; }
    ========================================================== */
 .filter-bar { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: clamp(32px, 4vw, 48px); }
 .filter-bar button {
-  font-family: var(--f-en); font-size: 11.5px; letter-spacing: .14em; padding: 9px 18px; border-radius: 999px;
+  font-family: var(--f-en); font-size: 11.5px; letter-spacing: .14em; padding: 9px 18px; border-radius: 2px;
   border: 1px solid var(--line); color: var(--mute); transition: all .3s;
 }
 .filter-bar button:hover { color: var(--text); border-color: rgba(255, 255, 255, .35); }
@@ -703,7 +703,7 @@ html.menu-open, .menu-open body { overflow: hidden; }
 .news-article .body a:not(.stream-btn):not(.am-badge):not(.listen-badge) { color: var(--sky); border-bottom: 1px solid currentColor; }
 .news-article .body .streaming-links { display: flex; flex-wrap: wrap; gap: 10px; }
 .news-article .body .streaming-links a {
-  display: inline-flex; align-items: center; gap: 10px; padding: 9px 18px; border-radius: 999px; font-size: 13px; font-weight: 700;
+  display: inline-flex; align-items: center; gap: 10px; padding: 9px 18px; border-radius: 2px; font-size: 13px; font-weight: 700;
   background: rgba(255, 255, 255, .06); border: 1px solid var(--line); transition: background .3s, color .3s;
 }
 .news-article .body .streaming-links a.spotify:hover { background: #1db954; color: #000; }
@@ -734,7 +734,7 @@ html.menu-open, .menu-open body { overflow: hidden; }
 .form-consent { font-size: 13px; color: var(--mute); margin: 0; }
 .form-consent a { color: var(--sky); border-bottom: 1px solid currentColor; }
 .submit-btn {
-  justify-self: center; min-width: 260px; padding: 20px 40px; border-radius: 999px;
+  justify-self: center; min-width: 260px; padding: 20px 40px; border-radius: 2px;
   background: var(--grad); color: var(--ink); font-family: var(--f-en); font-weight: 700; letter-spacing: .2em; font-size: 14px;
   transition: transform .4s var(--ease), box-shadow .4s;
 }
@@ -1141,7 +1141,7 @@ img { -webkit-user-drag: none; user-select: none; -webkit-user-select: none; -we
 /* 見つけた数（最初の1人を見つけるまでは出さない） */
 .g-chip {
   position: fixed; left: 14px; bottom: 14px; z-index: 85; display: flex; align-items: center; gap: 8px; padding: 6px 12px 6px 8px;
-  border-radius: 999px; background: rgba(8, 11, 28, .88); border: 1px solid var(--line); backdrop-filter: blur(8px);
+  border-radius: 2px; background: rgba(8, 11, 28, .88); border: 1px solid var(--line); backdrop-filter: blur(8px);
   font-family: var(--f-mono); font-size: 11px; letter-spacing: .12em; color: var(--mute);
   opacity: 0; translate: 0 20px; pointer-events: none; transition: opacity .5s var(--ease), translate .5s var(--ease);
 }
@@ -1179,7 +1179,7 @@ img { -webkit-user-drag: none; user-select: none; -webkit-user-select: none; -we
 .g-clear-friends img { height: 82px; width: auto; }
 .g-clear-friends img.is-lavi { height: 92px; }
 .g-clear-text { font-family: var(--f-mono); font-size: clamp(15px, 4vw, 18px); line-height: 1.9; margin: 0 0 20px; }
-.g-clear-close { font-family: var(--f-en); font-size: 11px; letter-spacing: .2em; padding: 10px 22px; border: 1px solid var(--line); border-radius: 999px; }
+.g-clear-close { font-family: var(--f-en); font-size: 11px; letter-spacing: .2em; padding: 10px 22px; border: 1px solid var(--line); border-radius: 2px; }
 .g-clear-close:hover { border-color: var(--pink); color: var(--pink); }
 
 /* ==========================================================
@@ -1270,3 +1270,15 @@ body::before {
 [data-world="shorts"] .dp-bg { background: rgba(22, 14, 42, .40); }
 /* 流れる帯：止めて置くだけ（文字はそのまま読める） */
 .dp-band-track, .footer-marquee > div { animation: none; }
+
+/* ==========================================================
+   AIっぽさを減らす 2（2026-10-28）：番号付きの区画ラベルをやめる／小さなラベルを等幅から本文の書体へ
+   丸薬型（999px）は上の各所で 2px に変更済み。ラヴィの台詞・コード風の帯は DotGothic16 のまま
+   ========================================================== */
+.section-title .num { display: none; }
+.logo-text small, .page-hero .crumb, .hero-kicker, .gate-label, .gate-badge, .hero-hint,
+.news-row .date, .cat, .badge-new, .feature-info .label, .release-meta, .story-visual .tag,
+.profile-side dt, .creator .role, .modal-label, .news-article .meta .date, .loading,
+.field .req, .field .opt, .copyright, .video-card .cap-text small, .g-chip, .g-clear-label, .nf-status {
+  font-family: var(--f-ja); letter-spacing: .06em;
+}

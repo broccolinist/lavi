@@ -464,7 +464,7 @@ function setupDepth() {
       const band = document.createElement('div');
       band.className = 'dp-band'; band.setAttribute('aria-hidden', 'true');
       const codes = BAND_CODES[sec.dataset.world || 'story'] || [];
-      const line = `<span>// <b>${num}</b> ${en}</span><span>✦</span>` + codes.map(c => `<span>${esc(c)}</span><span>✦</span>`).join('');
+      const line = `<span>// ${en}</span><span>✦</span>` + codes.map(c => `<span>${esc(c)}</span><span>✦</span>`).join('');
       band.innerHTML = `<div class="dp-band-track">${line.repeat(8)}</div>`;
       sec.before(band);
     }
