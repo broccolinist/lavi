@@ -1281,3 +1281,19 @@ body::before {
 .field .req, .field .opt, .copyright, .video-card .cap-text small, .g-chip, .g-clear-label, .nf-status {
   font-family: var(--f-ja); letter-spacing: .06em;
 }
+
+/* ==========================================================
+   奥行き 2（2026-10-29）：遠くの背景はゆっくり／入ってくる区画のピントが合う／影ではなく上の辺だけ光る
+   --py・--pt と is-blur は site.js の setupFocusDepth が付ける
+   ========================================================== */
+[data-world] .dp-bg { top: -80px; bottom: -80px; translate: 0 calc(var(--bgy, 0) * 1px); }
+[data-world] .section-title { translate: 0 calc(var(--pt, 0) * 1px); }
+.home .section > .wrap, .home .story > .wrap { transition: filter .5s ease, opacity .5s ease; }
+.home .is-blur > .wrap { filter: blur(5px); opacity: .5; }
+.gate-card { border-top-color: transparent; }
+.gate-card, .gate-card:hover, .video-card { box-shadow: inset 0 1px 0 rgba(220, 235, 255, .6); }
+.release-jacket, .feature-jacket img { box-shadow: 0 -1px 0 rgba(220, 235, 255, .7); }
+@media (prefers-reduced-motion: reduce) {
+  [data-world] .dp-bg, [data-world] .section-title { translate: none; }
+  .home .is-blur > .wrap { filter: none; opacity: 1; }
+}

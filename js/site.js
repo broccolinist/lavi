@@ -442,6 +442,23 @@ const BAND_CODES = {
   shorts: ['for (ちょっとだけ) { lavi.peek(); }', 'sleep(0);  // まだ起きてるよ', 'lavi.wave("またね");'],
 };
 
+/* 遠くの背景はゆっくり動く／入ってくる区画のピントが合う（トップだけ） */
+function setupFocusDepth() {
+  if (!document.body.classList.contains('home') || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const secs = [...document.querySelectorAll('[data-world]')];
+  const clamp = (v, m) => Math.max(-m, Math.min(m, v));
+  const onScroll = () => secs.forEach(s => {
+    const r = s.getBoundingClientRect(); const c = r.top + r.height / 2 - innerHeight / 2;
+    s.style.setProperty('--bgy', clamp(c * -0.18, 60).toFixed(1));
+    s.style.setProperty('--pt', clamp(c * 0.02, 20).toFixed(1));
+  });
+  addEventListener('scroll', onScroll, { passive: true }); onScroll();
+  if (!('IntersectionObserver' in window)) return;
+  const io = new IntersectionObserver(es => es.forEach(e => e.target.classList.toggle('is-blur', !e.isIntersecting)),
+    { rootMargin: '-5% 0px -5% 0px' });
+  document.querySelectorAll('.section, .story').forEach(s => io.observe(s));
+}
+
 function setupDepth() {
   /* ---------- 区画に部品を足す（背景・巨大な英字・切り替わりの帯） ---------- */
   const worlds = [...document.querySelectorAll('[data-world], .home .story')];
@@ -675,6 +692,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   renderFooter();
   setupParticles();
   setupDepth();
+  setupFocusDepth();
   setupTabWhisper();
   setupImageGuard();
   await loadReleases();
