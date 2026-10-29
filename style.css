@@ -1297,3 +1297,22 @@ body::before {
   [data-world] .dp-bg, [data-world] .section-title { translate: none; }
   .home .is-blur > .wrap { filter: none; opacity: 1; }
 }
+
+/* ==========================================================
+   配色「深夜の端末」（2026-10-29 決定）：黒に近い紺／主役の光は青緑／ピンクは差し色／黄は状態表示だけ
+   ========================================================== */
+:root {
+  --ink: #05070f; --ink-2: #0b1020; --ink-3: #121a33;
+  --line: rgba(120, 220, 210, .16);
+  --text: #dde6ff; --mute: #93a0c4;
+  --sky: #3fe0d0; --pink: #ff4f9a; --carrot: #ffc24b;
+}
+[data-world] .dp-bg { background: var(--ink-2) !important; opacity: .55; }
+[data-world="video"] .dp-bg { background: var(--ink) !important; }
+.home .story::before { background: var(--ink); opacity: .55; }
+
+/* 区画の境目と帯を水平に（斜めをやめる） */
+[data-world] { --slant: 0px !important; }
+.home .story { margin-block: 0 !important; clip-path: none !important; }
+.dp-band { transform: none !important; }
+[data-world] { clip-path: inset(0); }   /* 背景のずらし分が帯の側にはみ出さないように */
