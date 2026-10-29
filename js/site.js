@@ -238,7 +238,7 @@ function setupReleaseModal() {
     const r = RELEASES.find(x => x.id === id);
     if (!r) return;
     body.innerHTML = `
-      <div class="modal-jacket" style="--bg:url('${r.jacket}')"><img src="${r.jacket}" alt="${esc(r.title)}"></div>
+      <div class="modal-jacket" style="--bg:url('${new URL(r.jacket, location.href).href}')"><img src="${r.jacket}" alt="${esc(r.title)}"></div>
       <div class="modal-info">
         <p class="modal-label">${r.date} Release ／ ${r.tracks}曲</p>
         <h2 class="modal-title">${esc(r.title)}</h2>
@@ -433,7 +433,7 @@ function setupImageGuard() {
 }
 
 /* ---------- 奥行きと区切り（トップ） ----------
-   区画（data-world と STORY）に、背景・巨大な英字・切り替わりの帯・漂う粒を足す。見た目は style.css の「奥行きと区切り」 */
+   区画（data-world と STORY）に、背景・巨大な英字・切り替わりの帯・漂う粒を足す。見た目は css/style.css の「8. 奥行きと区切り」 */
 // 区切りの帯＝声の波形：細い縦線の高さを少しずつ変え、中央が高く、両端は消える（毎回同じ形）
 function waveSvg() {
   let lines = '';
