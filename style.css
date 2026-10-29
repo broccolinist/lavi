@@ -1316,3 +1316,15 @@ body::before {
 .home .story { margin-block: 0 !important; clip-path: none !important; }
 .dp-band { transform: none !important; }
 [data-world] { clip-path: inset(0); }   /* 背景のずらし分が帯の側にはみ出さないように */
+
+/* 区切りは帯だけにする（2026-10-29）：区画の地色をなくし、模様と絵は上下の端で溶かして段差を消す */
+[data-world] .dp-bg, [data-world="video"] .dp-bg { background: none !important; opacity: 1; }
+.home .story::before { background: none; }
+.dp-bg, .home .story .story-bg {
+  -webkit-mask-image: linear-gradient(transparent, #000 140px, #000 calc(100% - 140px), transparent);
+  mask-image: linear-gradient(transparent, #000 140px, #000 calc(100% - 140px), transparent);
+}
+.home .story .story-bg {
+  -webkit-mask-image: linear-gradient(transparent, #000 30%, #000 70%, transparent);
+  mask-image: linear-gradient(transparent, #000 30%, #000 70%, transparent);
+}
