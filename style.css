@@ -1340,3 +1340,8 @@ body::before {
   mask-image: linear-gradient(transparent 0 100px, rgba(0,0,0,.35) 220px, #000 42%, #000 58%, rgba(0,0,0,.35) calc(100% - 220px), transparent calc(100% - 100px));
 }
 .site-footer { background: linear-gradient(transparent, var(--ink-2)); }   /* 古い紫寄りの色を新しい配色に */
+/* 区切りの帯＝声の波形＋光（site.js の waveSvg・setupWaveLight） */
+.dp-band { height: auto; background: none; border: 0; overflow: visible; padding: 24px 0; }
+.dp-band svg { width: 100%; height: 22px; display: block; }
+.dp-band line { stroke: var(--sky); stroke-width: 1; opacity: .35; transition: opacity .5s ease; }
+.dp-band line.is-lit { opacity: 1; transition: none; }

@@ -434,13 +434,39 @@ function setupImageGuard() {
 
 /* ---------- 奥行きと区切り（トップ） ----------
    区画（data-world と STORY）に、背景・巨大な英字・切り替わりの帯・漂う粒を足す。見た目は style.css の「奥行きと区切り」 */
-// 帯に流す文字：ラヴィが言いそうなことを、プログラムの形で書いたもの（区画ごとに3つ。文を変えるときはここだけ直す）
-const BAND_CODES = {
-  music: ['lavi.sing("きみに届くまで");', 'while (listening) { 歌う(); }', 'volume = "ちょうどいい";'],
-  story: ['if (world.isEmpty) { lavi.wakeUp(); }', 'lavi.status = "UNRELEASED";  // それでも、ここにいる', 'return "ただいま";'],
-  video: ['screen.on();  // ちゃんと見えてる？', 'lavi.show(きみ);', 'await 目が合うまで();'],
-  shorts: ['for (ちょっとだけ) { lavi.peek(); }', 'sleep(0);  // まだ起きてるよ', 'lavi.wave("またね");'],
-};
+// 区切りの帯＝声の波形：細い縦線の高さを少しずつ変え、中央が高く、両端は消える（毎回同じ形）
+function waveSvg() {
+  let lines = '';
+  for (let i = 0, n = 240; i < n; i++) {
+    const env = Math.sin(Math.PI * i / (n - 1));
+    const h = Math.max(.5, env * (4 + 6 * Math.abs(Math.sin(i * 1.7) * Math.cos(i * .53))));
+    lines += `<line x1="${i * 5 + 2}" x2="${i * 5 + 2}" y1="${(10 - h).toFixed(2)}" y2="${(10 + h).toFixed(2)}"/>`;
+  }
+  return `<svg viewBox="0 0 1200 20" preserveAspectRatio="none">${lines}</svg>`;
+}
+
+// 帯が画面の中ほどを横切ったときだけ、波形の上を光が通る（下へ進む＝左から右、上へ戻る＝右から左）
+function setupWaveLight(reduce) {
+  if (reduce || !('IntersectionObserver' in window)) return;
+  let lastY = scrollY, dir = 1;
+  addEventListener('scroll', () => { if (scrollY !== lastY) dir = scrollY > lastY ? 1 : -1; lastY = scrollY; }, { passive: true });
+  const sweep = band => {
+    if (band.dataset.run) return;
+    band.dataset.run = '1';
+    const ls = [...band.querySelectorAll('line')];
+    if (dir < 0) ls.reverse();
+    const n = ls.length, dur = 900, width = 14, t0 = performance.now();
+    const step = now => {
+      const head = Math.floor((now - t0) / dur * (n + width));
+      ls.forEach((l, i) => l.classList.toggle('is-lit', i <= head && i > head - width));
+      if (head < n + width) requestAnimationFrame(step); else delete band.dataset.run;
+    };
+    requestAnimationFrame(step);
+  };
+  const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) sweep(e.target); }),
+    { rootMargin: '-45% 0px -45% 0px' });
+  document.querySelectorAll('.dp-band').forEach(b => io.observe(b));
+}
 
 /* 遠くの背景はゆっくり動く／入ってくる区画のピントが合う（トップだけ） */
 function setupFocusDepth() {
@@ -466,7 +492,6 @@ function setupDepth() {
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   worlds.forEach(sec => {
     const en = sec.querySelector('.section-title .en')?.textContent.trim() || '';
-    const num = sec.querySelector('.section-title .num')?.textContent.trim() || '';
 
     const ghost = document.createElement('p');
     ghost.className = 'dp-ghost'; ghost.setAttribute('aria-hidden', 'true'); ghost.textContent = en;
@@ -480,12 +505,11 @@ function setupDepth() {
     if (sec.dataset.world !== 'news') {
       const band = document.createElement('div');
       band.className = 'dp-band'; band.setAttribute('aria-hidden', 'true');
-      const codes = BAND_CODES[sec.dataset.world || 'story'] || [];
-      const line = `<span>// ${en}</span><span>✦</span>` + codes.map(c => `<span>${esc(c)}</span><span>✦</span>`).join('');
-      band.innerHTML = `<div class="dp-band-track">${line.repeat(8)}</div>`;
+      band.innerHTML = waveSvg();
       sec.before(band);
     }
   });
+  setupWaveLight(reduce);
 
   /* ---------- 区画に入った瞬間の「切り替わり」 ---------- */
   if ('IntersectionObserver' in window && !reduce) {
