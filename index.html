@@ -159,7 +159,7 @@
 
     <script src="js/data.js?v=20261017a"></script>
     <script src="js/news.js?v=20261012b"></script>
-    <script src="js/site.js?v=20261029e"></script>
+    <script src="js/site.js?v=20261029f"></script>
     <script>
         // スマホ用：動画の回転式の横スクロール。真ん中の1本がはっきり見え、両端に前後の動画が薄く見える
         function setupVideoCarousel(grid, count) {
@@ -229,7 +229,7 @@
             const videoSet = clone => videos.map((v, i) => `
                 <a class="video-card${clone ? ' is-clone' : i === 0 ? ' is-main' : ''}" href="https://youtu.be/${v.id}" data-yt="${v.id}" target="_blank" rel="noopener"${clone ? ' tabindex="-1" aria-hidden="true"' : ''}>
                     <img src="https://i.ytimg.com/vi/${v.id}/${i === 0 ? 'maxresdefault' : 'hqdefault'}.jpg" alt="${esc(v.title)}" loading="lazy"
-                        onload="if (this.naturalWidth <= 120 && !this.dataset.fb) { this.dataset.fb = 1; this.src = 'https://i.ytimg.com/vi/${v.id}/hqdefault.jpg'; }">
+                        ${ytThumbFallback(v.id)}>
                     <span class="cap"><img class="brand-icon is-wide" src="img/brand/youtube-icon-white.png" alt=""><span class="cap-text">${esc(v.title)}${v.published ? `<small>${v.published}</small>` : ''}</span></span>
                 </a>`).join('');
             videoGrid.innerHTML = videoSet(true) + videoSet(false) + videoSet(true);
@@ -238,7 +238,7 @@
                 const a = e.target.closest('.video-card');
                 if (!a || a.querySelector('iframe')) return;
                 e.preventDefault();
-                a.insertAdjacentHTML('beforeend', `<iframe src="https://www.youtube-nocookie.com/embed/${a.dataset.yt}?autoplay=1" title="YouTube" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>`);
+                a.insertAdjacentHTML('beforeend', youtubeEmbed(a.dataset.yt));
             };
             videoGrid.addEventListener('click', playHere);
 
@@ -254,7 +254,7 @@
                         return `
                 <a class="video-card is-short" href="https://www.youtube.com/shorts/${v.id}" data-yt="${v.id}" target="_blank" rel="noopener">
                     <img src="https://i.ytimg.com/vi/${v.id}/oardefault.jpg" alt="${esc(title)}" loading="lazy"
-                        onload="if (this.naturalWidth <= 120 && !this.dataset.fb) { this.dataset.fb = 1; this.src = 'https://i.ytimg.com/vi/${v.id}/hqdefault.jpg'; }">
+                        ${ytThumbFallback(v.id)}>
                     <span class="cap"><img class="brand-icon is-wide" src="img/brand/youtube-icon-white.png" alt=""><span class="cap-text"><span class="cap-title">${esc(title)}</span>${v.published ? `<small>${v.published}</small>` : ''}</span></span>
                 </a>`;
                     }).join('');
@@ -268,7 +268,7 @@
 
             // 入口カード（ニュース／音楽／ノベル）
             const top = news[0];
-            const recent = (Date.now() - new Date(latest.date.replace(/\./g, '-'))) / 86400000 <= 60;
+            const recent = daysSince(latest.date) <= 60;
             document.getElementById('gate').innerHTML = `
                 ${top ? `<a class="gate-card is-news" href="news.html#${top.id}">
                     <span class="gate-icon"><i class="fas fa-satellite-dish"></i></span>
