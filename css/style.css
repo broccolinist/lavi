@@ -319,7 +319,6 @@ html.menu-open, .menu-open body { overflow: hidden; }
 }
 /* 下端を夜の色へなじませる */
 .kv::after { content: ""; position: absolute; inset: auto 0 0; height: 30%; background: linear-gradient(transparent, var(--ink)); pointer-events: none; }
-#particles { display: none; }
 
 /* キャッチと入口カード */
 .hero-kicker {

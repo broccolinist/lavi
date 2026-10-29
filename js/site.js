@@ -158,40 +158,6 @@ function setupReveal() {
   targets.forEach(t => io.observe(t));
 }
 
-/* ---------- 背景の光の粒 ---------- */
-function setupParticles() {
-  const canvas = document.getElementById('particles');
-  if (!canvas || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  const ctx = canvas.getContext('2d');
-  let w, h, dots;
-  const resize = () => {
-    const dpr = Math.min(devicePixelRatio || 1, 2);
-    w = canvas.clientWidth; h = canvas.clientHeight;
-    canvas.width = w * dpr; canvas.height = h * dpr;
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    const n = Math.round(w * h / 22000);
-    dots = Array.from({ length: n }, () => ({
-      x: Math.random() * w, y: Math.random() * h,
-      s: Math.random() * 2.2 + 0.6, v: Math.random() * 0.35 + 0.1,
-      a: Math.random(), sq: Math.random() < 0.35
-    }));
-  };
-  const tick = () => {
-    ctx.clearRect(0, 0, w, h);
-    for (const d of dots) {
-      d.y -= d.v; d.a += 0.012;
-      if (d.y < -10) { d.y = h + 10; d.x = Math.random() * w; }
-      const alpha = 0.25 + Math.sin(d.a) * 0.25 + 0.2;
-      ctx.fillStyle = d.sq ? `rgba(160,220,255,${alpha})` : `rgba(255,214,236,${alpha})`;
-      if (d.sq) ctx.fillRect(d.x, d.y, d.s * 1.6, d.s * 1.6);
-      else { ctx.beginPath(); ctx.arc(d.x, d.y, d.s, 0, Math.PI * 2); ctx.fill(); }
-    }
-    requestAnimationFrame(tick);
-  };
-  resize(); tick();
-  window.addEventListener('resize', resize);
-}
-
 /* ---------- 楽曲カード ---------- */
 function releaseCard(r, i = 0) {
   return `
@@ -714,7 +680,6 @@ function setupWalker() {
 document.addEventListener('DOMContentLoaded', async () => {
   renderHeader();
   renderFooter();
-  setupParticles();
   setupDepth();
   setupFocusDepth();
   setupTabWhisper();
