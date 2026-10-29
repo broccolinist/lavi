@@ -1328,3 +1328,15 @@ body::before {
   -webkit-mask-image: linear-gradient(transparent, #000 30%, #000 70%, transparent);
   mask-image: linear-gradient(transparent, #000 30%, #000 70%, transparent);
 }
+
+/* 端の溶かし方の修正（2026-10-29）：背景は区画より上下にはみ出しているので、
+   はみ出し分（約90px）は完全に透明にし、区画の端から長めに溶かす */
+.dp-bg {
+  -webkit-mask-image: linear-gradient(transparent 0 90px, #000 320px, #000 calc(100% - 320px), transparent calc(100% - 90px));
+  mask-image: linear-gradient(transparent 0 90px, #000 320px, #000 calc(100% - 320px), transparent calc(100% - 90px));
+}
+.home .story .story-bg {
+  -webkit-mask-image: linear-gradient(transparent 0 100px, rgba(0,0,0,.35) 220px, #000 42%, #000 58%, rgba(0,0,0,.35) calc(100% - 220px), transparent calc(100% - 100px));
+  mask-image: linear-gradient(transparent 0 100px, rgba(0,0,0,.35) 220px, #000 42%, #000 58%, rgba(0,0,0,.35) calc(100% - 220px), transparent calc(100% - 100px));
+}
+.site-footer { background: linear-gradient(transparent, var(--ink-2)); }   /* 古い紫寄りの色を新しい配色に */
