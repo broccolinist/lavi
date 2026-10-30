@@ -492,7 +492,7 @@ function setupDust() {
       const layer = LAYERS[i % 3];
       return {
         layer, x: rand(0, width), y: rand(0, height), size: rand(...layer.size), phase: rand(0, 6.28),
-        square: Math.random() < 0.4, pink: Math.random() < 0.4
+        square: Math.random() < 0.4, pink: Math.random() < 0.2
       };
     });
   };
@@ -508,7 +508,7 @@ function setupDust() {
       d.x += Math.sin(d.phase) * 0.12;
       const y = (((d.y - scrollY * d.layer.scroll) % loopH) + loopH) % loopH - 10;
       const alpha = d.layer.alpha * (0.6 + Math.sin(d.phase * 1.7) * 0.4);
-      ctx.fillStyle = d.pink ? `rgba(255,200,230,${alpha})` : `rgba(170,220,255,${alpha})`;
+      ctx.fillStyle = d.pink ? `rgba(255,79,154,${alpha})` : `rgba(63,224,208,${alpha})`;   // style.css の --pink・--sky と同じ色
       if (d.square) ctx.fillRect(d.x, y, d.size * 1.5, d.size * 1.5);
       else { ctx.beginPath(); ctx.arc(d.x, y, d.size, 0, 6.283); ctx.fill(); }
     }
