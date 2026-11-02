@@ -20,6 +20,7 @@ const NAV = [
   { href: 'about.html', en: 'ABOUT', ja: 'ラヴィについて' },
   { href: 'news.html', en: 'NEWS', ja: 'お知らせ' },
   { href: 'music.html', en: 'MUSIC', ja: '楽曲' },
+  { href: 'game.html', en: 'GAME', ja: 'ゲーム' },
   { href: LINKS.novel, en: 'NOVEL', ja: 'ノベル', ext: true },
   { href: LINKS.shop, en: 'SHOP', ja: 'グッズ', ext: true },
   { href: 'contact.html', en: 'CONTACT', ja: 'お問い合わせ' }
