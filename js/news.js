@@ -33,8 +33,7 @@ const NEWS = [
     image: 'https://i.ytimg.com/vi/cTmPCye-c80/hqdefault.jpg', release: '愛想欠品',
     body: `ラヴィ「新曲『愛想欠品』、配信スタートしたよ。
 愛想はちょっと品切れ中だけど、歌はちゃんと届けるからね。
-聴いてくれたら、内心すごく喜んでるよ(・ω・)」
-<a href="https://youtu.be/cTmPCye-c80" target="_blank" rel="noopener">YouTubeで見る</a>`
+聴いてくれたら、内心すごく喜んでるよ(・ω・)」`
   },
   {
     id: '2026_009', date: '2026.10.10', category: 'MUSIC',
