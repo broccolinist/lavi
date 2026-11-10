@@ -12,6 +12,20 @@
    書かなかった項目は自動の内容のまま。releases.json が読めなかったときは、ここの一覧だけで表示する */
 let RELEASES = [
   {
+    id: 'ippo', title: '一口毎に一歩先へ', date: '2026.11.07', tracks: 1,
+    jacket: 'img/thumb/j_ippo.jpg',
+    spotify: 'https://open.spotify.com/intl-ja/album/35dYHwJWDJGk5LJNxlVK9m',
+    apple: 'https://music.apple.com/jp/album/%E4%B8%80%E5%8F%A3%E6%AF%8E%E3%81%AB%E4%B8%80%E6%AD%A9%E5%85%88%E3%81%B8-single/6806853481',
+    youtube: '96s0Y1x-iAI'
+  },
+  {
+    id: 'ukiyo', title: 'UKIYO百鬼夜行', date: '2026.10.31', tracks: 3,
+    jacket: 'img/thumb/j_ukiyo.jpg',
+    spotify: 'https://open.spotify.com/intl-ja/album/4i8bW2GKjfqUtmQeuAVVXl',
+    apple: 'https://music.apple.com/jp/album/ukiyo%E7%99%BE%E9%AC%BC%E5%A4%9C%E8%A1%8C-single/6825613890',
+    youtube: '9nHJnhhqfY0'
+  },
+  {
     id: 'aisou', title: '愛想欠品', date: '2026.10.17', tracks: 1,
     jacket: 'img/thumb/j_aisou.jpg',
     spotify: 'https://open.spotify.com/intl-ja/track/0su5UyJGjJf9ThY500QoEM',
